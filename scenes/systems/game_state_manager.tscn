@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/game_state_manager.gd" id="1_state"]
+
+[node name="GameStateManager" type="Node"]
+script = ExtResource("1_state")
