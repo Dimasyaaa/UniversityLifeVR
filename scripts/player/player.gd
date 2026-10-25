@@ -22,6 +22,7 @@ var _calibration_pending: bool = false
 var _tracked_frames: int = 0
 var _calibration_down: bool = false
 var _turn_ready: bool = true
+var _movement_enabled: bool = true
 
 
 func _enter_tree() -> void:
@@ -54,8 +55,11 @@ func _physics_process(delta: float) -> void:
 		request_calibration()
 	_calibration_down = pressed
 	_try_calibrate()
-	_handle_turn()
 	_update_body()
+	if not _movement_enabled:
+		velocity = Vector3.ZERO
+		return
+	_handle_turn()
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 	else:
@@ -73,6 +77,56 @@ func _physics_process(delta: float) -> void:
 	velocity.x = direction.x * move_speed
 	velocity.z = direction.z * move_speed
 	move_and_slide()
+
+
+func set_movement_enabled(enabled: bool) -> void:
+	if _movement_enabled == enabled:
+		return
+	_movement_enabled = enabled
+	velocity = Vector3.ZERO
+	# После включения ждём возврата правого стика в нейтральное положение.
+	_turn_ready = false
+
+
+func is_movement_enabled() -> bool:
+	return _movement_enabled
+
+
+func place_at_spawn(spawn: Marker3D) -> bool:
+	if not is_node_ready() or not is_inside_tree() or is_queued_for_deletion():
+		push_warning("Игрок ещё не готов к размещению.")
+		return false
+	if not is_instance_valid(spawn) or not spawn.is_inside_tree() or spawn.is_queued_for_deletion():
+		push_warning("Для размещения нужна действительная точка Marker3D в дереве сцены.")
+		return false
+	if is_ancestor_of(spawn):
+		push_warning("Точка появления должна находиться вне игрока.")
+		return false
+	if _calibration_pending:
+		push_warning("Перед размещением нужно дождаться завершения XR-калибровки.")
+		return false
+	var target_position: Vector3 = spawn.global_position
+	var target_forward: Vector3 = -spawn.global_basis.z
+	target_forward.y = 0.0
+	if target_forward.length_squared() < 0.0001:
+		push_warning("Направление точки появления должно иметь горизонтальную составляющую.")
+		return false
+	var head_forward: Vector3 = -camera.global_basis.z
+	head_forward.y = 0.0
+	if head_forward.length_squared() < 0.0001:
+		head_forward = -global_basis.z
+		head_forward.y = 0.0
+	# Поворачиваем тело вместе с XR-пространством, сохраняя локальную позу головы.
+	var angle: float = head_forward.normalized().signed_angle_to(target_forward.normalized(), Vector3.UP)
+	global_rotate(Vector3.UP, angle)
+	var head_offset: Vector3 = camera.global_position - global_position
+	head_offset.y = 0.0
+	global_position = target_position - head_offset
+	velocity = Vector3.ZERO
+	_turn_ready = false
+	_update_body()
+	reset_physics_interpolation()
+	return true
 
 
 func _update_body() -> void:
