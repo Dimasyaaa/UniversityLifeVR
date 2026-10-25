@@ -1,0 +1,92 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/player/player.gd" id="1_ffldd"]
+[ext_resource type="Script" path="res://scripts/player/grab.gd" id="3_cd5e2"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="4_am07r"]
+[ext_resource type="PackedScene" path="res://scenes/player/left_hand.tscn" id="4_left_hand"]
+[ext_resource type="Script" path="res://scripts/player/pointer.gd" id="5_hbbd8"]
+[ext_resource type="PackedScene" path="res://scenes/player/right_hand.tscn" id="5_right_hand"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_j1u7k"]
+resource_local_to_scene = true
+radius = 0.3
+height = 1.85
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_xgra1"]
+radius = 0.16
+
+[node name="VRPlayer" type="CharacterBody3D"]
+script = ExtResource("1_ffldd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.925, 0)
+shape = SubResource("CapsuleShape3D_j1u7k")
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+current = true
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+current = true
+far = 500.0
+
+[node name="RightHand" type="XRController3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 1.35, -0.4)
+tracker = &"right_hand"
+pose = &"grip"
+
+[node name="HandVisual" parent="XROrigin3D/RightHand" instance=ExtResource("5_right_hand")]
+
+[node name="VRGrab" type="Node3D" parent="XROrigin3D/RightHand"]
+script = ExtResource("3_cd5e2")
+
+[node name="GrabArea" type="Area3D" parent="XROrigin3D/RightHand/VRGrab"]
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/RightHand/VRGrab/GrabArea"]
+shape = SubResource("SphereShape3D_xgra1")
+
+[node name="HoldPoint" type="Marker3D" parent="XROrigin3D/RightHand/VRGrab"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.03)
+
+[node name="FunctionPointer" parent="XROrigin3D/RightHand" instance=ExtResource("4_am07r")]
+script = ExtResource("5_hbbd8")
+y_offset = 0.0
+distance = 4.0
+laser_length = 1
+show_target = true
+target_radius = 0.005
+collision_mask = 4194304
+suppress_mask = 0
+hand_offset_mode = 1
+
+[node name="LeftHand" type="XRController3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 1.35, -0.4)
+tracker = &"left_hand"
+pose = &"grip"
+
+[node name="HandVisual" parent="XROrigin3D/LeftHand" instance=ExtResource("4_left_hand")]
+
+[node name="VRGrab" type="Node3D" parent="XROrigin3D/LeftHand"]
+script = ExtResource("3_cd5e2")
+
+[node name="GrabArea" type="Area3D" parent="XROrigin3D/LeftHand/VRGrab"]
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/LeftHand/VRGrab/GrabArea"]
+shape = SubResource("SphereShape3D_xgra1")
+
+[node name="HoldPoint" type="Marker3D" parent="XROrigin3D/LeftHand/VRGrab"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.03)
+
+[node name="FunctionPointer" parent="XROrigin3D/LeftHand" instance=ExtResource("4_am07r")]
+script = ExtResource("5_hbbd8")
+y_offset = 0.0
+distance = 4.0
+laser_length = 1
+show_target = true
+target_radius = 0.005
+collision_mask = 4194304
+suppress_mask = 0
+hand_offset_mode = 1
+

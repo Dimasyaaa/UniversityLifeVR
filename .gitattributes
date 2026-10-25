@@ -1,0 +1,24 @@
+* text=auto
+
+*.gd text eol=lf
+*.gdshader text eol=lf
+*.gdshaderinc text eol=lf
+*.gdextension text eol=lf
+*.godot text eol=lf
+*.tscn text eol=lf
+*.tres text eol=lf
+*.uid text eol=lf
+*.import text eol=lf
+*.cfg text eol=lf
+*.gltf text eol=lf
+
+*.res binary
+*.glb binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.dll binary
+*.so binary
+*.dylib binary
+*.aar binary

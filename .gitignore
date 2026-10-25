@@ -1,0 +1,5 @@
+.godot/
+/exports/
+*.apk
+*.aab
+/addons/godotopenxrvendors/.bin/windows/*/*/~*.dll*
