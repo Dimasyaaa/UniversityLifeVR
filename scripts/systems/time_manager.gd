@@ -50,6 +50,23 @@ func get_time_text() -> String:
 	return "%02d:%02d" % [hour, minutes % 60]
 
 
+func advance_minutes(minutes: int) -> void:
+	if minutes < 0:
+		push_warning("Перемотка времени назад не поддерживается.")
+		return
+	if minutes == 0 or _game_seconds >= SECONDS_PER_DAY:
+		return
+	var previous_minutes: int = get_total_minutes()
+	# Явная перемотка доступна на паузе и не зависит от скорости часов.
+	_game_seconds = minf(SECONDS_PER_DAY, _game_seconds + minutes * SECONDS_PER_MINUTE)
+	if _game_seconds >= SECONDS_PER_DAY - TIME_EPSILON:
+		_game_seconds = SECONDS_PER_DAY
+		_time_paused = true
+	var current_minutes: int = get_total_minutes()
+	if current_minutes != previous_minutes:
+		time_changed.emit(current_minutes)
+
+
 func set_time_paused(paused: bool) -> void:
 	# В рамках одного дня часы не переходят за 24:00.
 	_time_paused = paused or _game_seconds >= SECONDS_PER_DAY
