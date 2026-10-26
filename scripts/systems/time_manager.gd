@@ -105,6 +105,15 @@ func is_time_paused() -> bool:
 	return _time_paused
 
 
+func get_save_data() -> Dictionary:
+	return {
+		"total_seconds": _game_seconds,
+		"paused": _time_paused,
+		"time_events": _time_events.duplicate(),
+		"triggered_events": _triggered_events.duplicate(),
+	}
+
+
 func _check_time_events() -> void:
 	# Обработчик события может перемотать часы: продолжаем проверку в этом же цикле.
 	if _checking_time_events:

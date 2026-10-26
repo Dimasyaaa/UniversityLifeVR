@@ -37,6 +37,19 @@ func get_location_time_seconds(location_id: StringName) -> float:
 	return total
 
 
+func get_save_data() -> Dictionary:
+	var location_times: Dictionary[StringName, float] = _location_time_seconds.duplicate()
+	# Включаем текущий визит, не меняя накопленные значения в игре.
+	if _last_location_id != &"":
+		location_times[_last_location_id] = get_location_time_seconds(_last_location_id)
+	return {
+		"money_earned": _money_earned,
+		"location_visits": _location_visits.duplicate(),
+		"location_time_seconds": location_times,
+		"current_location_id": _last_location_id,
+	}
+
+
 func _on_money_earned(amount: int) -> void:
 	_money_earned += amount
 	money_earned_changed.emit(_money_earned)

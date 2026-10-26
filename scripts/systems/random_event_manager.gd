@@ -67,3 +67,10 @@ func get_finished_event_ids() -> Array[StringName]:
 
 func get_event_definition(event_id: StringName) -> RandomEventDefinition:
 	return _definitions.get(event_id)
+
+
+func get_save_data() -> Dictionary:
+	return {
+		"active_ids": _active_event_ids.duplicate(),
+		"finished_ids": _finished_event_ids.duplicate(),
+	}

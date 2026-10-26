@@ -44,6 +44,19 @@ func get_achievement_definition(achievement_id: StringName) -> AchievementDefini
 	return _definitions.get(achievement_id)
 
 
+func get_save_data() -> Dictionary:
+	var elapsed_times: Dictionary[StringName, int] = {}
+	var now: int = Time.get_ticks_msec()
+	# В файл записываем длительность, а не счётчик текущего запуска Godot.
+	for achievement_id: StringName in _event_started_at:
+		if not is_achievement_unlocked(achievement_id):
+			elapsed_times[achievement_id] = now - _event_started_at[achievement_id]
+	return {
+		"unlocked_ids": _unlocked_ids.duplicate(),
+		"timed_event_elapsed_ms": elapsed_times,
+	}
+
+
 func _on_stat_value_changed(_value: int) -> void:
 	_check_achievements()
 

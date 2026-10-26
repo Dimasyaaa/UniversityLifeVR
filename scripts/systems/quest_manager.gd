@@ -61,6 +61,14 @@ func get_quest_progress(quest_id: StringName) -> Dictionary:
 	return _quest_progress.get(quest_id, {}).duplicate()
 
 
+func get_save_data() -> Dictionary:
+	return {
+		"active_ids": _active_quest_ids.duplicate(),
+		"completed_ids": _completed_quest_ids.duplicate(),
+		"progress": _quest_progress.duplicate(true),
+	}
+
+
 func notify_event(event_id: StringName) -> void:
 	event_received.emit(event_id)
 	# Копия списка позволяет завершать квесты во время обхода.
