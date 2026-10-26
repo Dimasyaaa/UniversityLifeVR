@@ -16,6 +16,14 @@ func _ready() -> void:
 	SceneManager.location_entered.connect(_on_location_entered)
 
 
+func reset_statistics() -> void:
+	_money_earned = 0
+	_location_visits.clear()
+	_location_time_seconds.clear()
+	_last_location_id = &""
+	_location_entered_at = TimeManager.get_total_seconds()
+
+
 func get_money_earned() -> int:
 	return _money_earned
 

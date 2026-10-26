@@ -12,12 +12,20 @@ var _definitions: Dictionary[StringName, QuestDefinition] = {}
 var _active_quest_ids: Array[StringName] = []
 var _completed_quest_ids: Array[StringName] = []
 var _quest_progress: Dictionary[StringName, Dictionary] = {}
+var _events_enabled: bool = true
 
 
 func _ready() -> void:
 	for definition: QuestDefinition in quest_definitions:
 		if definition != null:
 			_definitions[definition.quest_id] = definition
+	reset_quests()
+
+
+func reset_quests() -> void:
+	_active_quest_ids.clear()
+	_completed_quest_ids.clear()
+	_quest_progress.clear()
 	for quest_id: StringName in initial_quests:
 		give_quest(quest_id)
 
@@ -76,9 +84,13 @@ func restore_save_data(data: Dictionary) -> void:
 	_quest_progress.assign(data["progress"].duplicate(true))
 
 
+func set_events_enabled(enabled: bool) -> void:
+	_events_enabled = enabled
+
+
 func notify_event(event_id: StringName) -> void:
 	# Инициализация загружаемой локации не считается действием игрока.
-	if SaveManager.is_loading():
+	if not _events_enabled:
 		return
 	event_received.emit(event_id)
 	# Копия списка позволяет завершать квесты во время обхода.

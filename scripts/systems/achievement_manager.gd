@@ -21,6 +21,11 @@ func _ready() -> void:
 	_check_achievements()
 
 
+func reset_achievements() -> void:
+	_unlocked_ids.clear()
+	_event_started_at.clear()
+
+
 func unlock_achievement(achievement_id: StringName) -> bool:
 	if not _definitions.has(achievement_id):
 		push_warning("AchievementManager: неизвестное достижение: %s" % achievement_id)

@@ -24,10 +24,16 @@ var _checking_time_events: bool = false
 
 
 func _ready() -> void:
+	reset_time()
+
+
+func reset_time() -> void:
 	var hour: int = clampi(initial_hour, 0, 23)
 	var minute: int = clampi(initial_minute, 0, 59)
 	_game_seconds = (hour * 60 + minute) * SECONDS_PER_MINUTE
 	_time_paused = start_paused
+	_time_events.clear()
+	_triggered_events.clear()
 
 
 func _process(delta: float) -> void:

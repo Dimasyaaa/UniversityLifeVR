@@ -17,6 +17,11 @@ func _ready() -> void:
 			_definitions[definition.event_id] = definition
 
 
+func reset_events() -> void:
+	_active_event_ids.clear()
+	_finished_event_ids.clear()
+
+
 func start_event(event_id: StringName) -> bool:
 	if not _definitions.has(event_id):
 		push_warning("RandomEventManager: неизвестное событие: %s" % event_id)

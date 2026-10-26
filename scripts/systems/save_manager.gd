@@ -1,7 +1,8 @@
 extends Node
-## Сохранение дня и восстановление через переход в сохранённую локацию.
+## Сохранение, загрузка и запуск нового дня через SceneManager.
 
 signal game_loaded()
+signal new_game_started()
 signal game_load_failed(reason: String)
 
 const SAVE_PATH: String = "user://save.cfg"
@@ -11,6 +12,7 @@ const SAVE_SECTIONS: Array[String] = [
 ]
 
 var _loading: bool = false
+var _starting_new_game: bool = false
 var _previous_data: Dictionary = {}
 var _tree_was_paused: bool = false
 
@@ -50,13 +52,31 @@ func load_game() -> bool:
 	if not _is_save_data_valid(data):
 		push_warning("SaveManager: сохранение содержит неверные или несовместимые данные.")
 		return false
+	_prepare_load()
+	QuestManager.set_events_enabled(false)
+	# Не меняем менеджеры внутри обработчика квеста или события времени.
+	_begin_load.call_deferred(data)
+	return true
+
+
+func start_new_game() -> bool:
+	if _loading or SceneManager.is_transitioning():
+		return false
+	var initial_location_id: StringName = SceneManager.get_initial_location_id()
+	if not SceneManager.has_location(initial_location_id):
+		push_warning("SaveManager: сначала нужно подключить Main с начальной локацией.")
+		return false
+	_prepare_load()
+	_starting_new_game = true
+	_begin_new_game.call_deferred(initial_location_id)
+	return true
+
+
+func _prepare_load() -> void:
 	_previous_data = _collect_save_data()
 	_tree_was_paused = get_tree().paused
 	_loading = true
 	get_tree().paused = true
-	# Не меняем менеджеры внутри обработчика квеста или события времени.
-	_begin_load.call_deferred(data)
-	return true
 
 
 func _collect_save_data() -> Dictionary:
@@ -100,6 +120,18 @@ func _begin_load(data: Dictionary) -> void:
 		_cancel_load("Не удалось начать переход в сохранённую локацию.")
 
 
+func _begin_new_game(initial_location_id: StringName) -> void:
+	TimeManager.reset_time()
+	GameStateManager.reset_stats(false)
+	StatisticsManager.reset_statistics()
+	AchievementManager.reset_achievements()
+	RandomEventManager.reset_events()
+	# Начальные квесты выдаём после сброса остальных данных дня.
+	QuestManager.reset_quests()
+	if not SceneManager.change_location(initial_location_id):
+		_cancel_load("Не удалось начать переход в начальную локацию.")
+
+
 func _restore_data(data: Dictionary) -> void:
 	# Сначала восстанавливаем всё без сигналов о наградах, посещениях и событиях.
 	TimeManager.restore_save_data(data["time"])
@@ -113,9 +145,13 @@ func _restore_data(data: Dictionary) -> void:
 func _on_location_changed(_location_id: StringName, _spawn_name: StringName) -> void:
 	if not _loading:
 		return
+	var started_new_game: bool = _starting_new_game
 	_previous_data.clear()
 	_finish_load()
-	game_loaded.emit()
+	if started_new_game:
+		new_game_started.emit()
+	else:
+		game_loaded.emit()
 
 
 func _on_transition_failed(_location_id: StringName, reason: String) -> void:
@@ -131,7 +167,9 @@ func _cancel_load(reason: String) -> void:
 
 
 func _finish_load() -> void:
+	QuestManager.set_events_enabled(true)
 	_loading = false
+	_starting_new_game = false
 	get_tree().paused = _tree_was_paused
 	# Интерфейс обновляется после согласованного восстановления всех менеджеров.
 	GameStateManager.notify_stats_changed()

@@ -18,6 +18,7 @@ var _location_root: Node3D
 var _player: Player
 var _current_location: Node3D
 var _current_location_id: StringName = &""
+var _initial_location_id: StringName = &""
 var _transitioning: bool = false
 var _target_location_id: StringName = &""
 var _request_number: int = 0
@@ -83,6 +84,7 @@ func setup(location_root: Node3D, player: Player, current_location: Node3D, loca
 	_player = player
 	_current_location = current_location
 	_current_location_id = location_id
+	_initial_location_id = location_id
 	_location_root.tree_exiting.connect(_clear_context, CONNECT_ONE_SHOT)
 	location_entered.emit(location_id)
 	return true
@@ -90,6 +92,10 @@ func setup(location_root: Node3D, player: Player, current_location: Node3D, loca
 
 func get_current_location_id() -> StringName:
 	return _current_location_id
+
+
+func get_initial_location_id() -> StringName:
+	return _initial_location_id
 
 
 func is_transitioning() -> bool:
@@ -266,5 +272,6 @@ func _clear_context() -> void:
 	_player = null
 	_current_location = null
 	_current_location_id = &""
+	_initial_location_id = &""
 	if cancelled_location_id != &"":
 		transition_failed.emit(cancelled_location_id, "Переход отменён при закрытии Main.")

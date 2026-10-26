@@ -62,7 +62,7 @@ func notify_stats_changed() -> void:
 		player_stat_changed.emit(stat_name, _stats[stat_name])
 
 
-func reset_stats() -> void:
+func reset_stats(notify_changes: bool = true) -> void:
 	var previous_stats: Dictionary[StringName, int] = _stats
 	_stats = {
 		&"energy": initial_energy,
@@ -74,6 +74,8 @@ func reset_stats() -> void:
 	}
 	for stat_name: StringName in _stats:
 		_stats[stat_name] = _limit_value(stat_name, _stats[stat_name])
+	if not notify_changes:
+		return
 	# Сначала восстанавливаем все значения, затем уведомляем подписчиков.
 	for stat_name: StringName in _stats:
 		if previous_stats.has(stat_name) and previous_stats[stat_name] != _stats[stat_name]:
