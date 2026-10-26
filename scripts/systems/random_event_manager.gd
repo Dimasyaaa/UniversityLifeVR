@@ -28,6 +28,18 @@ func start_event(event_id: StringName) -> bool:
 	return true
 
 
+func start_random_event() -> StringName:
+	var available_ids: Array[StringName] = []
+	for event_id: StringName in _definitions:
+		if not is_event_active(event_id) and not is_event_finished(event_id):
+			available_ids.append(event_id)
+	if available_ids.is_empty():
+		return &""
+	var selected_id: StringName = available_ids.pick_random()
+	start_event(selected_id)
+	return selected_id
+
+
 func finish_event(event_id: StringName) -> bool:
 	if not is_event_active(event_id):
 		return false
