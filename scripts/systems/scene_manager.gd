@@ -8,6 +8,9 @@ signal transition_failed(location_id: StringName, reason: String)
 const Player = preload("res://scripts/player/player.gd")
 
 @export var initial_locations: Dictionary[StringName, String] = {}
+@export_range(0.0, 2.0, 0.05) var fade_duration: float = 1.0
+
+@onready var _fade: XRToolsFade = $TransitionFade
 
 var _locations: Dictionary[StringName, String] = {}
 var _location_root: Node3D
@@ -17,6 +20,8 @@ var _current_location_id: StringName = &""
 var _transitioning: bool = false
 var _request_number: int = 0
 var _movement_was_enabled: bool = true
+var _fade_level: float = 0.0
+var _fade_tween: Tween
 
 
 func _ready() -> void:
@@ -112,24 +117,36 @@ func _perform_transition(location_id: StringName, spawn_name: StringName, reques
 	# Запрос от уже закрытого Main не должен менять новый экземпляр Main.
 	if request_number != _request_number:
 		return
-	if not _context_is_ready():
-		_fail_transition(location_id, "Игрок или локация больше не доступны.")
+	_fade_to(1.0, _replace_after_black.bind(location_id, spawn_name, request_number))
+
+
+func _replace_after_black(location_id: StringName, spawn_name: StringName, request_number: int) -> void:
+	# XR Tools обновит материал в _process; даём полностью чёрному кадру отрисоваться.
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if request_number != _request_number:
 		return
+	var reason: String = _replace_location(location_id, spawn_name)
+	if request_number != _request_number:
+		return
+	_fade_to(0.0, _finish_transition.bind(location_id, spawn_name, reason, request_number))
+
+
+func _replace_location(location_id: StringName, spawn_name: StringName) -> String:
+	if not _context_is_ready():
+		return "Игрок или локация больше не доступны."
 	var packed_scene: PackedScene = ResourceLoader.load(_locations[location_id], "PackedScene") as PackedScene
 	if packed_scene == null or not packed_scene.can_instantiate():
-		_fail_transition(location_id, "Не удалось загрузить сцену локации.")
-		return
+		return "Не удалось загрузить сцену локации."
 	var instance: Node = packed_scene.instantiate()
 	var next_location: Node3D = instance as Node3D
 	if next_location == null or _contains_player_or_camera(next_location):
 		instance.free()
-		_fail_transition(location_id, "Нужна локация Node3D без игрока, XROrigin3D и активной камеры.")
-		return
+		return "Нужна локация Node3D без игрока, XROrigin3D и активной камеры."
 	var spawn: Marker3D = next_location.get_node_or_null(NodePath(String(spawn_name))) as Marker3D
 	if spawn == null:
 		next_location.free()
-		_fail_transition(location_id, "В локации нет точки Marker3D: %s" % spawn_name)
-		return
+		return "В локации нет точки Marker3D: %s" % spawn_name
 	# До этого места текущая комната и удерживаемые предметы не менялись.
 	_player.release_held_objects()
 	var previous_location: Node3D = _current_location
@@ -140,14 +157,11 @@ func _perform_transition(location_id: StringName, spawn_name: StringName, reques
 		_location_root.remove_child(next_location)
 		next_location.queue_free()
 		_location_root.add_child(previous_location)
-		_fail_transition(location_id, "Не удалось разместить игрока у точки появления.")
-		return
+		return "Не удалось разместить игрока у точки появления."
 	_current_location = next_location
 	_current_location_id = location_id
 	previous_location.queue_free()
-	_player.set_movement_enabled(_movement_was_enabled)
-	_transitioning = false
-	location_changed.emit(location_id, spawn_name)
+	return ""
 
 
 func _context_is_ready() -> bool:
@@ -168,12 +182,40 @@ func _contains_player_or_camera(location: Node3D) -> bool:
 	return false
 
 
-func _fail_transition(location_id: StringName, reason: String) -> void:
+func _fade_to(level: float, finished: Callable) -> void:
+	if _fade_tween != null:
+		_fade_tween.kill()
+	if fade_duration <= 0.0:
+		_set_fade_level(level)
+		finished.call_deferred()
+		return
+	_fade_tween = create_tween()
+	_fade_tween.set_ignore_time_scale(true)
+	_fade_tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	_fade_tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	_fade_tween.tween_method(_set_fade_level, _fade_level, level, fade_duration)
+	_fade_tween.tween_callback(finished)
+
+
+func _set_fade_level(level: float) -> void:
+	_fade_level = clampf(level, 0.0, 1.0)
+	_fade.set_fade_level(self, Color(0, 0, 0, _fade_level))
+
+
+func _finish_transition(location_id: StringName, spawn_name: StringName, reason: String, request_number: int) -> void:
+	if request_number != _request_number:
+		return
+	_fade_tween = null
+	# Удаляем только запрос SceneManager, не затрагивая другие эффекты XR Tools.
+	_set_fade_level(0.0)
 	if is_instance_valid(_player):
 		_player.set_movement_enabled(_movement_was_enabled)
 	_transitioning = false
-	push_warning("SceneManager: %s" % reason)
-	transition_failed.emit(location_id, reason)
+	if reason.is_empty():
+		location_changed.emit(location_id, spawn_name)
+	else:
+		push_warning("SceneManager: %s" % reason)
+		transition_failed.emit(location_id, reason)
 
 
 func _reject(reason: String) -> bool:
@@ -182,6 +224,10 @@ func _reject(reason: String) -> bool:
 
 
 func _clear_context() -> void:
+	if _fade_tween != null:
+		_fade_tween.kill()
+		_fade_tween = null
+	_set_fade_level(0.0)
 	if _transitioning and is_instance_valid(_player):
 		_player.set_movement_enabled(_movement_was_enabled)
 	_request_number += 1
