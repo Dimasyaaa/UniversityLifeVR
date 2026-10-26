@@ -22,6 +22,7 @@ GameStateManager="*res://scenes/systems/game_state_manager.tscn"
 TimeManager="*res://scenes/systems/time_manager.tscn"
 QuestManager="*res://scenes/systems/quest_manager.tscn"
 SceneManager="*res://scenes/systems/scene_manager.tscn"
+StatisticsManager="*res://scenes/systems/statistics_manager.tscn"
 XrSimulator="*res://scenes/debug/desktop_simulator.tscn"
 
 [editor_plugins]

@@ -45,6 +45,11 @@ func _process(delta: float) -> void:
 		_check_time_events()
 
 
+## Точное игровое время в секундах с начала суток.
+func get_total_seconds() -> float:
+	return _game_seconds
+
+
 func get_total_minutes() -> int:
 	# Компенсируем погрешность дробного delta на границе минуты.
 	return floori((_game_seconds + TIME_EPSILON) / SECONDS_PER_MINUTE)

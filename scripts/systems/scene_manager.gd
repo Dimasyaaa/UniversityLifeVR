@@ -3,6 +3,7 @@ extends Node
 
 signal transition_started(location_id: StringName)
 signal location_changed(location_id: StringName, spawn_name: StringName)
+signal location_entered(location_id: StringName)
 signal transition_failed(location_id: StringName, reason: String)
 
 const Player = preload("res://scripts/player/player.gd")
@@ -82,6 +83,7 @@ func setup(location_root: Node3D, player: Player, current_location: Node3D, loca
 	_current_location = current_location
 	_current_location_id = location_id
 	_location_root.tree_exiting.connect(_clear_context, CONNECT_ONE_SHOT)
+	location_entered.emit(location_id)
 	return true
 
 
@@ -234,6 +236,7 @@ func _finish_transition(location_id: StringName, spawn_name: StringName, reason:
 		_player.set_movement_enabled(_movement_was_enabled)
 	_transitioning = false
 	if reason.is_empty():
+		location_entered.emit(location_id)
 		location_changed.emit(location_id, spawn_name)
 	else:
 		push_warning("SceneManager: %s" % reason)

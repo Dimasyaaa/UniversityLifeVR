@@ -2,6 +2,7 @@ extends Node
 ## Хранит текущие показатели. Локации изменяют их через публичные методы.
 
 signal player_stat_changed(stat_name: StringName, value: int)
+signal money_earned(amount: int)
 
 @export_group("Initial Stats")
 @export_range(0, 100, 1) var initial_energy: int = 80
@@ -41,6 +42,8 @@ func change_stat(stat_name: StringName, amount: int) -> void:
 		push_warning("Неизвестный показатель: %s" % stat_name)
 		return
 	set_stat(stat_name, _stats[stat_name] + amount)
+	if stat_name == &"money" and amount > 0:
+		money_earned.emit(amount)
 
 
 func get_stats() -> Dictionary[StringName, int]:
