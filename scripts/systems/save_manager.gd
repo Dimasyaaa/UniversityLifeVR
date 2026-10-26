@@ -15,11 +15,13 @@ var _loading: bool = false
 var _starting_new_game: bool = false
 var _previous_data: Dictionary = {}
 var _tree_was_paused: bool = false
+var _autosave_pending: bool = false
 
 
 func _ready() -> void:
 	SceneManager.location_changed.connect(_on_location_changed)
 	SceneManager.transition_failed.connect(_on_transition_failed)
+	QuestManager.quest_completed.connect(_on_quest_completed)
 
 
 func is_loading() -> bool:
@@ -73,6 +75,7 @@ func start_new_game() -> bool:
 
 
 func _prepare_load() -> void:
+	_autosave_pending = false
 	_previous_data = _collect_save_data()
 	_tree_was_paused = get_tree().paused
 	_loading = true
@@ -144,6 +147,7 @@ func _restore_data(data: Dictionary) -> void:
 
 func _on_location_changed(_location_id: StringName, _spawn_name: StringName) -> void:
 	if not _loading:
+		_request_autosave()
 		return
 	var started_new_game: bool = _starting_new_game
 	_previous_data.clear()
@@ -157,6 +161,33 @@ func _on_location_changed(_location_id: StringName, _spawn_name: StringName) -> 
 func _on_transition_failed(_location_id: StringName, reason: String) -> void:
 	if _loading:
 		_cancel_load(reason)
+	elif _autosave_pending:
+		# Квест мог завершиться, пока обычный переход ещё выполнялся.
+		_try_autosave.call_deferred()
+
+
+func _on_quest_completed(_quest_id: StringName) -> void:
+	_request_autosave()
+
+
+func _request_autosave() -> void:
+	if _loading or SceneManager.get_current_location_id() == &"":
+		return
+	_autosave_pending = true
+	# Сохраняем после обработки события, когда все награды уже начислены.
+	_try_autosave.call_deferred()
+
+
+func _try_autosave() -> void:
+	if not _autosave_pending:
+		return
+	if _loading or SceneManager.get_current_location_id() == &"":
+		_autosave_pending = false
+		return
+	if SceneManager.is_transitioning():
+		return
+	_autosave_pending = false
+	save_game()
 
 
 func _cancel_load(reason: String) -> void:
