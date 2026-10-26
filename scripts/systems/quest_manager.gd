@@ -3,6 +3,7 @@ extends Node
 
 signal quest_started(quest_id: StringName)
 signal quest_completed(quest_id: StringName)
+signal event_received(event_id: StringName)
 
 @export var quest_definitions: Array[QuestDefinition] = []
 @export var initial_quests: Array[StringName] = []
@@ -61,6 +62,7 @@ func get_quest_progress(quest_id: StringName) -> Dictionary:
 
 
 func notify_event(event_id: StringName) -> void:
+	event_received.emit(event_id)
 	# Копия списка позволяет завершать квесты во время обхода.
 	for quest_id: StringName in _active_quest_ids.duplicate():
 		if not is_quest_active(quest_id):

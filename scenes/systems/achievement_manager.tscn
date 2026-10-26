@@ -1,0 +1,15 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/achievement_manager.gd" id="1_manager"]
+[ext_resource type="Script" path="res://scripts/achievements/achievement_definition.gd" id="2_definition"]
+[ext_resource type="Resource" path="res://resources/achievements/hard_worker.tres" id="3_worker"]
+[ext_resource type="Resource" path="res://resources/achievements/athlete.tres" id="4_athlete"]
+[ext_resource type="Resource" path="res://resources/achievements/bookworm.tres" id="5_bookworm"]
+[ext_resource type="Resource" path="res://resources/achievements/partygoer.tres" id="6_partygoer"]
+[ext_resource type="Resource" path="res://resources/achievements/excellent_student.tres" id="7_student"]
+[ext_resource type="Resource" path="res://resources/achievements/early_bird.tres" id="8_bird"]
+[ext_resource type="Resource" path="res://resources/achievements/explorer.tres" id="9_explorer"]
+
+[node name="AchievementManager" type="Node"]
+script = ExtResource("1_manager")
+achievement_definitions = Array[ExtResource("2_definition")]([ExtResource("3_worker"), ExtResource("4_athlete"), ExtResource("5_bookworm"), ExtResource("6_partygoer"), ExtResource("7_student"), ExtResource("8_bird"), ExtResource("9_explorer")])
