@@ -126,16 +126,38 @@ func _replace_after_black(location_id: StringName, spawn_name: StringName, reque
 	await get_tree().process_frame
 	if request_number != _request_number:
 		return
-	var reason: String = _replace_location(location_id, spawn_name)
+	var path: String = _locations[location_id]
+	var packed_scene: PackedScene
+	var reason: String = ""
+	var error: Error = ResourceLoader.load_threaded_request(path, "PackedScene")
+	if error != OK:
+		reason = "Не удалось начать загрузку локации: %s" % error_string(error)
+	else:
+		var status: ResourceLoader.ThreadLoadStatus = ResourceLoader.load_threaded_get_status(path)
+		while status == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
+			# Между проверками продолжаются отрисовка и отслеживание головы.
+			await get_tree().process_frame
+			status = ResourceLoader.load_threaded_get_status(path)
+		# Завершаем начатый запрос даже при закрытии Main, не блокируя поток ожиданием.
+		if status == ResourceLoader.THREAD_LOAD_LOADED:
+			packed_scene = ResourceLoader.load_threaded_get(path) as PackedScene
+		elif status == ResourceLoader.THREAD_LOAD_FAILED:
+			ResourceLoader.load_threaded_get(path)
+			reason = "Не удалось загрузить сцену локации."
+		else:
+			reason = "Запрос фоновой загрузки локации недействителен."
+	if request_number != _request_number:
+		return
+	if reason.is_empty():
+		reason = _replace_location(location_id, spawn_name, packed_scene)
 	if request_number != _request_number:
 		return
 	_fade_to(0.0, _finish_transition.bind(location_id, spawn_name, reason, request_number))
 
 
-func _replace_location(location_id: StringName, spawn_name: StringName) -> String:
+func _replace_location(location_id: StringName, spawn_name: StringName, packed_scene: PackedScene) -> String:
 	if not _context_is_ready():
 		return "Игрок или локация больше не доступны."
-	var packed_scene: PackedScene = ResourceLoader.load(_locations[location_id], "PackedScene") as PackedScene
 	if packed_scene == null or not packed_scene.can_instantiate():
 		return "Не удалось загрузить сцену локации."
 	var instance: Node = packed_scene.instantiate()
