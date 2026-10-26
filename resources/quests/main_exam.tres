@@ -7,3 +7,6 @@ script = ExtResource("1_definition")
 quest_id = &"main_exam"
 title = "Сдать экзамен на отлично в 16:00"
 description = "Подготовиться к экзамену и получить отличную оценку."
+required_events = Dictionary[StringName, int]({
+&"exam_excellent": 1
+})

@@ -5,3 +5,4 @@ extends Resource
 @export var quest_id: StringName = &""
 @export var title: String = ""
 @export_multiline var description: String = ""
+@export var required_events: Dictionary[StringName, int] = {}
