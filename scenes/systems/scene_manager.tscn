@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/scene_manager.gd" id="1_scene_manager"]
+
+[node name="SceneManager" type="Node"]
+script = ExtResource("1_scene_manager")
+initial_locations = Dictionary[StringName, String]({
+&"test_room": "res://scenes/locations/test_room.tscn"
+})
