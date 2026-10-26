@@ -92,6 +92,12 @@ func is_movement_enabled() -> bool:
 	return _movement_enabled
 
 
+func release_held_objects() -> void:
+	for hand: XRController3D in [left_hand, right_hand]:
+		# Детали захвата остаются внутри сцены игрока.
+		hand.get_node("VRGrab").call("_drop")
+
+
 func place_at_spawn(spawn: Marker3D) -> bool:
 	if not is_node_ready() or not is_inside_tree() or is_queued_for_deletion():
 		push_warning("Игрок ещё не готов к размещению.")

@@ -2,9 +2,13 @@
 
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="1_player"]
 [ext_resource type="PackedScene" path="res://scenes/locations/test_room.tscn" id="2_room"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="3_main"]
 
 [node name="Main" type="Node3D"]
+script = ExtResource("3_main")
 
-[node name="TestRoom" parent="." instance=ExtResource("2_room")]
+[node name="Locations" type="Node3D" parent="."]
+
+[node name="TestRoom" parent="Locations" instance=ExtResource("2_room")]
 
 [node name="VRPlayer" parent="." instance=ExtResource("1_player")]

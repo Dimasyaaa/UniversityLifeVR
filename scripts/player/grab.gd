@@ -160,12 +160,6 @@ func grab_object(object: RigidBody3D) -> bool:
 			object.add_collision_exception_with(player_body)
 			player_exception_added = true
 
-	var world: Node = get_tree().current_scene
-	if world == null:
-		world = player_body.get_parent()
-	if object.get_parent() != world:
-		object.reparent(world, true)
-
 	object.call("begin_hold", hold_point)
 	return true
 
