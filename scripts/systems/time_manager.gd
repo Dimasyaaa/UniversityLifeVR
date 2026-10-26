@@ -18,6 +18,7 @@ const TIME_EPSILON: float = 0.000001
 
 var _game_seconds: float = 0.0
 var _time_paused: bool = false
+var _time_suspended: bool = false
 var _time_events: Dictionary[StringName, int] = {}
 var _triggered_events: Array[StringName] = []
 var _checking_time_events: bool = false
@@ -37,7 +38,7 @@ func reset_time() -> void:
 
 
 func _process(delta: float) -> void:
-	if _time_paused:
+	if is_time_paused():
 		return
 	var previous_minutes: int = get_total_minutes()
 	var speed: float = maxf(0.0, game_seconds_per_real_second)
@@ -108,7 +109,12 @@ func set_time_paused(paused: bool) -> void:
 
 
 func is_time_paused() -> bool:
-	return _time_paused
+	return _time_paused or _time_suspended
+
+
+func set_time_suspended(suspended: bool) -> void:
+	# Временная пауза меню не записывается в сохранение дня.
+	_time_suspended = suspended
 
 
 func get_save_data() -> Dictionary:

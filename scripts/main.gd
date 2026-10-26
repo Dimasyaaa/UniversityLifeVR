@@ -7,3 +7,5 @@ extends Node3D
 func _ready() -> void:
 	if not SceneManager.setup($Locations, $VRPlayer, $Locations/TestRoom, initial_location_id):
 		push_error("Main: не удалось подключить игрока и начальную локацию к SceneManager.")
+		return
+	$MainMenuPanel.setup($VRPlayer)
