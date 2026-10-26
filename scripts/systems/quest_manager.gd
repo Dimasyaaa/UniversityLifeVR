@@ -84,6 +84,10 @@ func _all_conditions_met(quest_id: StringName) -> bool:
 
 
 func _complete_quest(quest_id: StringName) -> void:
+	# Сначала отмечаем завершение, чтобы повторное событие не выдало награду снова.
 	_active_quest_ids.erase(quest_id)
 	_completed_quest_ids.append(quest_id)
+	var rewards: Dictionary[StringName, int] = _definitions[quest_id].stat_rewards
+	for stat_name: StringName in rewards:
+		GameStateManager.change_stat(stat_name, rewards[stat_name])
 	quest_completed.emit(quest_id)

@@ -10,3 +10,6 @@ description = "Подготовиться к экзамену и получит�
 required_events = Dictionary[StringName, int]({
 &"exam_excellent": 1
 })
+stat_rewards = Dictionary[StringName, int]({
+&"mood": 10
+})

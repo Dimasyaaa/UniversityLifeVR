@@ -6,3 +6,4 @@ extends Resource
 @export var title: String = ""
 @export_multiline var description: String = ""
 @export var required_events: Dictionary[StringName, int] = {}
+@export var stat_rewards: Dictionary[StringName, int] = {}
