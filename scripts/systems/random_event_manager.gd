@@ -74,3 +74,8 @@ func get_save_data() -> Dictionary:
 		"active_ids": _active_event_ids.duplicate(),
 		"finished_ids": _finished_event_ids.duplicate(),
 	}
+
+
+func restore_save_data(data: Dictionary) -> void:
+	_active_event_ids.assign(data["active_ids"])
+	_finished_event_ids.assign(data["finished_ids"])

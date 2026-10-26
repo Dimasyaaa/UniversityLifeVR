@@ -114,6 +114,18 @@ func get_save_data() -> Dictionary:
 	}
 
 
+func restore_save_data(data: Dictionary) -> void:
+	_game_seconds = data["total_seconds"]
+	_time_events.assign(data["time_events"])
+	_triggered_events.assign(data["triggered_events"])
+	set_time_paused(data["paused"])
+
+
+func notify_time_changed() -> void:
+	# Обновляем часы, не вызывая заново уже прошедшие события дня.
+	time_changed.emit(get_total_minutes())
+
+
 func _check_time_events() -> void:
 	# Обработчик события может перемотать часы: продолжаем проверку в этом же цикле.
 	if _checking_time_events:

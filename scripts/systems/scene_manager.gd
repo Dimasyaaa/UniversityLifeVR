@@ -19,6 +19,7 @@ var _player: Player
 var _current_location: Node3D
 var _current_location_id: StringName = &""
 var _transitioning: bool = false
+var _target_location_id: StringName = &""
 var _request_number: int = 0
 var _movement_was_enabled: bool = true
 var _fade_level: float = 0.0
@@ -107,6 +108,7 @@ func change_location(location_id: StringName, spawn_name: StringName = &"Spawn_D
 	if marker_name.is_empty() or marker_name.validate_node_name() != marker_name:
 		return _reject("Нужно имя Marker3D, расположенного непосредственно в корне локации.")
 	_transitioning = true
+	_target_location_id = location_id
 	_request_number += 1
 	_movement_was_enabled = _player.is_movement_enabled()
 	_player.set_movement_enabled(false)
@@ -235,6 +237,7 @@ func _finish_transition(location_id: StringName, spawn_name: StringName, reason:
 	if is_instance_valid(_player):
 		_player.set_movement_enabled(_movement_was_enabled)
 	_transitioning = false
+	_target_location_id = &""
 	if reason.is_empty():
 		location_entered.emit(location_id)
 		location_changed.emit(location_id, spawn_name)
@@ -249,6 +252,7 @@ func _reject(reason: String) -> bool:
 
 
 func _clear_context() -> void:
+	var cancelled_location_id: StringName = _target_location_id
 	if _fade_tween != null:
 		_fade_tween.kill()
 		_fade_tween = null
@@ -257,7 +261,10 @@ func _clear_context() -> void:
 		_player.set_movement_enabled(_movement_was_enabled)
 	_request_number += 1
 	_transitioning = false
+	_target_location_id = &""
 	_location_root = null
 	_player = null
 	_current_location = null
 	_current_location_id = &""
+	if cancelled_location_id != &"":
+		transition_failed.emit(cancelled_location_id, "Переход отменён при закрытии Main.")

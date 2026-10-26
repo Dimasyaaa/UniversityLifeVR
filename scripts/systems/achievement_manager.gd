@@ -57,6 +57,15 @@ func get_save_data() -> Dictionary:
 	}
 
 
+func restore_save_data(data: Dictionary) -> void:
+	_unlocked_ids.assign(data["unlocked_ids"])
+	_event_started_at.clear()
+	var now: int = Time.get_ticks_msec()
+	for achievement_id: StringName in data["timed_event_elapsed_ms"]:
+		# Время вне игры не добавляется к сохранённой длительности.
+		_event_started_at[achievement_id] = now - data["timed_event_elapsed_ms"][achievement_id]
+
+
 func _on_stat_value_changed(_value: int) -> void:
 	_check_achievements()
 

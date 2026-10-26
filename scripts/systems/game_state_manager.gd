@@ -51,6 +51,17 @@ func get_stats() -> Dictionary[StringName, int]:
 	return _stats.duplicate()
 
 
+func restore_save_data(data: Dictionary) -> void:
+	# Установка сохранённых значений не считается заработком или наградой.
+	for stat_name: StringName in _stats:
+		_stats[stat_name] = _limit_value(stat_name, data[stat_name])
+
+
+func notify_stats_changed() -> void:
+	for stat_name: StringName in _stats:
+		player_stat_changed.emit(stat_name, _stats[stat_name])
+
+
 func reset_stats() -> void:
 	var previous_stats: Dictionary[StringName, int] = _stats
 	_stats = {

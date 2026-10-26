@@ -69,7 +69,17 @@ func get_save_data() -> Dictionary:
 	}
 
 
+func restore_save_data(data: Dictionary) -> void:
+	# Не вызываем выдачу и завершение квестов при восстановлении прогресса.
+	_active_quest_ids.assign(data["active_ids"])
+	_completed_quest_ids.assign(data["completed_ids"])
+	_quest_progress.assign(data["progress"].duplicate(true))
+
+
 func notify_event(event_id: StringName) -> void:
+	# Инициализация загружаемой локации не считается действием игрока.
+	if SaveManager.is_loading():
+		return
 	event_received.emit(event_id)
 	# Копия списка позволяет завершать квесты во время обхода.
 	for quest_id: StringName in _active_quest_ids.duplicate():

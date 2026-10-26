@@ -50,6 +50,15 @@ func get_save_data() -> Dictionary:
 	}
 
 
+func restore_save_data(data: Dictionary) -> void:
+	_money_earned = data["money_earned"]
+	_location_visits.assign(data["location_visits"])
+	_location_time_seconds.assign(data["location_time_seconds"])
+	_last_location_id = data["current_location_id"]
+	# Время текущего визита уже включено в сохранённые итоги.
+	_location_entered_at = TimeManager.get_total_seconds()
+
+
 func _on_money_earned(amount: int) -> void:
 	_money_earned += amount
 	money_earned_changed.emit(_money_earned)
