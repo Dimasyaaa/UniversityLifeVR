@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/debug/desktop_simulator.gd" id="1_simulator"]
+
+[node name="DesktopSimulator" type="Node"]
+script = ExtResource("1_simulator")
