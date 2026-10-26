@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" path="res://scenes/locations/test_room.tscn" id="2_room"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="3_main"]
 [ext_resource type="PackedScene" path="res://scenes/ui/main_menu_panel.tscn" id="4_menu"]
+[ext_resource type="PackedScene" path="res://scenes/ui/notifications.tscn" id="5_notifications"]
 
 [node name="Main" type="Node3D"]
 script = ExtResource("3_main")
@@ -16,3 +17,5 @@ script = ExtResource("3_main")
 
 [node name="MainMenuPanel" parent="." instance=ExtResource("4_menu")]
 position = Vector3(0, 1.6, -1.05)
+
+[node name="Notifications" parent="." instance=ExtResource("5_notifications")]

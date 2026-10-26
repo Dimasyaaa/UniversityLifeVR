@@ -10,3 +10,4 @@ func _ready() -> void:
 		return
 	$MainMenuPanel.setup($VRPlayer)
 	$VRPlayer/XROrigin3D/RightHand/Phone.setup($VRPlayer, $MainMenuPanel)
+	$Notifications.setup($VRPlayer, $MainMenuPanel)

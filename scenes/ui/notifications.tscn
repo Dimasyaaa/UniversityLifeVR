@@ -1,0 +1,83 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/notifications.gd" id="1_notifications"]
+[ext_resource type="AudioStream" path="res://assets/audio/ui/notification.wav" id="2_sound"]
+
+[sub_resource type="StandardMaterial3D" id="Border_material"]
+shading_mode = 0
+no_depth_test = true
+render_priority = -3
+albedo_color = Color(0.7, 0.66, 0.59, 1)
+
+[sub_resource type="QuadMesh" id="Border_mesh"]
+material = SubResource("Border_material")
+size = Vector2(0.6, 0.06)
+
+[sub_resource type="StandardMaterial3D" id="Heading_material"]
+shading_mode = 0
+no_depth_test = true
+render_priority = -2
+albedo_color = Color(0.97, 0.96, 0.93, 1)
+
+[sub_resource type="QuadMesh" id="Heading_mesh"]
+material = SubResource("Heading_material")
+size = Vector2(0.592, 0.052)
+
+[sub_resource type="StandardMaterial3D" id="Panel_material"]
+shading_mode = 0
+no_depth_test = true
+render_priority = -1
+albedo_color = Color(0.89, 0.87, 0.83, 1)
+
+[sub_resource type="QuadMesh" id="Panel_mesh"]
+material = SubResource("Panel_material")
+size = Vector2(0.96, 0.132)
+
+[node name="Notifications" type="Node3D"]
+process_mode = 3
+visible = false
+script = ExtResource("1_notifications")
+
+[node name="Border" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.068, 0)
+cast_shadow = 0
+mesh = SubResource("Border_mesh")
+
+[node name="HeadingBackground" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.068, 0.001)
+cast_shadow = 0
+mesh = SubResource("Heading_mesh")
+
+[node name="Panel" type="MeshInstance3D" parent="."]
+position = Vector3(0, -0.044, 0.001)
+cast_shadow = 0
+mesh = SubResource("Panel_mesh")
+
+[node name="Heading" type="Label3D" parent="."]
+position = Vector3(0, 0.068, 0.003)
+pixel_size = 0.00052
+modulate = Color(0.24, 0.22, 0.2, 1)
+text = "Квест выполнен"
+font_size = 56
+outline_size = 0
+no_depth_test = true
+
+[node name="Title" type="Label3D" parent="."]
+position = Vector3(0, -0.044, 0.003)
+pixel_size = 0.00052
+modulate = Color(0.22, 0.23, 0.22, 1)
+text = "Название задания"
+font_size = 80
+outline_size = 0
+no_depth_test = true
+autowrap_mode = 2
+width = 1750.0
+
+[node name="DisplayTimer" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+ignore_time_scale = true
+
+[node name="NotificationSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_sound")
+volume_db = -14.0
