@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="QuestDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/quests/quest_definition.gd" id="1_definition"]
+
+[resource]
+script = ExtResource("1_definition")
+quest_id = &"library_research"
+title = "Посети библиотеку и найди информацию по теме экзамена"
+description = "Найди в библиотеке материалы для подготовки к экзамену."
+required_events = Dictionary[StringName, int]({
+&"exam_material_found": 1
+})
+stat_rewards = Dictionary[StringName, int]({
+&"knowledge": 15
+})

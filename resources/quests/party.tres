@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="QuestDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/quests/quest_definition.gd" id="1_definition"]
+
+[resource]
+script = ExtResource("1_definition")
+quest_id = &"party"
+title = "Сходи на вечеринку"
+description = "Посети вечеринку в студенческом клубе."
+required_events = Dictionary[StringName, int]({
+&"party_attended": 1
+})
+stat_rewards = Dictionary[StringName, int]({
+&"mood": 30,
+&"energy": -25
+})

@@ -3,8 +3,18 @@
 [ext_resource type="Script" path="res://scripts/systems/quest_manager.gd" id="1_manager"]
 [ext_resource type="Script" path="res://scripts/quests/quest_definition.gd" id="2_definition"]
 [ext_resource type="Resource" path="res://resources/quests/main_exam.tres" id="3_main_exam"]
+[ext_resource type="Resource" path="res://resources/quests/breakfast.tres" id="4_breakfast"]
+[ext_resource type="Resource" path="res://resources/quests/library_research.tres" id="5_library"]
+[ext_resource type="Resource" path="res://resources/quests/cafeteria_meal.tres" id="6_cafeteria"]
+[ext_resource type="Resource" path="res://resources/quests/workout.tres" id="7_workout"]
+[ext_resource type="Resource" path="res://resources/quests/party.tres" id="8_party"]
+[ext_resource type="Resource" path="res://resources/quests/courier_job.tres" id="9_courier"]
+[ext_resource type="Resource" path="res://resources/quests/robot_assembly.tres" id="10_robot"]
+[ext_resource type="Resource" path="res://resources/quests/medical_check.tres" id="11_medical"]
+[ext_resource type="Resource" path="res://resources/quests/dean_certificate.tres" id="12_certificate"]
+[ext_resource type="Resource" path="res://resources/quests/feed_ducks.tres" id="13_ducks"]
 
 [node name="QuestManager" type="Node"]
 script = ExtResource("1_manager")
-quest_definitions = Array[ExtResource("2_definition")]([ExtResource("3_main_exam")])
+quest_definitions = Array[ExtResource("2_definition")]([ExtResource("3_main_exam"), ExtResource("4_breakfast"), ExtResource("5_library"), ExtResource("6_cafeteria"), ExtResource("7_workout"), ExtResource("8_party"), ExtResource("9_courier"), ExtResource("10_robot"), ExtResource("11_medical"), ExtResource("12_certificate"), ExtResource("13_ducks")])
 initial_quests = Array[StringName]([&"main_exam"])

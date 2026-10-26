@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="QuestDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/quests/quest_definition.gd" id="1_definition"]
+
+[resource]
+script = ExtResource("1_definition")
+quest_id = &"cafeteria_meal"
+title = "Поешь в столовой"
+description = "Пообедай в университетской столовой."
+required_events = Dictionary[StringName, int]({
+&"cafeteria_meal_eaten": 1
+})
+stat_rewards = Dictionary[StringName, int]({
+&"satiety": 25
+})
