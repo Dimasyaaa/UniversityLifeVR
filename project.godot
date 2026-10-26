@@ -24,6 +24,7 @@ QuestManager="*res://scenes/systems/quest_manager.tscn"
 SceneManager="*res://scenes/systems/scene_manager.tscn"
 StatisticsManager="*res://scenes/systems/statistics_manager.tscn"
 AchievementManager="*res://scenes/systems/achievement_manager.tscn"
+RandomEventManager="*res://scenes/systems/random_event_manager.tscn"
 XrSimulator="*res://scenes/debug/desktop_simulator.tscn"
 
 [editor_plugins]
