@@ -16,9 +16,12 @@ var _starting_new_game: bool = false
 var _previous_data: Dictionary = {}
 var _tree_was_paused: bool = false
 var _autosave_pending: bool = false
+var _location_states: Dictionary = {}
 
 
 func _ready() -> void:
+	SceneManager.location_unloading.connect(_on_location_unloading)
+	SceneManager.location_loaded.connect(_on_location_loaded)
 	SceneManager.location_changed.connect(_on_location_changed)
 	SceneManager.transition_failed.connect(_on_transition_failed)
 	QuestManager.quest_completed.connect(_on_quest_completed)
@@ -83,6 +86,7 @@ func _prepare_load() -> void:
 
 
 func _collect_save_data() -> Dictionary:
+	_capture_current_location()
 	return {
 		"stats": GameStateManager.get_stats(),
 		"time": TimeManager.get_save_data(),
@@ -90,7 +94,10 @@ func _collect_save_data() -> Dictionary:
 		"achievements": AchievementManager.get_save_data(),
 		"statistics": StatisticsManager.get_save_data(),
 		"events": RandomEventManager.get_save_data(),
-		"location": {"location_id": SceneManager.get_current_location_id()},
+		"location": {
+			"location_id": SceneManager.get_current_location_id(),
+			"states": _location_states.duplicate(true),
+		},
 	}
 
 
@@ -114,6 +121,9 @@ func read_save_data() -> Dictionary:
 			push_warning("SaveManager: отсутствует или повреждён раздел: %s" % section)
 			return {}
 		data[section] = section_data
+	# Старые сохранения версии 1 ещё не содержат состояний локаций.
+	if not data["location"].has("states"):
+		data["location"]["states"] = {}
 	return data
 
 
@@ -124,6 +134,7 @@ func _begin_load(data: Dictionary) -> void:
 
 
 func _begin_new_game(initial_location_id: StringName) -> void:
+	_location_states.clear()
 	TimeManager.reset_time()
 	GameStateManager.reset_stats(false)
 	StatisticsManager.reset_statistics()
@@ -137,12 +148,35 @@ func _begin_new_game(initial_location_id: StringName) -> void:
 
 func _restore_data(data: Dictionary) -> void:
 	# Сначала восстанавливаем всё без сигналов о наградах, посещениях и событиях.
+	_location_states = data["location"]["states"].duplicate(true)
 	TimeManager.restore_save_data(data["time"])
 	GameStateManager.restore_save_data(data["stats"])
 	QuestManager.restore_save_data(data["quests"])
 	StatisticsManager.restore_save_data(data["statistics"])
 	AchievementManager.restore_save_data(data["achievements"])
 	RandomEventManager.restore_save_data(data["events"])
+
+
+func _capture_current_location() -> void:
+	# При загрузке нельзя затереть прочитанные данные состоянием старой комнаты.
+	if _loading:
+		return
+	var location: Node3D = SceneManager.get_current_location()
+	if not is_instance_valid(location) or not location.has_method("get_save_data"):
+		return
+	var state: Dictionary = location.call("get_save_data")
+	_location_states[String(SceneManager.get_current_location_id())] = state.duplicate(true)
+
+
+func _on_location_unloading(_location_id: StringName) -> void:
+	_capture_current_location()
+
+
+func _on_location_loaded(location_id: StringName) -> void:
+	var location: Node3D = SceneManager.get_current_location()
+	var key: String = String(location_id)
+	if _location_states.has(key) and location.has_method("restore_save_data"):
+		location.call("restore_save_data", _location_states[key].duplicate(true))
 
 
 func _on_location_changed(_location_id: StringName, _spawn_name: StringName) -> void:
@@ -208,8 +242,14 @@ func _finish_load() -> void:
 
 
 func _is_save_data_valid(data: Dictionary) -> bool:
-	if not _matches_fields(data, _collect_save_data()):
+	var expected: Dictionary = _collect_save_data()
+	# Посещённые комнаты и их поля у разных сохранений могут отличаться.
+	expected["location"]["states"] = {}
+	if not _matches_fields(data, expected):
 		return false
+	for state: Variant in data["location"]["states"].values():
+		if not state is Dictionary:
+			return false
 	for stat_name: StringName in GameStateManager.get_stats():
 		if not data["stats"].has(stat_name):
 			return false

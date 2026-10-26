@@ -2,6 +2,8 @@ extends Node
 ## Реестр локаций и замена комнаты без пересоздания игрока.
 
 signal transition_started(location_id: StringName)
+signal location_unloading(location_id: StringName)
+signal location_loaded(location_id: StringName)
 signal location_changed(location_id: StringName, spawn_name: StringName)
 signal location_entered(location_id: StringName)
 signal transition_failed(location_id: StringName, reason: String)
@@ -94,6 +96,10 @@ func get_current_location_id() -> StringName:
 	return _current_location_id
 
 
+func get_current_location() -> Node3D:
+	return _current_location
+
+
 func get_initial_location_id() -> StringName:
 	return _initial_location_id
 
@@ -181,6 +187,7 @@ func _replace_location(location_id: StringName, spawn_name: StringName, packed_s
 		return "В локации нет точки Marker3D: %s" % spawn_name
 	# До этого места текущая комната и удерживаемые предметы не менялись.
 	_player.release_held_objects()
+	location_unloading.emit(_current_location_id)
 	var previous_location: Node3D = _current_location
 	_location_root.remove_child(previous_location)
 	_location_root.add_child(next_location)
@@ -192,6 +199,8 @@ func _replace_location(location_id: StringName, spawn_name: StringName, packed_s
 		return "Не удалось разместить игрока у точки появления."
 	_current_location = next_location
 	_current_location_id = location_id
+	# Локация уже прошла _ready(); восстанавливаем её до снятия затемнения.
+	location_loaded.emit(location_id)
 	previous_location.queue_free()
 	return ""
 
