@@ -1,0 +1,170 @@
+[gd_scene format=3 uid="uid://dlmvbwkoltvsm"]
+
+[ext_resource type="PackedScene" uid="uid://bitqv01gfi4qt" path="res://scenes/locations/RoomDorm/room.tscn" id="1_06884"]
+[ext_resource type="PackedScene" uid="uid://bhkamb7rk6qkq" path="res://player/player.tscn" id="2_a0jcc"]
+[ext_resource type="Script" uid="uid://bxb1y6jjxjlig" path="res://scripts/core/transition_point.gd" id="3_transt"]
+[ext_resource type="Script" uid="uid://c8tbbwhwcaip3" path="res://scripts/RoomDorm/fridge_interact.gd" id="4_frige"]
+[ext_resource type="Script" uid="uid://csi2f473u1iyu" path="res://scripts/RoomDorm/microwave_interact.gd" id="5_micro"]
+[ext_resource type="Script" uid="uid://cuhc0umwd0sa8" path="res://scripts/RoomDorm/window_time.gd" id="6_windo"]
+[ext_resource type="Script" uid="uid://du8q3bb0t2xqm" path="res://scripts/RoomDorm/bed_rest.gd" id="7_bedrst"]
+[ext_resource type="Script" uid="uid://di60javq8r6mv" path="res://scripts/RoomDorm/clothes_rack.gd" id="8_cloth"]
+[ext_resource type="PackedScene" uid="uid://g3lencj71qim" path="res://scenes/locations/RoomDorm/alarm_clock.tscn" id="9_fa07w"]
+[ext_resource type="Script" uid="uid://cv0d8a10u4kpf" path="res://scripts/RoomDorm/door_interact.gd" id="10_doori"]
+[ext_resource type="Script" uid="uid://0xx5unb3squi" path="res://scripts/RoomDorm/fridge_door.gd" id="11_frdr"]
+
+[sub_resource type="Sky" id="Sky_bhunq"]
+
+[sub_resource type="Environment" id="Environment_bhunq"]
+background_energy_multiplier = 3.0
+sky = SubResource("Sky_bhunq")
+
+[sub_resource type="BoxShape3D" id="BoxShape_trans"]
+size = Vector3(0.9, 2.2, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_frige"]
+size = Vector3(0.7, 1.3, 0.8)
+
+[sub_resource type="BoxShape3D" id="BoxShape_micro"]
+size = Vector3(0.55, 0.35, 0.45)
+
+[sub_resource type="BoxShape3D" id="BoxShape_windw"]
+size = Vector3(2.1, 1.5, 0.4)
+
+[sub_resource type="BoxShape3D" id="BoxShape_bed01"]
+size = Vector3(0.9, 0.6, 1.7)
+
+[sub_resource type="BoxShape3D" id="BoxShape_doorw"]
+size = Vector3(1.1, 2.1, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_shirt"]
+size = Vector3(0.2, 0.55, 0.12)
+
+[sub_resource type="StandardMaterial3D" id="MatShirt1"]
+albedo_color = Color(0.75, 0.15, 0.15, 1)
+
+[sub_resource type="StandardMaterial3D" id="MatShirt2"]
+albedo_color = Color(0.15, 0.3, 0.75, 1)
+
+[sub_resource type="StandardMaterial3D" id="MatShirt3"]
+albedo_color = Color(0.8, 0.7, 0.2, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape_cloth"]
+size = Vector3(0.8, 1.4, 0.7)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fridge_door"]
+size = Vector3(0.22, 1.2, 0.75)
+
+[sub_resource type="BoxShape3D" id="BoxShape_fridge_door_collider"]
+size = Vector3(0.22, 1.25, 0.8)
+
+[node name="RoomDorm" type="Node3D" unique_id=387360132]
+
+[node name="Player" parent="." unique_id=595821626 instance=ExtResource("2_a0jcc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0216572, 0)
+
+[node name="Room" parent="." unique_id=1510933789 instance=ExtResource("1_06884")]
+
+[node name="AlarmClock" parent="." unique_id=331756429 instance=ExtResource("9_fa07w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5013711, 0.73105764, 0.9036789)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=589175099]
+environment = SubResource("Environment_bhunq")
+
+[node name="SpawnPoint" type="Marker3D" parent="." unique_id=910000001]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3130288, 0)
+
+[node name="TransitionTo_Transport" type="Area3D" parent="." unique_id=910000002]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 2.5)
+script = ExtResource("3_transt")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TransitionTo_Transport" unique_id=910000003]
+shape = SubResource("BoxShape_trans")
+
+[node name="FridgeInteract" type="Area3D" parent="." unique_id=910000004]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.08, 0.63, -2.08)
+script = ExtResource("4_frige")
+prompt = "Холодильник"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FridgeInteract" unique_id=910000005]
+shape = SubResource("BoxShape_frige")
+
+[node name="MicrowaveInteract" type="Area3D" parent="." unique_id=910000006]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2, 1.05, -1.34)
+script = ExtResource("5_micro")
+prompt = "Микроволновка"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MicrowaveInteract" unique_id=910000007]
+shape = SubResource("BoxShape_micro")
+
+[node name="WindowInteract" type="Area3D" parent="." unique_id=910000008]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02, 1.43, -2.5)
+script = ExtResource("6_windo")
+prompt = "Окно — смена времени суток"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WindowInteract" unique_id=910000009]
+shape = SubResource("BoxShape_windw")
+
+[node name="Bed1Interact" type="Area3D" parent="." unique_id=910000010]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.03, 0.3, 1.58)
+script = ExtResource("7_bedrst")
+prompt = "Кровать — поспать"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bed1Interact" unique_id=910000011]
+shape = SubResource("BoxShape_bed01")
+
+[node name="Bed2Interact" type="Area3D" parent="." unique_id=910000012]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.03, 0.3, -1.61)
+script = ExtResource("7_bedrst")
+prompt = "Кровать — поспать"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bed2Interact" unique_id=910000013]
+shape = SubResource("BoxShape_bed01")
+
+[node name="DoorInteract" type="Area3D" parent="." unique_id=910000014]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2.46)
+script = ExtResource("10_doori")
+door_path = NodePath("../Room/Door")
+prompt = "Дверь"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DoorInteract" unique_id=910000015]
+shape = SubResource("BoxShape_doorw")
+
+[node name="ClothesRack" type="Node3D" parent="." unique_id=910000020]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.88, 0, 0.2)
+
+[node name="Shirt1" type="MeshInstance3D" parent="ClothesRack" unique_id=910000021]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.22, 1.05, 0)
+mesh = SubResource("BoxMesh_shirt")
+surface_material_override/0 = SubResource("MatShirt1")
+
+[node name="Shirt2" type="MeshInstance3D" parent="ClothesRack" unique_id=910000022]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
+mesh = SubResource("BoxMesh_shirt")
+surface_material_override/0 = SubResource("MatShirt2")
+
+[node name="Shirt3" type="MeshInstance3D" parent="ClothesRack" unique_id=910000023]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22, 1.05, 0)
+mesh = SubResource("BoxMesh_shirt")
+surface_material_override/0 = SubResource("MatShirt3")
+
+[node name="InteractArea" type="Area3D" parent="ClothesRack" unique_id=910000024]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("8_cloth")
+prompt = "Вешалка с одеждой"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ClothesRack/InteractArea" unique_id=910000025]
+shape = SubResource("BoxShape_cloth")
+
+[node name="FridgeDoor" type="Node3D" parent="." unique_id=910000030]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.24, 0.62, -2.1108162)
+
+[node name="DoorMesh" type="MeshInstance3D" parent="FridgeDoor" unique_id=910000031]
+mesh = SubResource("BoxMesh_fridge_door")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FridgeDoor/DoorMesh" unique_id=910000032]
+shape = SubResource("BoxShape_fridge_door_collider")
+
+[node name="FridgeDoorInteract" type="Area3D" parent="FridgeDoor" unique_id=910000033]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+script = ExtResource("11_frdr")
+prompt = "Открыть холодильник"

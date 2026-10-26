@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://cw8gjn016nypi"]
+
+[ext_resource type="PackedScene" uid="uid://b7njywyv7f7gd" path="res://models/RoomDorm/chair/computer_chair_grey.glb" id="1_rnhsu"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bhunq"]
+size = Vector3(1.2568283, 1.9725342, 1.1102295)
+
+[node name="CompChair" type="StaticBody3D" unique_id=313408726]
+
+[node name="СomputerСhair" parent="." unique_id=937215078 instance=ExtResource("1_rnhsu")]
+transform = Transform3D(0.100617826, 0, 0.99492514, 0, 1, 0, -0.99492514, 0, 0.100617826, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=536801904]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.8469734, 0.90983474, 0.38421226)
+shape = SubResource("BoxShape3D_bhunq")

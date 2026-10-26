@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://g3lencj71qim"]
+
+[ext_resource type="Script" uid="uid://c6a2gt3pj1t7a" path="res://scripts/RoomDorm/alarm_clock.gd" id="1_5u4g1"]
+
+[sub_resource type="StandardMaterial3D" id="MatAlarm"]
+albedo_color = Color(0.08, 0.08, 0.11, 1)
+emission_enabled = true
+emission = Color(0.9, 0.15, 0.1, 1)
+emission_energy_multiplier = 0.4
+
+[sub_resource type="BoxMesh" id="BoxMesh_alarm"]
+material = SubResource("MatAlarm")
+size = Vector3(0.16, 0.08, 0.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape_alarm"]
+size = Vector3(0.2, 0.12, 0.14)
+
+[node name="AlarmClock" type="RigidBody3D" unique_id=331756429]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.63683033, 0.7323738, 1.1)
+mass = 0.5
+script = ExtResource("1_5u4g1")
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=327006560]
+mesh = SubResource("BoxMesh_alarm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1309002776]
+shape = SubResource("BoxShape_alarm")
+
+[node name="TimeLabel" type="Label3D" parent="." unique_id=70293266]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.09, 0)
+pixel_size = 0.0005
+billboard = 1
+text = "06:50"
+font_size = 64
+outline_size = 24

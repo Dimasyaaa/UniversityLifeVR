@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://3laedcmacpmm"]
+
+[ext_resource type="ArrayMesh" uid="uid://ds8viw6uwtaml" path="res://Models/table/model/Table_01.obj" id="1_xjahe"]
+[ext_resource type="Texture2D" uid="uid://e6qmnhurriwt" path="res://Models/table/texture/Table_01.bmp" id="2_s6p20"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_30cp8"]
+albedo_texture = ExtResource("2_s6p20")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bhunq"]
+size = Vector3(2.9620361, 1.1711426, 1.6274414)
+
+[node name="CompTable" type="StaticBody3D" unique_id=2000988]
+
+[node name="Table" type="MeshInstance3D" parent="." unique_id=367699178]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
+mesh = ExtResource("1_xjahe")
+surface_material_override/0 = SubResource("StandardMaterial3D_30cp8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1691530826]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.019470215, -0.51302123, -0.0021972656)
+shape = SubResource("BoxShape3D_bhunq")
