@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://assets/models/ui/wrist_watch.glb" id="1_model"]
+[ext_resource type="Script" path="res://scripts/ui/wrist_watch.gd" id="2_watch"]
+
+[node name="WristWatch" type="Node3D"]
+script = ExtResource("2_watch")
+
+[node name="Model" parent="." instance=ExtResource("1_model")]
+
+[node name="TimeLabel" type="Label3D" parent="."]
+position = Vector3(0, 0.001, 0.008)
+pixel_size = 0.000105
+font_size = 96
+outline_size = 0
+text = "08:00"
+
+[node name="Caption" type="Label3D" parent="."]
+position = Vector3(0, -0.013, 0.008)
+pixel_size = 0.00008
+font_size = 24
+outline_size = 0
+modulate = Color(0.55, 0.65, 0.7, 1)
+text = "ИГРОВОЕ ВРЕМЯ"
