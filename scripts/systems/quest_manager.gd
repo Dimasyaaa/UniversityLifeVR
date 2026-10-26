@@ -3,6 +3,7 @@ extends Node
 
 signal quest_started(quest_id: StringName)
 signal quest_completed(quest_id: StringName)
+signal quest_progress_changed(quest_id: StringName)
 signal event_received(event_id: StringName)
 
 @export var quest_definitions: Array[QuestDefinition] = []
@@ -51,6 +52,14 @@ func is_quest_active(quest_id: StringName) -> bool:
 
 func get_active_quest_ids() -> Array[StringName]:
 	return _active_quest_ids.duplicate()
+
+
+func get_available_quest_ids() -> Array[StringName]:
+	var available_ids: Array[StringName] = []
+	for quest_id: StringName in _definitions:
+		if not is_quest_active(quest_id) and not is_quest_completed(quest_id):
+			available_ids.append(quest_id)
+	return available_ids
 
 
 func get_quest_definition(quest_id: StringName) -> QuestDefinition:
@@ -104,6 +113,7 @@ func notify_event(event_id: StringName) -> void:
 		progress[event_id] = mini(int(progress.get(event_id, 0)) + 1, definition.required_events[event_id])
 		if _all_conditions_met(quest_id):
 			_complete_quest(quest_id)
+		quest_progress_changed.emit(quest_id)
 
 
 func _all_conditions_met(quest_id: StringName) -> bool:

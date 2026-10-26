@@ -1,0 +1,159 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/phone_quests.gd" id="1_quests"]
+
+[sub_resource type="StyleBoxFlat" id="Card"]
+bg_color = Color(0.93, 0.91, 0.87, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_left = 14
+corner_radius_bottom_right = 14
+
+[sub_resource type="StyleBoxFlat" id="Accept_button"]
+bg_color = Color(0.43, 0.14, 0.19, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_left = 10
+corner_radius_bottom_right = 10
+
+[sub_resource type="ButtonGroup" id="Categories_group"]
+resource_local_to_scene = true
+
+[node name="PhoneQuests" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_quests")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 8
+
+[node name="Content" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Heading" type="HBoxContainer" parent="Margin/Content"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/Content/Heading"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Квесты"
+
+[node name="Counter" type="Label" parent="Margin/Content/Heading"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.43, 0.45, 0.45, 1)
+text = "1 / 1"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Categories" type="HBoxContainer" parent="Margin/Content"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Active" type="Button" parent="Margin/Content/Categories"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 21
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("Categories_group")
+text = "Активные"
+
+[node name="Available" type="Button" parent="Margin/Content/Categories"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 21
+toggle_mode = true
+button_group = SubResource("Categories_group")
+text = "Доступные"
+
+[node name="Completed" type="Button" parent="Margin/Content/Categories"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 21
+toggle_mode = true
+button_group = SubResource("Categories_group")
+text = "Завершены"
+
+[node name="Card" type="PanelContainer" parent="Margin/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("Card")
+
+[node name="Margin" type="MarginContainer" parent="Margin/Content/Card"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 15
+
+[node name="Details" type="VBoxContainer" parent="Margin/Content/Card/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Status" type="Label" parent="Margin/Content/Card/Margin/Details"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.43, 0.14, 0.19, 1)
+theme_override_font_sizes/font_size = 25
+text = "В процессе"
+
+[node name="Title" type="Label" parent="Margin/Content/Card/Margin/Details"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Название задания"
+autowrap_mode = 2
+
+[node name="Description" type="Label" parent="Margin/Content/Card/Margin/Details"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 30
+text = "Цель задания"
+autowrap_mode = 2
+
+[node name="Progress" type="Label" parent="Margin/Content/Card/Margin/Details"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Прогресс: 0 / 1"
+
+[node name="Rewards" type="Label" parent="Margin/Content/Card/Margin/Details"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Награда"
+autowrap_mode = 2
+
+[node name="Accept" type="Button" parent="Margin/Content/Card/Margin/Details"]
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("Accept_button")
+text = "Получить квест"
+
+[node name="Pager" type="HBoxContainer" parent="Margin/Content"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Previous" type="Button" parent="Margin/Content/Pager"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "‹ Назад"
+
+[node name="Next" type="Button" parent="Margin/Content/Pager"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Далее ›"

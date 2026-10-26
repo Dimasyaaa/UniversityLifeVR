@@ -1,0 +1,22 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/phone.gd" id="1_phone"]
+[ext_resource type="PackedScene" path="res://assets/models/ui/smartphone.glb" id="2_model"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="3_screen"]
+[ext_resource type="PackedScene" path="res://scenes/ui/phone_screen.tscn" id="4_content"]
+
+[node name="Phone" type="Node3D"]
+visible = false
+script = ExtResource("1_phone")
+
+[node name="Model" parent="." instance=ExtResource("2_model")]
+
+[node name="Screen" parent="." instance=ExtResource("3_screen")]
+position = Vector3(0, 0, 0.0058)
+screen_size = Vector2(0.07, 0.145833)
+enabled = false
+collision_layer = 4194304
+scene = ExtResource("4_content")
+viewport_size = Vector2(480, 1000)
+input_keyboard = false
+unshaded = true

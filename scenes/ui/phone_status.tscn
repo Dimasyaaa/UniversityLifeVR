@@ -1,0 +1,241 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/phone_status.gd" id="1_screen"]
+
+[sub_resource type="StyleBoxFlat" id="Style_background"]
+bg_color = Color(0.97, 0.96, 0.93, 1)
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+corner_radius_bottom_left = 28
+corner_radius_bottom_right = 28
+
+[sub_resource type="StyleBoxFlat" id="Style_balance"]
+bg_color = Color(0.91, 0.88, 0.84, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_left = 12
+corner_radius_bottom_right = 12
+
+[sub_resource type="StyleBoxFlat" id="Style_bar_background"]
+bg_color = Color(0.83, 0.82, 0.79, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_left = 7
+corner_radius_bottom_right = 7
+
+[sub_resource type="StyleBoxFlat" id="Style_bar_fill"]
+bg_color = Color(0.43, 0.14, 0.19, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_left = 7
+corner_radius_bottom_right = 7
+
+[sub_resource type="Theme" id="Theme_phone"]
+default_font_size = 42
+Label/colors/font_color = Color(0.15, 0.19, 0.21, 1)
+ProgressBar/styles/background = SubResource("Style_bar_background")
+ProgressBar/styles/fill = SubResource("Style_bar_fill")
+
+[node name="PhoneStatus" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_phone")
+script = ExtResource("1_screen")
+
+[node name="Background" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("Style_background")
+
+[node name="Margin" type="MarginContainer" parent="Background"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="Content" type="VBoxContainer" parent="Background/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Header" type="VBoxContainer" parent="Background/Margin/Content"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Caption" type="Label" parent="Background/Margin/Content/Header"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.43, 0.45, 0.45, 1)
+theme_override_font_sizes/font_size = 24
+text = "ДЕНЬ СТУДЕНТА"
+
+[node name="Title" type="Label" parent="Background/Margin/Content/Header"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 52
+text = "Состояние"
+
+[node name="Money" type="PanelContainer" parent="Background/Margin/Content"]
+custom_minimum_size = Vector2(0, 88)
+layout_mode = 2
+theme_override_styles/panel = SubResource("Style_balance")
+
+[node name="Margin" type="MarginContainer" parent="Background/Margin/Content/Money"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+
+[node name="Row" type="HBoxContainer" parent="Background/Margin/Content/Money/Margin"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Background/Margin/Content/Money/Margin/Row"]
+layout_mode = 2
+text = "Деньги"
+
+[node name="Value" type="Label" parent="Background/Margin/Content/Money/Margin/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 52
+text = "200"
+horizontal_alignment = 2
+
+[node name="Stats" type="VBoxContainer" parent="Background/Margin/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 18
+
+[node name="Energy" type="VBoxContainer" parent="Background/Margin/Content/Stats"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Heading" type="HBoxContainer" parent="Background/Margin/Content/Stats/Energy"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Background/Margin/Content/Stats/Energy/Heading"]
+layout_mode = 2
+text = "Энергия"
+
+[node name="Value" type="Label" parent="Background/Margin/Content/Stats/Energy/Heading"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 40
+text = "80 / 100"
+horizontal_alignment = 2
+
+[node name="Bar" type="ProgressBar" parent="Background/Margin/Content/Stats/Energy"]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+value = 80.0
+show_percentage = false
+
+[node name="Satiety" type="VBoxContainer" parent="Background/Margin/Content/Stats"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Heading" type="HBoxContainer" parent="Background/Margin/Content/Stats/Satiety"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Background/Margin/Content/Stats/Satiety/Heading"]
+layout_mode = 2
+text = "Сытость"
+
+[node name="Value" type="Label" parent="Background/Margin/Content/Stats/Satiety/Heading"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 40
+text = "50 / 100"
+horizontal_alignment = 2
+
+[node name="Bar" type="ProgressBar" parent="Background/Margin/Content/Stats/Satiety"]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+value = 50.0
+show_percentage = false
+
+[node name="Knowledge" type="VBoxContainer" parent="Background/Margin/Content/Stats"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Heading" type="HBoxContainer" parent="Background/Margin/Content/Stats/Knowledge"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Background/Margin/Content/Stats/Knowledge/Heading"]
+layout_mode = 2
+text = "Знания"
+
+[node name="Value" type="Label" parent="Background/Margin/Content/Stats/Knowledge/Heading"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 40
+text = "0 / 100"
+horizontal_alignment = 2
+
+[node name="Bar" type="ProgressBar" parent="Background/Margin/Content/Stats/Knowledge"]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+value = 0.0
+show_percentage = false
+
+[node name="Mood" type="VBoxContainer" parent="Background/Margin/Content/Stats"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Heading" type="HBoxContainer" parent="Background/Margin/Content/Stats/Mood"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Background/Margin/Content/Stats/Mood/Heading"]
+layout_mode = 2
+text = "Настроение"
+
+[node name="Value" type="Label" parent="Background/Margin/Content/Stats/Mood/Heading"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 40
+text = "70 / 100"
+horizontal_alignment = 2
+
+[node name="Bar" type="ProgressBar" parent="Background/Margin/Content/Stats/Mood"]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+value = 70.0
+show_percentage = false
+
+[node name="Health" type="VBoxContainer" parent="Background/Margin/Content/Stats"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Heading" type="HBoxContainer" parent="Background/Margin/Content/Stats/Health"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Background/Margin/Content/Stats/Health/Heading"]
+layout_mode = 2
+text = "Здоровье"
+
+[node name="Value" type="Label" parent="Background/Margin/Content/Stats/Health/Heading"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 40
+text = "100 / 100"
+horizontal_alignment = 2
+
+[node name="Bar" type="ProgressBar" parent="Background/Margin/Content/Stats/Health"]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+value = 100.0
+show_percentage = false

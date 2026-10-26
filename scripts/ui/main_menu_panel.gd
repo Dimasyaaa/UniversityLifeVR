@@ -8,6 +8,7 @@ const Player = preload("res://scripts/player/player.gd")
 @export_range(0.8, 2.0, 0.05) var menu_distance: float = 1.15
 
 @onready var _screen: XRToolsViewport2DIn3D = $Screen
+@onready var _save_manager: Node = get_node("/root/SaveManager")
 
 var _menu: Menu
 var _player: Player
@@ -23,9 +24,9 @@ func setup(player: Player) -> void:
 	_menu.exit_requested.connect(_on_exit_requested)
 	_menu.resume_requested.connect(_on_resume_requested)
 	_player.left_hand.button_pressed.connect(_on_controller_button_pressed)
-	SaveManager.new_game_started.connect(_on_game_started)
-	SaveManager.game_loaded.connect(_on_game_started)
-	SaveManager.game_load_failed.connect(_on_game_load_failed)
+	_save_manager.connect("new_game_started", _on_game_started)
+	_save_manager.connect("game_loaded", _on_game_started)
+	_save_manager.connect("game_load_failed", _on_game_load_failed)
 	_screen.enabled = false
 	hide()
 
@@ -42,7 +43,7 @@ func _on_controller_button_pressed(action: StringName) -> void:
 
 
 func toggle_menu() -> void:
-	if _request_pending or SaveManager.is_loading() or SceneManager.is_transitioning():
+	if _request_pending or _save_manager.is_loading() or SceneManager.is_transitioning():
 		return
 	if visible:
 		_close_menu()
@@ -54,7 +55,7 @@ func _open_menu() -> void:
 	_movement_was_enabled = _player.is_movement_enabled()
 	_player.set_movement_enabled(false)
 	TimeManager.set_time_suspended(true)
-	_menu.configure(FileAccess.file_exists(SaveManager.SAVE_PATH))
+	_menu.configure(FileAccess.file_exists(_save_manager.SAVE_PATH))
 	# Панель остаётся в мире, но при каждом открытии появляется перед головой.
 	var camera: XRCamera3D = _player.camera
 	var forward: Vector3 = -camera.global_basis.z
@@ -96,9 +97,9 @@ func _start_game(from_save: bool) -> void:
 	_menu.set_busy(true)
 	var accepted: bool
 	if from_save:
-		accepted = SaveManager.load_game()
+		accepted = _save_manager.load_game()
 	else:
-		accepted = SaveManager.start_new_game()
+		accepted = _save_manager.start_new_game()
 	if not accepted:
 		_request_pending = false
 		if from_save:

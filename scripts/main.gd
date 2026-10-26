@@ -9,3 +9,4 @@ func _ready() -> void:
 		push_error("Main: не удалось подключить игрока и начальную локацию к SceneManager.")
 		return
 	$MainMenuPanel.setup($VRPlayer)
+	$VRPlayer/XROrigin3D/RightHand/Phone.setup($VRPlayer, $MainMenuPanel)
