@@ -1,5 +1,5 @@
 extends Node3D
-## Короткие сообщения о квестах и достижениях. Показываются по очереди.
+## Сообщения о квестах, достижениях и событиях дня. Показываются по очереди.
 
 const Player = preload("res://scripts/player/player.gd")
 
@@ -8,6 +8,7 @@ const Player = preload("res://scripts/player/player.gd")
 
 @onready var _quests: Node = get_node("/root/QuestManager")
 @onready var _achievements: Node = get_node("/root/AchievementManager")
+@onready var _events: Node = get_node("/root/RandomEventManager")
 @onready var _saves: Node = get_node("/root/SaveManager")
 @onready var _heading: Label3D = $Heading
 @onready var _title: Label3D = $Title
@@ -30,6 +31,7 @@ func setup(player: Player, pause_menu: Node3D) -> void:
 	_quests.connect("quest_started", _on_quest_started)
 	_quests.connect("quest_completed", _on_quest_completed)
 	_achievements.connect("achievement_unlocked", _on_achievement_unlocked)
+	_events.connect("event_started", _on_event_started)
 	_saves.connect("game_loaded", _clear_messages)
 	_saves.connect("new_game_started", _on_new_game_started)
 	set_process(true)
@@ -82,6 +84,11 @@ func _on_quest_completed(quest_id: StringName) -> void:
 func _on_achievement_unlocked(achievement_id: StringName) -> void:
 	var definition: AchievementDefinition = _achievements.get_achievement_definition(achievement_id)
 	_enqueue("Получено достижение", definition.title)
+
+
+func _on_event_started(event_id: StringName) -> void:
+	var definition: RandomEventDefinition = _events.get_event_definition(event_id)
+	_enqueue("Событие дня", definition.description)
 
 
 func _clear_messages() -> void:
