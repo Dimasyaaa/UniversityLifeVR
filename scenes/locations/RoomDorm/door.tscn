@@ -1,8 +1,6 @@
 [gd_scene format=3 uid="uid://c3hx1dcuxm7bc"]
 
-[ext_resource type="Script" uid="uid://ct36adwvhqgum" path="res://scripts/RoomDorm/door.gd" id="1_w6aom"]
 [ext_resource type="Material" uid="uid://dq8tvgb1np8uw" path="res://materials/RoomDorm/doorMaterial.tres" id="2_p0e35"]
-[ext_resource type="Script" path="res://scripts/RoomDorm/door_interact.gd" id="3_dooint"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_hun61"]
 material = ExtResource("2_p0e35")
@@ -15,7 +13,6 @@ size = Vector3(1, 2.6019745, 0.92407227)
 size = Vector3(1.0557251, 2.9482422, 1.9340515)
 
 [node name="Door" type="Node3D" unique_id=2055464324]
-script = ExtResource("1_w6aom")
 
 [node name="DoorPivot" type="Node3D" parent="." unique_id=448552281]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0364643, 0, 0)
@@ -31,8 +28,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05129242, 0.037963867)
 shape = SubResource("BoxShape3D_bhunq")
 
 [node name="Area3D" type="Area3D" parent="." unique_id=686784318]
-script = ExtResource("3_dooint")
-prompt = "Дверь"
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
 
 [node name="InteractArea" type="CollisionShape3D" parent="Area3D" unique_id=1479117213]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.51937866, 0.9741211, 0.038864136)

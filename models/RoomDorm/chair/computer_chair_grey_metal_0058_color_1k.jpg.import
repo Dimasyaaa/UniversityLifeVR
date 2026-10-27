@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cqoullundmbn"
 path.s3tc="res://.godot/imported/computer_chair_grey_metal_0058_color_1k.jpg-99fb8bd129fd20ced88dadec1d2ffe5e.s3tc.ctex"
+path.etc2="res://.godot/imported/computer_chair_grey_metal_0058_color_1k.jpg-99fb8bd129fd20ced88dadec1d2ffe5e.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://models/RoomDorm/chair/computer_chair_grey_metal_0058_color_1k.jpg"
-dest_files=["res://.godot/imported/computer_chair_grey_metal_0058_color_1k.jpg-99fb8bd129fd20ced88dadec1d2ffe5e.s3tc.ctex"]
+dest_files=["res://.godot/imported/computer_chair_grey_metal_0058_color_1k.jpg-99fb8bd129fd20ced88dadec1d2ffe5e.s3tc.ctex", "res://.godot/imported/computer_chair_grey_metal_0058_color_1k.jpg-99fb8bd129fd20ced88dadec1d2ffe5e.etc2.ctex"]
 
 [params]
 

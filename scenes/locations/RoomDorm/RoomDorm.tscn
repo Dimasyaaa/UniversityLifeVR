@@ -1,16 +1,8 @@
 [gd_scene format=3 uid="uid://dlmvbwkoltvsm"]
 
 [ext_resource type="PackedScene" uid="uid://bitqv01gfi4qt" path="res://scenes/locations/RoomDorm/room.tscn" id="1_06884"]
-[ext_resource type="PackedScene" uid="uid://bhkamb7rk6qkq" path="res://player/player.tscn" id="2_a0jcc"]
-[ext_resource type="Script" uid="uid://bxb1y6jjxjlig" path="res://scripts/core/transition_point.gd" id="3_transt"]
-[ext_resource type="Script" uid="uid://c8tbbwhwcaip3" path="res://scripts/RoomDorm/fridge_interact.gd" id="4_frige"]
-[ext_resource type="Script" uid="uid://csi2f473u1iyu" path="res://scripts/RoomDorm/microwave_interact.gd" id="5_micro"]
-[ext_resource type="Script" uid="uid://cuhc0umwd0sa8" path="res://scripts/RoomDorm/window_time.gd" id="6_windo"]
-[ext_resource type="Script" uid="uid://du8q3bb0t2xqm" path="res://scripts/RoomDorm/bed_rest.gd" id="7_bedrst"]
-[ext_resource type="Script" uid="uid://di60javq8r6mv" path="res://scripts/RoomDorm/clothes_rack.gd" id="8_cloth"]
+[ext_resource type="Script" path="res://scripts/objects/location_exit.gd" id="3_exit"]
 [ext_resource type="PackedScene" uid="uid://g3lencj71qim" path="res://scenes/locations/RoomDorm/alarm_clock.tscn" id="9_fa07w"]
-[ext_resource type="Script" uid="uid://cv0d8a10u4kpf" path="res://scripts/RoomDorm/door_interact.gd" id="10_doori"]
-[ext_resource type="Script" uid="uid://0xx5unb3squi" path="res://scripts/RoomDorm/fridge_door.gd" id="11_frdr"]
 
 [sub_resource type="Sky" id="Sky_bhunq"]
 
@@ -59,9 +51,6 @@ size = Vector3(0.22, 1.25, 0.8)
 
 [node name="RoomDorm" type="Node3D" unique_id=387360132]
 
-[node name="Player" parent="." unique_id=595821626 instance=ExtResource("2_a0jcc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0216572, 0)
-
 [node name="Room" parent="." unique_id=1510933789 instance=ExtResource("1_06884")]
 
 [node name="AlarmClock" parent="." unique_id=331756429 instance=ExtResource("9_fa07w")]
@@ -70,61 +59,83 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5013711, 0.73105764, 0.903
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=589175099]
 environment = SubResource("Environment_bhunq")
 
-[node name="SpawnPoint" type="Marker3D" parent="." unique_id=910000001]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3130288, 0)
+[node name="Spawn_Default" type="Marker3D" parent="." unique_id=910000001]
 
-[node name="TransitionTo_Transport" type="Area3D" parent="." unique_id=910000002]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 2.5)
-script = ExtResource("3_transt")
+[node name="TransitionTo_TestRoom" type="Area3D" parent="." unique_id=910000002 groups=["exit_point"]]
+position = Vector3(0, 1.1, 1.85)
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("3_exit")
+target_location = &"test_room"
+target_spawn = &"Spawn_Default"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TransitionTo_Transport" unique_id=910000003]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TransitionTo_TestRoom" unique_id=910000003]
 shape = SubResource("BoxShape_trans")
+
+[node name="Label" type="Label3D" parent="TransitionTo_TestRoom"]
+position = Vector3(0, 0.75, -0.25)
+billboard = 1
+pixel_size = 0.002
+font_size = 32
+outline_size = 4
+text = "В TestRoom\nВременный выход"
 
 [node name="FridgeInteract" type="Area3D" parent="." unique_id=910000004]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.08, 0.63, -2.08)
-script = ExtResource("4_frige")
-prompt = "Холодильник"
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="FridgeInteract" unique_id=910000005]
 shape = SubResource("BoxShape_frige")
 
 [node name="MicrowaveInteract" type="Area3D" parent="." unique_id=910000006]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2, 1.05, -1.34)
-script = ExtResource("5_micro")
-prompt = "Микроволновка"
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MicrowaveInteract" unique_id=910000007]
 shape = SubResource("BoxShape_micro")
 
 [node name="WindowInteract" type="Area3D" parent="." unique_id=910000008]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02, 1.43, -2.5)
-script = ExtResource("6_windo")
-prompt = "Окно — смена времени суток"
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="WindowInteract" unique_id=910000009]
 shape = SubResource("BoxShape_windw")
 
 [node name="Bed1Interact" type="Area3D" parent="." unique_id=910000010]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.03, 0.3, 1.58)
-script = ExtResource("7_bedrst")
-prompt = "Кровать — поспать"
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Bed1Interact" unique_id=910000011]
 shape = SubResource("BoxShape_bed01")
 
 [node name="Bed2Interact" type="Area3D" parent="." unique_id=910000012]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.03, 0.3, -1.61)
-script = ExtResource("7_bedrst")
-prompt = "Кровать — поспать"
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Bed2Interact" unique_id=910000013]
 shape = SubResource("BoxShape_bed01")
 
 [node name="DoorInteract" type="Area3D" parent="." unique_id=910000014]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2.46)
-script = ExtResource("10_doori")
-door_path = NodePath("../Room/Door")
-prompt = "Дверь"
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DoorInteract" unique_id=910000015]
 shape = SubResource("BoxShape_doorw")
@@ -149,8 +160,10 @@ surface_material_override/0 = SubResource("MatShirt3")
 
 [node name="InteractArea" type="Area3D" parent="ClothesRack" unique_id=910000024]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-script = ExtResource("8_cloth")
-prompt = "Вешалка с одеждой"
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ClothesRack/InteractArea" unique_id=910000025]
 shape = SubResource("BoxShape_cloth")
@@ -158,13 +171,16 @@ shape = SubResource("BoxShape_cloth")
 [node name="FridgeDoor" type="Node3D" parent="." unique_id=910000030]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.24, 0.62, -2.1108162)
 
-[node name="DoorMesh" type="MeshInstance3D" parent="FridgeDoor" unique_id=910000031]
+[node name="FridgeDoorInteract" type="Area3D" parent="FridgeDoor" unique_id=910000033]
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="DoorMesh" type="MeshInstance3D" parent="FridgeDoor/FridgeDoorInteract" unique_id=910000031]
 mesh = SubResource("BoxMesh_fridge_door")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="FridgeDoor/DoorMesh" unique_id=910000032]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FridgeDoor/FridgeDoorInteract" unique_id=910000032]
 shape = SubResource("BoxShape_fridge_door_collider")
 
-[node name="FridgeDoorInteract" type="Area3D" parent="FridgeDoor" unique_id=910000033]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-script = ExtResource("11_frdr")
-prompt = "Открыть холодильник"
+[connection signal="body_entered" from="TransitionTo_TestRoom" to="TransitionTo_TestRoom" method="_on_body_entered"]

@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://e6qmnhurriwt"
 path.s3tc="res://.godot/imported/Table_01.bmp-811508a4387b613cb657215e7935b045.s3tc.ctex"
+path.etc2="res://.godot/imported/Table_01.bmp-811508a4387b613cb657215e7935b045.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://models/RoomDorm/table/texture/Table_01.bmp"
-dest_files=["res://.godot/imported/Table_01.bmp-811508a4387b613cb657215e7935b045.s3tc.ctex"]
+dest_files=["res://.godot/imported/Table_01.bmp-811508a4387b613cb657215e7935b045.s3tc.ctex", "res://.godot/imported/Table_01.bmp-811508a4387b613cb657215e7935b045.etc2.ctex"]
 
 [params]
 
