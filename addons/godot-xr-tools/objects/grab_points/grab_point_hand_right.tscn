@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://ctw7nbntd5pcj"]
+[gd_scene format=3 uid="uid://ctw7nbntd5pcj"]
 
 [ext_resource type="Script" uid="uid://dx3swqg2owe4p" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand.gd" id="1"]
 

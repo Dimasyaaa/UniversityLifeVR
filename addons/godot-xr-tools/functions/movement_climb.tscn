@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://bxm1ply47vaan"]
+[gd_scene format=3 uid="uid://bxm1ply47vaan"]
 
 [ext_resource type="Script" uid="uid://dtl3uo5dnibof" path="res://addons/godot-xr-tools/functions/movement_climb.gd" id="1"]
 

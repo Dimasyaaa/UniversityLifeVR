@@ -691,16 +691,11 @@ func _update_body_under_camera(delta : float):
 	# Apply rotation
 	global_basis = target_transform.basis
 
-	# Always apply height via move_and_collide so the floor stops us instead
-	# of teleporting the body through the collision shape (which caused the
-	# player to fall through the dorm-room floor).
-	var height_delta := (target_transform.origin - global_position).project(global_basis.y)
-	if height_delta.length() > 0.001:
-		move_and_collide(height_delta)
+	# Always apply height
+	global_position += (target_transform.origin - global_position).project(global_basis.y)
 
-	# Recompute lateral movement from the (possibly floor-corrected) position,
-	# dropping the vertical part already handled above.
-	var body_movement = (target_transform.origin - global_position).slide(global_basis.y)
+	# But do lateral movement with move and collide
+	var body_movement = target_transform.origin - global_position
 
 	var collision : KinematicCollision3D = move_and_collide(body_movement)
 	var fade : bool = false

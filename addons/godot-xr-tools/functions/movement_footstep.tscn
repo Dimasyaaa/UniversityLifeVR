@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://0xlsitpu17r1"]
+[gd_scene format=3 uid="uid://0xlsitpu17r1"]
 
 [ext_resource type="Script" uid="uid://clpt3lske02eh" path="res://addons/godot-xr-tools/functions/movement_footstep.gd" id="1"]
 

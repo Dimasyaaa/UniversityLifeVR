@@ -138,12 +138,14 @@ func _enter_tree():
 			1.85)
 
 	# Register our autoload user settings object
-	add_autoload_singleton(
-			"XRToolsUserSettings",
-			"res://addons/godot-xr-tools/user_settings/user_settings.gd")
-	add_autoload_singleton(
-			"XRToolsRumbleManager",
-			"res://addons/godot-xr-tools/rumble/rumble_manager.gd")
+	if not ProjectSettings.has_setting("autoload/XRToolsUserSettings"):
+		add_autoload_singleton(
+				"XRToolsUserSettings",
+				"res://addons/godot-xr-tools/user_settings/user_settings.gd")
+	if not ProjectSettings.has_setting("autoload/XRToolsRumbleManager"):
+		add_autoload_singleton(
+				"XRToolsRumbleManager",
+				"res://addons/godot-xr-tools/rumble/rumble_manager.gd")
 
 
 func _exit_tree():

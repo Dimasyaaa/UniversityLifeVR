@@ -1,0 +1,12 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/random_event_manager.gd" id="1_manager"]
+[ext_resource type="Script" path="res://scripts/events/random_event_definition.gd" id="2_definition"]
+[ext_resource type="Resource" path="res://resources/events/lecture_cancelled.tres" id="3_lecture"]
+[ext_resource type="Resource" path="res://resources/events/free_lunch.tres" id="4_lunch"]
+[ext_resource type="Resource" path="res://resources/events/sports_tournament.tres" id="5_tournament"]
+[ext_resource type="Resource" path="res://resources/events/photo_contest.tres" id="6_contest"]
+
+[node name="RandomEventManager" type="Node"]
+script = ExtResource("1_manager")
+event_definitions = Array[ExtResource("2_definition")]([ExtResource("3_lecture"), ExtResource("4_lunch"), ExtResource("5_tournament"), ExtResource("6_contest")])

@@ -1,0 +1,106 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/phone_achievements.gd" id="1_achievements"]
+
+[sub_resource type="StyleBoxFlat" id="Card"]
+bg_color = Color(0.93, 0.91, 0.87, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_left = 14
+corner_radius_bottom_right = 14
+
+[node name="PhoneAchievements" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_achievements")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 8
+
+[node name="Content" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Heading" type="HBoxContainer" parent="Margin/Content"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/Content/Heading"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Достижения"
+
+[node name="Counter" type="Label" parent="Margin/Content/Heading"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.43, 0.45, 0.45, 1)
+theme_override_font_sizes/font_size = 26
+text = "1 / 7"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Summary" type="Label" parent="Margin/Content"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Получено: 0 из 7"
+
+[node name="Card" type="PanelContainer" parent="Margin/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("Card")
+
+[node name="Margin" type="MarginContainer" parent="Margin/Content/Card"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 24
+
+[node name="Details" type="VBoxContainer" parent="Margin/Content/Card/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Status" type="Label" parent="Margin/Content/Card/Margin/Details"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Не получено"
+
+[node name="Title" type="Label" parent="Margin/Content/Card/Margin/Details"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+text = "Трудяга"
+autowrap_mode = 2
+
+[node name="Description" type="Label" parent="Margin/Content/Card/Margin/Details"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 32
+text = "Условие достижения"
+autowrap_mode = 2
+
+[node name="Pager" type="HBoxContainer" parent="Margin/Content"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Previous" type="Button" parent="Margin/Content/Pager"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "‹ Назад"
+
+[node name="Next" type="Button" parent="Margin/Content/Pager"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Далее ›"

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="AchievementDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/achievements/achievement_definition.gd" id="1_definition"]
+
+[resource]
+script = ExtResource("1_definition")
+achievement_id = &"bookworm"
+title = "Зубрила"
+description = "Проведи в библиотеке суммарно более двух игровых часов за день."
+condition = 3
+threshold = 7200.0
+location_id = &"library"

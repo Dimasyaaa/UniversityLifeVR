@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="AchievementDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/achievements/achievement_definition.gd" id="1_definition"]
+
+[resource]
+script = ExtResource("1_definition")
+achievement_id = &"hard_worker"
+title = "Трудяга"
+description = "Заработай не менее 500 за один игровой день."
+condition = 1
+threshold = 500.0

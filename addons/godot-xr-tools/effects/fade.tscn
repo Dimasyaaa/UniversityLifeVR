@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://wtpox7m5vu2b"]
+[gd_scene format=3 uid="uid://wtpox7m5vu2b"]
 
 [ext_resource type="Script" uid="uid://ook5rcwquue" path="res://addons/godot-xr-tools/effects/fade.gd" id="1_6667f"]
 [ext_resource type="Shader" uid="uid://crgou0mlv2l0s" path="res://addons/godot-xr-tools/effects/fade.gdshader" id="1_tjen8"]

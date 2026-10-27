@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dup2vp8v5rpi5"]
+[gd_scene format=3 uid="uid://dup2vp8v5rpi5"]
 
 [ext_resource type="PackedScene" uid="uid://bxipj7hyjwy6f" path="res://addons/godot-xr-tools/hands/animations/right/AnimationPlayer.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://w7th3d2hl7b5" path="res://addons/godot-xr-tools/hands/model/Hand_Glove_R.gltf" id="2"]

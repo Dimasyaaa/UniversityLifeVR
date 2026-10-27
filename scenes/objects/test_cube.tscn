@@ -1,0 +1,31 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/grabbable.gd" id="1_grabbable"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_cube"]
+friction = 0.7
+
+[sub_resource type="StandardMaterial3D" id="Material_cube"]
+albedo_color = Color(1, 0.8, 0.16, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="Mesh_cube"]
+material = SubResource("Material_cube")
+size = Vector3(0.22, 0.22, 0.22)
+
+[sub_resource type="BoxShape3D" id="Shape_cube"]
+size = Vector3(0.22, 0.22, 0.22)
+
+[node name="TestCube" type="RigidBody3D" groups=["grabbable"]]
+mass = 0.4
+physics_material_override = SubResource("PhysicsMaterial_cube")
+continuous_cd = true
+linear_damp = 0.5
+angular_damp = 1.0
+script = ExtResource("1_grabbable")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("Mesh_cube")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("Shape_cube")

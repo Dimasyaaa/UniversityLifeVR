@@ -1,3 +1,8 @@
-# Godot 4+ specific ignores
 .godot/
+/exports/
 /android/
+*.apk
+*.aab
+*.keystore
+*.jks
+/addons/godotopenxrvendors/.bin/windows/*/*/~*.dll*

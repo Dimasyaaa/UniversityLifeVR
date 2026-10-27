@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b4kad2kuba1yn"]
+[gd_scene format=3 uid="uid://b4kad2kuba1yn"]
 
 [ext_resource type="PackedScene" uid="uid://c4nba0qpi0uls" path="res://addons/godot-xr-tools/hands/model/Hand_Nails_low_L.gltf" id="1"]
 [ext_resource type="PackedScene" uid="uid://the6y7swe6j0" path="res://addons/godot-xr-tools/hands/animations/left/AnimationPlayer.tscn" id="2"]

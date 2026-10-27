@@ -1,0 +1,163 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/phone_screen.gd" id="1_screen"]
+[ext_resource type="PackedScene" path="res://scenes/ui/phone_status.tscn" id="2_status"]
+[ext_resource type="PackedScene" path="res://scenes/ui/phone_quests.tscn" id="3_quests"]
+[ext_resource type="PackedScene" path="res://scenes/ui/phone_achievements.tscn" id="4_achievements"]
+[ext_resource type="PackedScene" path="res://scenes/ui/phone_statistics.tscn" id="5_statistics"]
+
+[sub_resource type="StyleBoxFlat" id="Background"]
+bg_color = Color(0.97, 0.96, 0.93, 1)
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+corner_radius_bottom_left = 28
+corner_radius_bottom_right = 28
+
+[sub_resource type="StyleBoxFlat" id="Button_normal"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+bg_color = Color(0.91, 0.88, 0.84, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_left = 10
+corner_radius_bottom_right = 10
+
+[sub_resource type="StyleBoxFlat" id="Button_selected"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+bg_color = Color(0.43, 0.14, 0.19, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_left = 10
+corner_radius_bottom_right = 10
+
+[sub_resource type="StyleBoxFlat" id="Button_focus"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.7, 0.43, 0.45, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_left = 10
+corner_radius_bottom_right = 10
+
+[sub_resource type="Theme" id="Theme_phone"]
+default_font_size = 28
+Label/colors/font_color = Color(0.15, 0.19, 0.21, 1)
+Button/colors/font_color = Color(0.25, 0.2, 0.2, 1)
+Button/colors/font_hover_color = Color(1, 1, 1, 1)
+Button/colors/font_pressed_color = Color(1, 1, 1, 1)
+Button/colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+Button/colors/font_disabled_color = Color(0.6, 0.59, 0.57, 1)
+Button/styles/normal = SubResource("Button_normal")
+Button/styles/hover = SubResource("Button_selected")
+Button/styles/pressed = SubResource("Button_selected")
+Button/styles/hover_pressed = SubResource("Button_selected")
+Button/styles/disabled = SubResource("Button_normal")
+Button/styles/focus = SubResource("Button_focus")
+
+[sub_resource type="ButtonGroup" id="Navigation_group"]
+resource_local_to_scene = true
+
+[node name="PhoneScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_phone")
+script = ExtResource("1_screen")
+
+[node name="Background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("Background")
+
+[node name="Pages" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -180.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Status" parent="Pages" instance=ExtResource("2_status")]
+layout_mode = 1
+
+[node name="Quests" parent="Pages" instance=ExtResource("3_quests")]
+visible = false
+layout_mode = 1
+
+[node name="Achievements" parent="Pages" instance=ExtResource("4_achievements")]
+visible = false
+layout_mode = 1
+
+[node name="Statistics" parent="Pages" instance=ExtResource("5_statistics")]
+visible = false
+layout_mode = 1
+
+[node name="Navigation" type="GridContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = -164.0
+offset_right = -24.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+columns = 2
+
+[node name="Status" type="Button" parent="Navigation"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 26
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("Navigation_group")
+text = "Состояние"
+
+[node name="Quests" type="Button" parent="Navigation"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 26
+toggle_mode = true
+button_group = SubResource("Navigation_group")
+text = "Квесты"
+
+[node name="Achievements" type="Button" parent="Navigation"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 26
+toggle_mode = true
+button_group = SubResource("Navigation_group")
+text = "Достижения"
+
+[node name="Statistics" type="Button" parent="Navigation"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 26
+toggle_mode = true
+button_group = SubResource("Navigation_group")
+text = "Статистика"

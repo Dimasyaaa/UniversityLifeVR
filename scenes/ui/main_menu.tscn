@@ -1,0 +1,160 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_menu"]
+
+[sub_resource type="StyleBoxFlat" id="Style_heading"]
+bg_color = Color(0.97, 0.96, 0.93, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.7, 0.66, 0.59, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_left = 6
+corner_radius_bottom_right = 6
+
+[sub_resource type="StyleBoxFlat" id="Style_panel"]
+bg_color = Color(0.89, 0.87, 0.83, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_left = 5
+corner_radius_bottom_right = 5
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 5
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="Style_button"]
+content_margin_left = 18.0
+content_margin_right = 18.0
+bg_color = Color(0, 0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="Style_hover"]
+content_margin_left = 18.0
+content_margin_right = 18.0
+bg_color = Color(0.8, 0.77, 0.72, 1)
+border_width_left = 3
+border_color = Color(0.5, 0.38, 0.31, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_left = 3
+corner_radius_bottom_right = 3
+
+[sub_resource type="StyleBoxFlat" id="Style_pressed"]
+content_margin_left = 18.0
+content_margin_right = 18.0
+bg_color = Color(0.72, 0.68, 0.62, 1)
+border_width_left = 3
+border_color = Color(0.42, 0.29, 0.24, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_left = 3
+corner_radius_bottom_right = 3
+
+[sub_resource type="Theme" id="Theme_menu"]
+default_font_size = 28
+Button/colors/font_color = Color(0.22, 0.23, 0.22, 1)
+Button/colors/font_hover_color = Color(0.17, 0.16, 0.14, 1)
+Button/colors/font_pressed_color = Color(0.17, 0.16, 0.14, 1)
+Button/colors/font_disabled_color = Color(0.58, 0.56, 0.53, 1)
+Button/styles/normal = SubResource("Style_button")
+Button/styles/disabled = SubResource("Style_button")
+Button/styles/hover = SubResource("Style_hover")
+Button/styles/pressed = SubResource("Style_pressed")
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_menu")
+script = ExtResource("1_menu")
+
+[node name="Heading" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 24.0
+offset_right = 584.0
+offset_bottom = 128.0
+theme_override_styles/panel = SubResource("Style_heading")
+
+[node name="Margin" type="MarginContainer" parent="Heading"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_right = 18
+
+[node name="Title" type="Label" parent="Heading/Margin"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.24, 0.22, 0.2, 1)
+theme_override_font_sizes/font_size = 38
+text = "Пауза"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 152.0
+offset_right = 600.0
+offset_bottom = 616.0
+theme_override_styles/panel = SubResource("Style_panel")
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="Content" type="VBoxContainer" parent="Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Buttons" type="VBoxContainer" parent="Panel/Margin/Content"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Resume" type="Button" parent="Panel/Margin/Content/Buttons"]
+custom_minimum_size = Vector2(0, 66)
+layout_mode = 2
+focus_mode = 0
+text = "Вернуться в игру"
+alignment = 0
+
+[node name="NewGame" type="Button" parent="Panel/Margin/Content/Buttons"]
+custom_minimum_size = Vector2(0, 66)
+layout_mode = 2
+focus_mode = 0
+text = "Новая игра"
+alignment = 0
+
+[node name="Continue" type="Button" parent="Panel/Margin/Content/Buttons"]
+custom_minimum_size = Vector2(0, 66)
+layout_mode = 2
+focus_mode = 0
+disabled = true
+text = "Загрузить сохранение"
+alignment = 0
+
+[node name="Exit" type="Button" parent="Panel/Margin/Content/Buttons"]
+custom_minimum_size = Vector2(0, 66)
+layout_mode = 2
+focus_mode = 0
+text = "Выход"
+alignment = 0
+
+[node name="Status" type="Label" parent="Panel/Margin/Content"]
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38, 0.35, 0.3, 1)
+theme_override_font_sizes/font_size = 18
+vertical_alignment = 1
+autowrap_mode = 2
+
+[connection signal="pressed" from="Panel/Margin/Content/Buttons/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="Panel/Margin/Content/Buttons/NewGame" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="Panel/Margin/Content/Buttons/Continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="Panel/Margin/Content/Buttons/Exit" to="." method="_on_exit_pressed"]

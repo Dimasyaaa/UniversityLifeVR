@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AchievementDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/achievements/achievement_definition.gd" id="1_definition"]
+
+[resource]
+script = ExtResource("1_definition")
+achievement_id = &"early_bird"
+title = "Ранняя пташка"
+description = "Выключи будильник в течение пяти реальных минут после его запуска."
+condition = 5
+threshold = 300.0
+event_id = &"alarm_disabled"
+start_event_id = &"alarm_started"

@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/scene_manager.gd" id="1_scene_manager"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/effects/fade.tscn" id="2_fade"]
+
+[node name="SceneManager" type="Node"]
+script = ExtResource("1_scene_manager")
+initial_locations = Dictionary[StringName, String]({
+&"test_room": "res://scenes/locations/test_room.tscn"
+})
+
+[node name="TransitionFade" parent="." instance=ExtResource("2_fade")]
+process_mode = 3

@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://assets/models/player/left_hand.gltf" id="model"]
+[ext_resource type="Script" path="res://scripts/player/hand_visual.gd" id="visual"]
+[ext_resource type="Animation" path="res://addons/godot-xr-tools/hands/animations/left/Grip 5.res" id="open"]
+[ext_resource type="Animation" path="res://addons/godot-xr-tools/hands/animations/left/Grip.res" id="closed"]
+[ext_resource type="Material" path="res://assets/materials/player/hand_skin.tres" id="skin"]
+
+[node name="HandVisual" type="Node3D"]
+script = ExtResource("visual")
+open_pose = ExtResource("open")
+closed_pose = ExtResource("closed")
+
+[node name="Model" parent="." instance=ExtResource("model")]
+position = Vector3(-0.03, -0.05, 0.15)
+
+[node name="mesh_Hand_Nails_L" parent="Model/Armature/Skeleton3D" index="0"]
+cast_shadow = 0
+material_override = ExtResource("skin")
+
+[editable path="Model"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bqumugyvkct4r"]
+[gd_scene format=3 uid="uid://bqumugyvkct4r"]
 
 [ext_resource type="Script" uid="uid://bhi5ee6eerov0" path="res://addons/godot-xr-tools/staging/loading_screen.gd" id="2"]
 [ext_resource type="Shader" uid="uid://4i0pwdtfmtsv" path="res://addons/godot-xr-tools/staging/loading_screen/loading_screen_shader.tres" id="3"]

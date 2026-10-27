@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://chb848dtavews"]
+[gd_scene format=3 uid="uid://chb848dtavews"]
 
 [ext_resource type="Script" uid="uid://hyiqt6os3ud6" path="res://addons/godot-xr-tools/desktop-support/controller_hider.gd" id="1_6xusf"]
 
