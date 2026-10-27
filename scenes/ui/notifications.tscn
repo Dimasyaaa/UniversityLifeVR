@@ -5,8 +5,9 @@
 
 [sub_resource type="StandardMaterial3D" id="Border_material"]
 shading_mode = 0
+transparency = 1
 no_depth_test = true
-render_priority = -3
+render_priority = 100
 albedo_color = Color(0.7, 0.66, 0.59, 1)
 
 [sub_resource type="QuadMesh" id="Border_mesh"]
@@ -15,8 +16,9 @@ size = Vector2(0.6, 0.06)
 
 [sub_resource type="StandardMaterial3D" id="Heading_material"]
 shading_mode = 0
+transparency = 1
 no_depth_test = true
-render_priority = -2
+render_priority = 101
 albedo_color = Color(0.97, 0.96, 0.93, 1)
 
 [sub_resource type="QuadMesh" id="Heading_mesh"]
@@ -25,8 +27,9 @@ size = Vector2(0.592, 0.052)
 
 [sub_resource type="StandardMaterial3D" id="Panel_material"]
 shading_mode = 0
+transparency = 1
 no_depth_test = true
-render_priority = -1
+render_priority = 102
 albedo_color = Color(0.89, 0.87, 0.83, 1)
 
 [sub_resource type="QuadMesh" id="Panel_mesh"]
@@ -54,6 +57,7 @@ cast_shadow = 0
 mesh = SubResource("Panel_mesh")
 
 [node name="Heading" type="Label3D" parent="."]
+render_priority = 103
 position = Vector3(0, 0.068, 0.003)
 pixel_size = 0.00052
 modulate = Color(0.24, 0.22, 0.2, 1)
@@ -63,6 +67,7 @@ outline_size = 0
 no_depth_test = true
 
 [node name="Title" type="Label3D" parent="."]
+render_priority = 103
 position = Vector3(0, -0.044, 0.003)
 pixel_size = 0.00052
 modulate = Color(0.22, 0.23, 0.22, 1)

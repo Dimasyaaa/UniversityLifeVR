@@ -2,6 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://bitqv01gfi4qt" path="res://scenes/locations/RoomDorm/room.tscn" id="1_06884"]
 [ext_resource type="PackedScene" uid="uid://g3lencj71qim" path="res://scenes/locations/RoomDorm/alarm_clock.tscn" id="9_fa07w"]
+[ext_resource type="Script" uid="uid://c0aw8e5b04i30" path="res://scripts/RoomDorm/dorm_room.gd" id="10_room_state"]
+[ext_resource type="PackedScene" path="res://scenes/locations/RoomDorm/dorm_wakeup.tscn" id="11_wakeup"]
 
 [sub_resource type="Sky" id="Sky_bhunq"]
 
@@ -46,16 +48,19 @@ size = Vector3(0.069, 1.955, 0.92)
 size = Vector3(0.069, 1.955, 0.92)
 
 [node name="RoomDorm" type="Node3D" unique_id=387360132]
+script = ExtResource("10_room_state")
 
 [node name="Room" parent="." unique_id=1510933789 instance=ExtResource("1_06884")]
 
 [node name="AlarmClock" parent="." unique_id=331756429 instance=ExtResource("9_fa07w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.24875, 0.9025, 1.23)
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.24875, 0.9025, 1.23)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=589175099]
 environment = SubResource("Environment_bhunq")
 
 [node name="Spawn_Default" type="Marker3D" parent="." unique_id=910000001]
+
+[node name="Wakeup" parent="." instance=ExtResource("11_wakeup")]
 
 [node name="FridgeInteract" type="Area3D" parent="." unique_id=910000004]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.266, 0.9775, -2.24)

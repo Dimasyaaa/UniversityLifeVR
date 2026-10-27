@@ -1,39 +1,42 @@
-extends InteractableBase
+extends RigidBody3D
+## Настольный будильник: общие часы и близкое взаимодействие общей рукой.
 
-## Будильник на столе (Модуль 1, «Пробуждение по будильнику»).
-## Первое взаимодействие = подъём: +Энергия, старт часов дня,
-## достижение «Ранняя пташка» при пробуждении до 07:00.
+signal switched_off()
 
-@export var wake_energy_bonus: float = 25.0
+@onready var _time_label: Label3D = $TimeLabel
+@onready var _status_label: Label3D = $StatusLabel
+@onready var _sound: AudioStreamPlayer3D = $AlarmSound
+@onready var _indicator: MeshInstance3D = $Indicator
 
-@onready var _time_label: Label3D = get_node_or_null("TimeLabel")
+var _ringing: bool = false
+
 
 func _ready() -> void:
-	super._ready()
-	if get_node_or_null("/root/GameStateManager") == null:
-		push_warning("alarm_clock: GameStateManager не найден")
+	TimeManager.time_changed.connect(_on_time_changed)
+	_on_time_changed(TimeManager.get_total_minutes())
+	set_ringing(false)
+
+
+func _on_time_changed(_total_minutes: int) -> void:
+	_time_label.text = TimeManager.get_time_text()
+
+
+func is_ringing() -> bool:
+	return _ringing
+
+
+func set_ringing(ringing: bool) -> void:
+	_ringing = ringing
+	_status_label.text = "ПОДЪЁМ" if ringing else "ВЫКЛ."
+	_indicator.visible = ringing
+	if ringing and not _sound.playing:
+		_sound.play()
+	elif not ringing:
+		_sound.stop()
+
+
+func interact() -> void:
+	if not _ringing or SaveManager.is_loading() or SceneManager.is_transitioning():
 		return
-	GameStateManager.time_changed.connect(_on_time_changed)
-	_on_time_changed(GameStateManager.get_hours(), GameStateManager.get_minutes())
-
-func _on_time_changed(hours: int, minutes: int) -> void:
-	if _time_label:
-		_time_label.text = "%02d:%02d" % [hours, minutes]
-
-func _on_interact(_source: Node = null) -> void:
-	if GameStateManager.is_awake():
-		HintSystem.show_hint("Будильник выключен. Сейчас %s" % GameStateManager.get_time_string(), 3.0)
-		return
-
-	GameStateManager.set_awake(true)
-	GameStateManager.change_stat("energy", wake_energy_bonus)
-
-	if GameStateManager.game_minutes < 7 * 60:
-		QuestManager.unlock_achievement("early_bird")
-
-	HintSystem.show_hint(
-		"Подъём! %s  +%d к Энергии\nГлавный квест: сдать экзамен в 16:00" % [
-			GameStateManager.get_time_string(),
-			int(wake_energy_bonus),
-		],
-		6.0)
+	set_ringing(false)
+	switched_off.emit()

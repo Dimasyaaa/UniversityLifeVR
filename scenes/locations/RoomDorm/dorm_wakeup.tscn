@@ -1,0 +1,33 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://ckdqdaa7qltej" path="res://scripts/RoomDorm/dorm_wakeup.gd" id="1_wakeup"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="2_screen"]
+[ext_resource type="PackedScene" path="res://scenes/locations/RoomDorm/wakeup_button.tscn" id="3_button"]
+
+[sub_resource type="StandardMaterial3D" id="Screen_material"]
+shading_mode = 0
+transparency = 1
+cull_mode = 2
+
+[node name="Wakeup" type="Node3D"]
+script = ExtResource("1_wakeup")
+
+[node name="LyingHead" type="Marker3D" parent="."]
+position = Vector3(2.1, 0.82, 2.30)
+rotation = Vector3(0.31415927, 0, 0)
+
+[node name="StandingSpawn" type="Marker3D" parent="."]
+position = Vector3(1.0, 0, 1.8)
+rotation = Vector3(0, 0.7853982, 0)
+
+[node name="Screen" parent="." instance=ExtResource("2_screen")]
+position = Vector3(2.1, 1.11357, 1.396496)
+rotation = Vector3(0.31415927, 0, 0)
+screen_size = Vector2(0.48, 0.112)
+collision_layer = 4194304
+enabled = false
+scene = ExtResource("3_button")
+viewport_size = Vector2(480, 112)
+input_keyboard = false
+unshaded = true
+material = SubResource("Screen_material")
