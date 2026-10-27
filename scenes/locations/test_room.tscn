@@ -143,14 +143,6 @@ position = Vector3(1.6, 0, -2.1)
 target_location = &"test_room"
 target_spawn = &"Spawn_Second"
 
-[node name="TransitionTo_DormRoom" parent="." instance=ExtResource("2_exit")]
-position = Vector3(-3, 0, 1.5)
-target_location = &"dorm_room"
-target_spawn = &"Spawn_Default"
-
-[node name="Label" parent="TransitionTo_DormRoom" index="5"]
-text = "Комната в общежитии"
-
 [node name="Spawn_Default" type="Marker3D" parent="."]
 
 [node name="Disc" type="MeshInstance3D" parent="Spawn_Default"]
