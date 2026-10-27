@@ -4,12 +4,29 @@
 [ext_resource type="PackedScene" uid="uid://g3lencj71qim" path="res://scenes/locations/RoomDorm/alarm_clock.tscn" id="9_fa07w"]
 [ext_resource type="Script" uid="uid://c0aw8e5b04i30" path="res://scripts/RoomDorm/dorm_room.gd" id="10_room_state"]
 [ext_resource type="PackedScene" path="res://scenes/locations/RoomDorm/dorm_wakeup.tscn" id="11_wakeup"]
+[ext_resource type="PackedScene" path="res://scenes/locations/RoomDorm/breakfast_food.tscn" id="12_pizza"]
+
+[sub_resource type="ProceduralSkyMaterial" id="SkyMaterial_room"]
+sky_top_color = Color(0.64, 0.65, 0.66, 1)
+sky_horizon_color = Color(0.85, 0.85, 0.84, 1)
+sky_energy_multiplier = 0.35
+ground_bottom_color = Color(0.24, 0.25, 0.24, 1)
+ground_horizon_color = Color(0.55, 0.54, 0.52, 1)
+ground_energy_multiplier = 0.3
 
 [sub_resource type="Sky" id="Sky_bhunq"]
+radiance_size = 2
+sky_material = SubResource("SkyMaterial_room")
 
 [sub_resource type="Environment" id="Environment_bhunq"]
-background_energy_multiplier = 3.0
+background_mode = 1
+background_color = Color(0.48, 0.57, 0.61, 1)
 sky = SubResource("Sky_bhunq")
+ambient_light_source = 2
+ambient_light_color = Color(0.90, 0.93, 0.96, 1)
+ambient_light_energy = 0.4
+ambient_light_sky_contribution = 0.0
+reflected_light_source = 2
 
 [sub_resource type="BoxShape3D" id="BoxShape_frige"]
 size = Vector3(0.828, 1.955, 0.92)
@@ -58,9 +75,18 @@ transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.24875, 0.9025, 1.23)
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=589175099]
 environment = SubResource("Environment_bhunq")
 
+[node name="RoomLight" type="OmniLight3D" parent="."]
+position = Vector3(0, 2.35, -0.3)
+light_color = Color(1, 0.96, 0.90, 1)
+light_energy = 0.75
+omni_range = 6.0
+
 [node name="Spawn_Default" type="Marker3D" parent="." unique_id=910000001]
 
 [node name="Wakeup" parent="." instance=ExtResource("11_wakeup")]
+
+[node name="BreakfastPizza" parent="." instance=ExtResource("12_pizza")]
+position = Vector3(-2.306, 1.5575, -1.94)
 
 [node name="FridgeInteract" type="Area3D" parent="." unique_id=910000004]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.266, 0.9775, -1.94)

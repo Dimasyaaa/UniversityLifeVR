@@ -1,0 +1,163 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://cuj0yg6ludt73" path="res://scripts/RoomDorm/breakfast_food.gd" id="1_food"]
+
+[sub_resource type="PhysicsMaterial" id="Physics_food"]
+friction = 0.85
+bounce = 0.02
+
+[sub_resource type="CylinderShape3D" id="Shape_food"]
+radius = 0.11
+height = 0.034
+
+[sub_resource type="StandardMaterial3D" id="Mat_plate"]
+albedo_color = Color(0.89, 0.93, 0.90, 1)
+roughness = 0.28
+
+[sub_resource type="CylinderMesh" id="Mesh_plate"]
+material = SubResource("Mat_plate")
+top_radius = 0.11
+bottom_radius = 0.105
+height = 0.006
+radial_segments = 32
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="Mat_crust"]
+albedo_color = Color(0.73, 0.43, 0.18, 1)
+roughness = 0.95
+
+[sub_resource type="CylinderMesh" id="Mesh_crust"]
+material = SubResource("Mat_crust")
+top_radius = 0.094
+bottom_radius = 0.097
+height = 0.016
+radial_segments = 32
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="Mat_sauce"]
+albedo_color = Color(0.62, 0.17, 0.07, 1)
+roughness = 0.62
+
+[sub_resource type="CylinderMesh" id="Mesh_sauce"]
+material = SubResource("Mat_sauce")
+top_radius = 0.085
+bottom_radius = 0.085
+height = 0.002
+radial_segments = 32
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="Mat_cheese"]
+albedo_color = Color(1, 0.76, 0.30, 1)
+roughness = 0.58
+
+[sub_resource type="CylinderMesh" id="Mesh_cheese"]
+material = SubResource("Mat_cheese")
+top_radius = 0.082
+bottom_radius = 0.083
+height = 0.002
+radial_segments = 32
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="Mat_pepperoni"]
+albedo_color = Color(0.71, 0.12, 0.055, 1)
+roughness = 0.65
+
+[sub_resource type="CylinderMesh" id="Mesh_pepperoni"]
+material = SubResource("Mat_pepperoni")
+top_radius = 0.012
+bottom_radius = 0.012
+height = 0.002
+radial_segments = 12
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="Mat_basil"]
+albedo_color = Color(0.14, 0.36, 0.12, 1)
+roughness = 0.95
+
+[sub_resource type="SphereMesh" id="Mesh_basil"]
+material = SubResource("Mat_basil")
+radius = 0.004
+height = 0.002
+radial_segments = 8
+rings = 4
+
+[node name="BreakfastPizza" type="RigidBody3D" groups=["grabbable"]]
+mass = 0.3
+physics_material_override = SubResource("Physics_food")
+continuous_cd = true
+linear_damp = 0.5
+angular_damp = 1.0
+freeze = true
+script = ExtResource("1_food")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.017, 0)
+shape = SubResource("Shape_food")
+
+[node name="Plate" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.003, 0)
+mesh = SubResource("Mesh_plate")
+
+[node name="Crust" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.016, 0)
+mesh = SubResource("Mesh_crust")
+
+[node name="Sauce" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.025, 0)
+mesh = SubResource("Mesh_sauce")
+
+[node name="Cheese" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.027, 0)
+mesh = SubResource("Mesh_cheese")
+
+[node name="PepperoniCenter" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.029, 0)
+mesh = SubResource("Mesh_pepperoni")
+
+[node name="Pepperoni1" type="MeshInstance3D" parent="."]
+position = Vector3(0.052, 0.029, 0)
+mesh = SubResource("Mesh_pepperoni")
+
+[node name="Pepperoni2" type="MeshInstance3D" parent="."]
+position = Vector3(-0.052, 0.029, 0)
+mesh = SubResource("Mesh_pepperoni")
+
+[node name="Pepperoni3" type="MeshInstance3D" parent="."]
+position = Vector3(0.026, 0.029, 0.045)
+mesh = SubResource("Mesh_pepperoni")
+
+[node name="Pepperoni4" type="MeshInstance3D" parent="."]
+position = Vector3(-0.026, 0.029, 0.045)
+mesh = SubResource("Mesh_pepperoni")
+
+[node name="Pepperoni5" type="MeshInstance3D" parent="."]
+position = Vector3(0.026, 0.029, -0.045)
+mesh = SubResource("Mesh_pepperoni")
+
+[node name="Pepperoni6" type="MeshInstance3D" parent="."]
+position = Vector3(-0.026, 0.029, -0.045)
+mesh = SubResource("Mesh_pepperoni")
+
+[node name="Basil1" type="MeshInstance3D" parent="."]
+position = Vector3(0.022, 0.0295, 0.019)
+rotation = Vector3(0, 0.6, 0)
+scale = Vector3(2, 1, 1)
+mesh = SubResource("Mesh_basil")
+
+[node name="Basil2" type="MeshInstance3D" parent="."]
+position = Vector3(-0.027, 0.0295, -0.013)
+rotation = Vector3(0, -0.5, 0)
+scale = Vector3(2, 1, 1)
+mesh = SubResource("Mesh_basil")
+
+[node name="Basil3" type="MeshInstance3D" parent="."]
+position = Vector3(0.006, 0.0295, -0.061)
+rotation = Vector3(0, 1.1, 0)
+scale = Vector3(2, 1, 1)
+mesh = SubResource("Mesh_basil")
+
+[node name="Basil4" type="MeshInstance3D" parent="."]
+position = Vector3(-0.023, 0.0295, 0.063)
+rotation = Vector3(0, -0.8, 0)
+scale = Vector3(2, 1, 1)
+mesh = SubResource("Mesh_basil")

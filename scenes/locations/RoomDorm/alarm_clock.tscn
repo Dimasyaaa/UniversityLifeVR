@@ -6,7 +6,7 @@
 
 [sub_resource type="StandardMaterial3D" id="MatAlarm"]
 albedo_color = Color(0.73, 0.78, 0.72, 1)
-roughness = 0.65
+roughness = 0.42
 
 [sub_resource type="BoxMesh" id="BoxMesh_alarm"]
 material = SubResource("MatAlarm")
@@ -22,7 +22,7 @@ size = Vector3(0.138, 0.048, 0.001)
 
 [sub_resource type="StandardMaterial3D" id="MatButton"]
 albedo_color = Color(0.93, 0.29, 0.13, 1)
-roughness = 0.7
+roughness = 0.55
 
 [sub_resource type="StandardMaterial3D" id="MatRubber"]
 albedo_color = Color(0.045, 0.065, 0.065, 1)
