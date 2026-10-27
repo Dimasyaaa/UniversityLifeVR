@@ -11,10 +11,10 @@ material = SubResource("MatAlarm")
 size = Vector3(0.16, 0.08, 0.1)
 
 [sub_resource type="BoxShape3D" id="BoxShape_alarm"]
-size = Vector3(0.2, 0.12, 0.14)
+size = Vector3(0.16, 0.08, 0.1)
 
 [node name="AlarmClock" type="RigidBody3D" unique_id=331756429]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.63683033, 0.7323738, 1.1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mass = 0.5
 
 [node name="Body" type="MeshInstance3D" parent="." unique_id=327006560]

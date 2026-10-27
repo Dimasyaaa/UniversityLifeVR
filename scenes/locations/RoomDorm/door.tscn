@@ -7,10 +7,10 @@ material = ExtResource("2_p0e35")
 size = Vector3(1, 2.5, 0.2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bhunq"]
-size = Vector3(1, 2.6019745, 0.92407227)
+size = Vector3(1, 2.5, 0.2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_riqys"]
-size = Vector3(1.0557251, 2.9482422, 1.9340515)
+size = Vector3(1.1, 2.6, 0.3)
 
 [node name="Door" type="Node3D" unique_id=2055464324]
 
@@ -24,7 +24,7 @@ mesh = SubResource("BoxMesh_hun61")
 [node name="StaticBody3D" type="StaticBody3D" parent="DoorPivot/MeshInstance3D" unique_id=961784868]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DoorPivot/MeshInstance3D/StaticBody3D" unique_id=1646179235]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05129242, 0.037963867)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 shape = SubResource("BoxShape3D_bhunq")
 
 [node name="Area3D" type="Area3D" parent="." unique_id=686784318]
@@ -34,5 +34,5 @@ monitoring = false
 monitorable = false
 
 [node name="InteractArea" type="CollisionShape3D" parent="Area3D" unique_id=1479117213]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.51937866, 0.9741211, 0.038864136)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5310074, 1.2190707, -0.024390101)
 shape = SubResource("BoxShape3D_riqys")
