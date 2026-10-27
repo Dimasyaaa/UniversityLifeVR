@@ -3,9 +3,11 @@ extends Node3D
 
 const DormAlarm = preload("res://scripts/RoomDorm/alarm_clock.gd")
 const DormWakeup = preload("res://scripts/RoomDorm/dorm_wakeup.gd")
+const FridgeDoor = preload("res://scripts/RoomDorm/fridge_door.gd")
 
 @onready var _alarm: DormAlarm = $AlarmClock
 @onready var _wakeup: DormWakeup = $Wakeup
+@onready var _fridge: FridgeDoor = $Room/Fridge
 
 var _alarm_started: bool = false
 var _alarm_disabled: bool = false
@@ -16,6 +18,7 @@ var _wakeup_state_restored: bool = false
 func _ready() -> void:
 	_alarm.switched_off.connect(_on_alarm_switched_off)
 	_wakeup.stood_up.connect(_on_stood_up)
+	_fridge.door_state_changed.connect(_on_fridge_state_changed)
 	SceneManager.location_entered.connect(_on_location_entered)
 	SaveManager.game_loaded.connect(_on_game_loaded)
 	SaveManager.new_game_started.connect(_activate_if_current)
@@ -69,13 +72,19 @@ func get_save_data() -> Dictionary:
 	return {
 		"alarm": {"started": _alarm_started, "disabled": _alarm_disabled},
 		"wakeup_completed": _wakeup_completed,
+		"fridge": _fridge.get_save_data(),
 	}
 
 
 func restore_save_data(data: Dictionary) -> void:
+	var fridge_data: Variant = data.get("fridge", {})
+	_fridge.restore_save_data(fridge_data if fridge_data is Dictionary else {})
 	var completed: Variant = data.get("wakeup_completed", true)
 	_wakeup_completed = completed is bool and completed
 	_wakeup_state_restored = true
+	if _wakeup_completed:
+		# location_loaded вызывается под затемнением: разместим игрока до проявления.
+		_wakeup.activate(true)
 	var alarm_data: Variant = data.get("alarm", {})
 	if not alarm_data is Dictionary:
 		return
@@ -85,3 +94,7 @@ func restore_save_data(data: Dictionary) -> void:
 	_alarm_started = _alarm_disabled or (started is bool and started)
 	# Звук включится после location_entered / game_loaded, не под затемнением.
 	_alarm.set_ringing(false)
+
+
+func _on_fridge_state_changed(_opened: bool) -> void:
+	SaveManager.save_game.call_deferred()

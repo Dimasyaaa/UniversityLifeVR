@@ -25,6 +25,7 @@ var _owns_pose: bool = false
 var _rise_tween: Tween
 var _xr_interface: OpenXRInterface
 var _menu: Node3D
+var _standing_placed: bool = false
 
 
 func _ready() -> void:
@@ -45,7 +46,8 @@ func activate(completed: bool) -> void:
 		return
 	_player = camera.get_parent().get_parent() as Player
 	if completed:
-		_player.place_at_spawn(_standing)
+		if not _standing_placed:
+			_standing_placed = _player.place_at_spawn(_standing)
 		return
 	_menu = _player.get_parent().get_node_or_null("MainMenuPanel") as Node3D
 	if _menu != null and not _menu.visibility_changed.is_connected(_sync_screen):
@@ -133,6 +135,7 @@ func _finish_stand() -> void:
 		_rising = false
 		_apply_lying_pose()
 		return
+	_standing_placed = true
 	_restore_player()
 	_lying = false
 	_rising = false

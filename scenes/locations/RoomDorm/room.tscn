@@ -145,10 +145,10 @@ transform = Transform3D(0.8, 0, 0, 0, 0.45, 0, 0, 0, 0.4, 0.10925686, 1.4396622,
 transform = Transform3D(1, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.5340035, 0.02474344, 2.7815328)
 
 [node name="Fridge" parent="." unique_id=89307681 instance=ExtResource("8_25u4t")]
-transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.266, 0, -2.24)
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.266, 0, -1.94)
 
 [node name="Polka" type="MeshInstance3D" parent="." unique_id=1242540390]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.30625, 1.012, -1.332083225)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.30625, 1.012, -1.082083225)
 mesh = SubResource("BoxMesh_riqys")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Polka"]
@@ -157,7 +157,7 @@ mesh = SubResource("BoxMesh_riqys")
 shape = SubResource("Shape_counter")
 
 [node name="Microwave" parent="." unique_id=387597433 instance=ExtResource("10_ensvl")]
-transform = Transform3D(-0.000000084, 0, -1.916667104, 0, 1.916667104, 0, 1.916667104, 0, -0.000000084, -2.258333206, 1.034999967, -1.054166555)
+transform = Transform3D(-0.000000084, 0, -1.916667104, 0, 1.916667104, 0, 1.916667104, 0, -0.000000084, -2.258333206, 1.034999967, -0.804166555)
 
 [node name="HatRack" parent="." unique_id=2072458225 instance=ExtResource("11_c4c8y")]
 transform = Transform3D(1.556647658, 0, 0, 0, 1.556647658, 0, 0, 0, 1.556647658, -2.148760557, 0.823871315, 0.111663088)
