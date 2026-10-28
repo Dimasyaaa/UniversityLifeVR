@@ -13,15 +13,15 @@ cull_mode = 2
 script = ExtResource("1_wakeup")
 
 [node name="LyingHead" type="Marker3D" parent="."]
-position = Vector3(2.1, 0.82, 2.30)
+position = Vector3(2.35, 0.82, 2.55)
 rotation = Vector3(0.31415927, 0, 0)
 
 [node name="StandingSpawn" type="Marker3D" parent="."]
-position = Vector3(1.0, 0, 1.8)
+position = Vector3(1.25, 0, 2.05)
 rotation = Vector3(0, 0.7853982, 0)
 
 [node name="Screen" parent="." instance=ExtResource("2_screen")]
-position = Vector3(2.1, 1.11357, 1.396496)
+position = Vector3(2.35, 1.11357, 1.646496)
 rotation = Vector3(0.31415927, 0, 0)
 screen_size = Vector2(0.48, 0.112)
 collision_layer = 4194304

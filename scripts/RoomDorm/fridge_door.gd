@@ -2,6 +2,7 @@ extends StaticBody3D
 ## Корпус остаётся неподвижным, исходная дверца следует за отдельным DoorPivot.
 
 signal door_state_changed(opened: bool)
+signal door_motion_started(opened: bool)
 
 @export_range(1.0, 90.0, 1.0) var open_angle: float = 90.0
 @export_range(0.1, 2.0, 0.05) var duration: float = 0.6
@@ -36,6 +37,7 @@ func interact() -> void:
 		return
 	is_moving = true
 	is_open = not is_open
+	door_motion_started.emit(is_open)
 	var start: float = 0.0 if is_open else open_angle
 	var finish: float = open_angle if is_open else 0.0
 	_tween = create_tween().set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)

@@ -84,6 +84,8 @@ rings = 4
 
 [node name="BreakfastPizza" type="RigidBody3D" groups=["grabbable"]]
 mass = 0.3
+contact_monitor = true
+max_contacts_reported = 4
 physics_material_override = SubResource("Physics_food")
 continuous_cd = true
 linear_damp = 0.5

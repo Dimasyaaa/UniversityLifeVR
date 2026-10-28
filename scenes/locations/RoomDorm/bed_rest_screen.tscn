@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="1_screen"]
+[ext_resource type="PackedScene" path="res://scenes/locations/RoomDorm/bed_rest_panel.tscn" id="2_panel"]
+
+[sub_resource type="StandardMaterial3D" id="Screen_material"]
+shading_mode = 0
+transparency = 1
+no_depth_test = true
+cull_mode = 2
+render_priority = 80
+
+[node name="BedRestScreen" instance=ExtResource("1_screen")]
+visible = false
+position = Vector3(1.25, 1.4, 1.1)
+rotation = Vector3(0, 0.7853982, 0)
+screen_size = Vector2(0.9, 0.173076923)
+collision_layer = 4194304
+enabled = false
+scene = ExtResource("2_panel")
+viewport_size = Vector2(832, 160)
+input_keyboard = false
+unshaded = true
+material = SubResource("Screen_material")
