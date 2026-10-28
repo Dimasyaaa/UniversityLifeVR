@@ -5,6 +5,7 @@ const DormAlarm = preload("res://scripts/RoomDorm/alarm_clock.gd")
 const DormWakeup = preload("res://scripts/RoomDorm/dorm_wakeup.gd")
 const FridgeDoor = preload("res://scripts/RoomDorm/fridge_door.gd")
 const BreakfastFood = preload("res://scripts/RoomDorm/breakfast_food.gd")
+const DormMicrowave = preload("res://scripts/RoomDorm/microwave.gd")
 
 const FRIDGE_INTERIOR: AABB = AABB(Vector3(-0.46, 0, -0.414), Vector3(0.92, 1.955, 0.5275))
 
@@ -12,6 +13,7 @@ const FRIDGE_INTERIOR: AABB = AABB(Vector3(-0.46, 0, -0.414), Vector3(0.92, 1.95
 @onready var _wakeup: DormWakeup = $Wakeup
 @onready var _fridge: FridgeDoor = $Room/Fridge
 @onready var _pizza: BreakfastFood = $BreakfastPizza
+@onready var _microwave: DormMicrowave = $Room/Microwave
 
 var _alarm_started: bool = false
 var _alarm_disabled: bool = false
@@ -25,6 +27,9 @@ func _ready() -> void:
 	_fridge.door_state_changed.connect(_on_fridge_state_changed)
 	_pizza.picked_up.connect(_on_pizza_picked_up)
 	_pizza.released.connect(_on_pizza_released)
+	_pizza.eaten.connect(_on_pizza_eaten)
+	_microwave.setup_food(_pizza)
+	_microwave.state_changed.connect(_save_food_state)
 	_sync_food_access()
 	SceneManager.location_entered.connect(_on_location_entered)
 	SaveManager.game_loaded.connect(_on_game_loaded)
@@ -80,11 +85,14 @@ func _on_alarm_switched_off() -> void:
 
 
 func get_save_data() -> Dictionary:
+	# Сначала синхронизируем разогрев, чтобы флаг пиццы и остаток времени совпали.
+	var microwave_data: Dictionary = _microwave.get_save_data()
 	return {
 		"alarm": {"started": _alarm_started, "disabled": _alarm_disabled},
 		"wakeup_completed": _wakeup_completed,
 		"fridge": _fridge.get_save_data(),
 		"foods": {String(_pizza.item_id): _pizza.get_save_data()},
+		"microwave": microwave_data,
 	}
 
 
@@ -94,6 +102,8 @@ func restore_save_data(data: Dictionary) -> void:
 	var foods: Variant = data.get("foods", {})
 	var pizza_data: Variant = foods.get(String(_pizza.item_id), {}) if foods is Dictionary else {}
 	_pizza.restore_save_data(pizza_data if pizza_data is Dictionary else {})
+	var microwave_data: Variant = data.get("microwave", {})
+	_microwave.restore_save_data(microwave_data if microwave_data is Dictionary else {})
 	_sync_food_access()
 	var completed: Variant = data.get("wakeup_completed", true)
 	_wakeup_completed = completed is bool and completed
@@ -128,9 +138,16 @@ func _on_pizza_released() -> void:
 	_save_food_state()
 
 
+func _on_pizza_eaten() -> void:
+	# +30 Сытости выдаёт только награда существующего квеста.
+	QuestManager.notify_event(&"breakfast_eaten")
+	_save_food_state()
+
+
 func _sync_food_access() -> void:
 	var inside_fridge: bool = FRIDGE_INTERIOR.has_point(_fridge.to_local(_pizza.global_position))
-	_pizza.set_pickup_enabled(not inside_fridge or (_fridge.is_open and not _fridge.is_moving))
+	var fridge_access: bool = not inside_fridge or (_fridge.is_open and not _fridge.is_moving)
+	_pizza.set_pickup_enabled(fridge_access and _microwave.can_pick_up_food())
 
 
 func _save_food_state() -> void:
