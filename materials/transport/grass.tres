@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[resource]
+resource_name = "Transport grass"
+albedo_color = Color(0.35, 0.46, 0.25, 1)
+roughness = 1.0

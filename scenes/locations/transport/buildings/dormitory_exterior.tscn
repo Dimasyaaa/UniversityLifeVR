@@ -1,0 +1,728 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://materials/transport/dorm_plaster.tres" id="dorm_plaster"]
+
+[ext_resource type="Material" path="res://materials/transport/dorm_trim.tres" id="dorm_trim"]
+
+[ext_resource type="Material" path="res://materials/transport/dorm_accent.tres" id="dorm_accent"]
+
+[ext_resource type="Material" path="res://materials/transport/dorm_glass.tres" id="dorm_glass"]
+
+[ext_resource type="Material" path="res://materials/transport/dorm_door.tres" id="dorm_door"]
+
+[ext_resource type="Material" path="res://materials/transport/metal.tres" id="metal"]
+
+[ext_resource type="Material" path="res://materials/transport/stone.tres" id="stone"]
+
+[ext_resource type="Material" path="res://materials/transport/paving.tres" id="paving"]
+
+[ext_resource type="ArrayMesh" path="res://scenes/locations/transport/buildings/meshes/window_row_six.tres" id="windows_six"]
+
+[ext_resource type="ArrayMesh" path="res://scenes/locations/transport/buildings/meshes/window_row_four.tres" id="windows_four"]
+
+[ext_resource type="ArrayMesh" path="res://scenes/locations/transport/buildings/meshes/window_row_three.tres" id="windows_three"]
+
+[sub_resource type="BoxMesh" id="UnitBox"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="BoxShape3D" id="WallShape1"]
+size = Vector3(20, 0.6, 14)
+
+[sub_resource type="BoxShape3D" id="WallShape2"]
+size = Vector3(0.3, 12.15, 14.3)
+
+[sub_resource type="BoxShape3D" id="WallShape3"]
+size = Vector3(20, 12.15, 0.3)
+
+[sub_resource type="BoxShape3D" id="WallShape4"]
+size = Vector3(8.4, 2.83, 0.3)
+
+[sub_resource type="BoxShape3D" id="WallShape5"]
+size = Vector3(20, 9.32, 0.3)
+
+[sub_resource type="BoxShape3D" id="WallShape6"]
+size = Vector3(20.6, 0.25, 14.6)
+
+[sub_resource type="BoxShape3D" id="WallShape7"]
+size = Vector3(7, 0.12, 4.4)
+
+[sub_resource type="BoxShape3D" id="WallShape8"]
+size = Vector3(5.6, 0.18, 2.5)
+
+[sub_resource type="BoxShape3D" id="WallShape9"]
+size = Vector3(0.12, 2.8, 0.12)
+
+[sub_resource type="BoxShape3D" id="WallShape10"]
+size = Vector3(0.14, 2.68, 0.25)
+
+[sub_resource type="BoxShape3D" id="WallShape11"]
+size = Vector3(0.2, 2.8, 2.8)
+
+[sub_resource type="BoxShape3D" id="WallShape12"]
+size = Vector3(3.65, 0.12, 3.1)
+
+[sub_resource type="BoxShape3D" id="WallShape13"]
+size = Vector3(3.65, 2.8, 0.2)
+
+[sub_resource type="BoxShape3D" id="WallShape14"]
+size = Vector3(1.1, 2.5, 0.08)
+
+[sub_resource type="BoxShape3D" id="WallShape15"]
+size = Vector3(1.5, 2.45, 0.08)
+
+[sub_resource type="StandardMaterial3D" id="EntranceLampMaterial"]
+albedo_color = Color(1, 0.92, 0.76, 1)
+roughness = 1.0
+emission_enabled = true
+emission = Color(1, 0.85, 0.60, 1)
+emission_energy_multiplier = 0.6
+
+[node name="DormitoryExterior" type="Node3D"]
+
+
+[node name="Shell" type="Node3D" parent="."]
+
+
+[node name="Foundation" type="StaticBody3D" parent="Shell"]
+position = Vector3(0, -0.27, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Shell/Foundation"]
+position = Vector3(0, 0, 0)
+scale = Vector3(20, 0.6, 14)
+material_override = ExtResource("stone")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Shell/Foundation"]
+shape = SubResource("WallShape1")
+
+[node name="WestWall" type="StaticBody3D" parent="Shell"]
+position = Vector3(-9.85, 6.075, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Shell/WestWall"]
+position = Vector3(0, 0, 0)
+scale = Vector3(0.3, 12.15, 14.3)
+material_override = ExtResource("dorm_plaster")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Shell/WestWall"]
+shape = SubResource("WallShape2")
+
+[node name="EastWall" type="StaticBody3D" parent="Shell"]
+position = Vector3(9.85, 6.075, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Shell/EastWall"]
+position = Vector3(0, 0, 0)
+scale = Vector3(0.3, 12.15, 14.3)
+material_override = ExtResource("dorm_plaster")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Shell/EastWall"]
+shape = SubResource("WallShape2")
+
+[node name="RearWall" type="StaticBody3D" parent="Shell"]
+position = Vector3(0, 6.075, 7)
+
+[node name="Mesh" type="MeshInstance3D" parent="Shell/RearWall"]
+position = Vector3(0, 0, 0)
+scale = Vector3(20, 12.15, 0.3)
+material_override = ExtResource("dorm_plaster")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Shell/RearWall"]
+shape = SubResource("WallShape3")
+
+[node name="FrontWest" type="StaticBody3D" parent="Shell"]
+position = Vector3(-5.8, 1.415, -7)
+
+[node name="Mesh" type="MeshInstance3D" parent="Shell/FrontWest"]
+position = Vector3(0, 0, 0)
+scale = Vector3(8.4, 2.83, 0.3)
+material_override = ExtResource("dorm_plaster")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Shell/FrontWest"]
+shape = SubResource("WallShape4")
+
+[node name="FrontEast" type="StaticBody3D" parent="Shell"]
+position = Vector3(5.8, 1.415, -7)
+
+[node name="Mesh" type="MeshInstance3D" parent="Shell/FrontEast"]
+position = Vector3(0, 0, 0)
+scale = Vector3(8.4, 2.83, 0.3)
+material_override = ExtResource("dorm_plaster")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Shell/FrontEast"]
+shape = SubResource("WallShape4")
+
+[node name="FrontUpper" type="StaticBody3D" parent="Shell"]
+position = Vector3(0, 7.49, -7)
+
+[node name="Mesh" type="MeshInstance3D" parent="Shell/FrontUpper"]
+position = Vector3(0, 0, 0)
+scale = Vector3(20, 9.32, 0.3)
+material_override = ExtResource("dorm_plaster")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Shell/FrontUpper"]
+shape = SubResource("WallShape5")
+
+[node name="Roof" type="StaticBody3D" parent="Shell"]
+position = Vector3(0, 12.23, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Shell/Roof"]
+position = Vector3(0, 0, 0)
+scale = Vector3(20.6, 0.25, 14.6)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Shell/Roof"]
+shape = SubResource("WallShape6")
+
+[node name="Facade" type="Node3D" parent="."]
+
+
+[node name="CentralAccent" type="MeshInstance3D" parent="Facade"]
+position = Vector3(0, 7.49, -7.165)
+scale = Vector3(3, 9.32, 0.025)
+material_override = ExtResource("dorm_accent")
+mesh = SubResource("UnitBox")
+
+[node name="WestCorner" type="MeshInstance3D" parent="Facade"]
+position = Vector3(-9.55, 6.4, -7.185)
+scale = Vector3(0.2, 11.25, 0.06)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="EastCorner" type="MeshInstance3D" parent="Facade"]
+position = Vector3(9.55, 6.4, -7.185)
+scale = Vector3(0.2, 11.25, 0.06)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="FrontBelt312" type="MeshInstance3D" parent="Facade"]
+position = Vector3(0, 3.12, -7.23)
+scale = Vector3(20.4, 0.12, 0.22)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="RearBelt312" type="MeshInstance3D" parent="Facade"]
+position = Vector3(0, 3.12, 7.23)
+scale = Vector3(20.4, 0.12, 0.22)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="WestBelt312" type="MeshInstance3D" parent="Facade"]
+position = Vector3(-10.08, 3.12, 0)
+scale = Vector3(0.2, 0.12, 14.4)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="EastBelt312" type="MeshInstance3D" parent="Facade"]
+position = Vector3(10.08, 3.12, 0)
+scale = Vector3(0.2, 0.12, 14.4)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="FrontBelt612" type="MeshInstance3D" parent="Facade"]
+position = Vector3(0, 6.12, -7.23)
+scale = Vector3(20.4, 0.12, 0.22)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="RearBelt612" type="MeshInstance3D" parent="Facade"]
+position = Vector3(0, 6.12, 7.23)
+scale = Vector3(20.4, 0.12, 0.22)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="WestBelt612" type="MeshInstance3D" parent="Facade"]
+position = Vector3(-10.08, 6.12, 0)
+scale = Vector3(0.2, 0.12, 14.4)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="EastBelt612" type="MeshInstance3D" parent="Facade"]
+position = Vector3(10.08, 6.12, 0)
+scale = Vector3(0.2, 0.12, 14.4)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="FrontBelt912" type="MeshInstance3D" parent="Facade"]
+position = Vector3(0, 9.12, -7.23)
+scale = Vector3(20.4, 0.12, 0.22)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="RearBelt912" type="MeshInstance3D" parent="Facade"]
+position = Vector3(0, 9.12, 7.23)
+scale = Vector3(20.4, 0.12, 0.22)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="WestBelt912" type="MeshInstance3D" parent="Facade"]
+position = Vector3(-10.08, 9.12, 0)
+scale = Vector3(0.2, 0.12, 14.4)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="EastBelt912" type="MeshInstance3D" parent="Facade"]
+position = Vector3(10.08, 9.12, 0)
+scale = Vector3(0.2, 0.12, 14.4)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="FrontPlinthWest" type="MeshInstance3D" parent="Facade"]
+position = Vector3(-5.8, 0.36, -7.18)
+scale = Vector3(8.4, 0.65, 0.12)
+material_override = ExtResource("stone")
+mesh = SubResource("UnitBox")
+
+[node name="FrontPlinthEast" type="MeshInstance3D" parent="Facade"]
+position = Vector3(5.8, 0.36, -7.18)
+scale = Vector3(8.4, 0.65, 0.12)
+material_override = ExtResource("stone")
+mesh = SubResource("UnitBox")
+
+[node name="WestPlinth" type="MeshInstance3D" parent="Facade"]
+position = Vector3(-10.02, 0.36, 0)
+scale = Vector3(0.12, 0.65, 14.2)
+material_override = ExtResource("stone")
+mesh = SubResource("UnitBox")
+
+[node name="EastPlinth" type="MeshInstance3D" parent="Facade"]
+position = Vector3(10.02, 0.36, 0)
+scale = Vector3(0.12, 0.65, 14.2)
+material_override = ExtResource("stone")
+mesh = SubResource("UnitBox")
+
+[node name="RearPlinth" type="MeshInstance3D" parent="Facade"]
+position = Vector3(0, 0.36, 7.18)
+scale = Vector3(20, 0.65, 0.12)
+material_override = ExtResource("stone")
+mesh = SubResource("UnitBox")
+
+[node name="Windows" type="Node3D" parent="."]
+
+
+[node name="FrontFloor1" type="MeshInstance3D" parent="Windows"]
+position = Vector3(0, 1.73, -7.21)
+rotation_degrees = Vector3(0, 0, 0)
+mesh = ExtResource("windows_four")
+
+[node name="RearFloor1" type="MeshInstance3D" parent="Windows"]
+position = Vector3(0, 1.73, 7.21)
+rotation_degrees = Vector3(0, 180, 0)
+mesh = ExtResource("windows_six")
+
+[node name="WestFloor1" type="MeshInstance3D" parent="Windows"]
+position = Vector3(-10.21, 1.73, 0)
+rotation_degrees = Vector3(0, 90, 0)
+mesh = ExtResource("windows_three")
+
+[node name="EastFloor1" type="MeshInstance3D" parent="Windows"]
+position = Vector3(10.21, 1.73, 0)
+rotation_degrees = Vector3(0, -90, 0)
+mesh = ExtResource("windows_three")
+
+[node name="FrontFloor2" type="MeshInstance3D" parent="Windows"]
+position = Vector3(0, 4.73, -7.21)
+rotation_degrees = Vector3(0, 0, 0)
+mesh = ExtResource("windows_six")
+
+[node name="RearFloor2" type="MeshInstance3D" parent="Windows"]
+position = Vector3(0, 4.73, 7.21)
+rotation_degrees = Vector3(0, 180, 0)
+mesh = ExtResource("windows_six")
+
+[node name="WestFloor2" type="MeshInstance3D" parent="Windows"]
+position = Vector3(-10.21, 4.73, 0)
+rotation_degrees = Vector3(0, 90, 0)
+mesh = ExtResource("windows_three")
+
+[node name="EastFloor2" type="MeshInstance3D" parent="Windows"]
+position = Vector3(10.21, 4.73, 0)
+rotation_degrees = Vector3(0, -90, 0)
+mesh = ExtResource("windows_three")
+
+[node name="FrontFloor3" type="MeshInstance3D" parent="Windows"]
+position = Vector3(0, 7.73, -7.21)
+rotation_degrees = Vector3(0, 0, 0)
+mesh = ExtResource("windows_six")
+
+[node name="RearFloor3" type="MeshInstance3D" parent="Windows"]
+position = Vector3(0, 7.73, 7.21)
+rotation_degrees = Vector3(0, 180, 0)
+mesh = ExtResource("windows_six")
+
+[node name="WestFloor3" type="MeshInstance3D" parent="Windows"]
+position = Vector3(-10.21, 7.73, 0)
+rotation_degrees = Vector3(0, 90, 0)
+mesh = ExtResource("windows_three")
+
+[node name="EastFloor3" type="MeshInstance3D" parent="Windows"]
+position = Vector3(10.21, 7.73, 0)
+rotation_degrees = Vector3(0, -90, 0)
+mesh = ExtResource("windows_three")
+
+[node name="FrontFloor4" type="MeshInstance3D" parent="Windows"]
+position = Vector3(0, 10.73, -7.21)
+rotation_degrees = Vector3(0, 0, 0)
+mesh = ExtResource("windows_six")
+
+[node name="RearFloor4" type="MeshInstance3D" parent="Windows"]
+position = Vector3(0, 10.73, 7.21)
+rotation_degrees = Vector3(0, 180, 0)
+mesh = ExtResource("windows_six")
+
+[node name="WestFloor4" type="MeshInstance3D" parent="Windows"]
+position = Vector3(-10.21, 10.73, 0)
+rotation_degrees = Vector3(0, 90, 0)
+mesh = ExtResource("windows_three")
+
+[node name="EastFloor4" type="MeshInstance3D" parent="Windows"]
+position = Vector3(10.21, 10.73, 0)
+rotation_degrees = Vector3(0, -90, 0)
+mesh = ExtResource("windows_three")
+
+[node name="RoofDetails" type="Node3D" parent="."]
+
+
+[node name="FrontParapet" type="MeshInstance3D" parent="RoofDetails"]
+position = Vector3(0, 12.57, -7.18)
+scale = Vector3(20.4, 0.45, 0.22)
+material_override = ExtResource("dorm_accent")
+mesh = SubResource("UnitBox")
+
+[node name="RearParapet" type="MeshInstance3D" parent="RoofDetails"]
+position = Vector3(0, 12.57, 7.18)
+scale = Vector3(20.4, 0.45, 0.22)
+material_override = ExtResource("dorm_accent")
+mesh = SubResource("UnitBox")
+
+[node name="WestParapet" type="MeshInstance3D" parent="RoofDetails"]
+position = Vector3(-10.1, 12.57, 0)
+scale = Vector3(0.22, 0.45, 14.4)
+material_override = ExtResource("dorm_accent")
+mesh = SubResource("UnitBox")
+
+[node name="EastParapet" type="MeshInstance3D" parent="RoofDetails"]
+position = Vector3(10.1, 12.57, 0)
+scale = Vector3(0.22, 0.45, 14.4)
+material_override = ExtResource("dorm_accent")
+mesh = SubResource("UnitBox")
+
+[node name="VentWest" type="MeshInstance3D" parent="RoofDetails"]
+position = Vector3(-5.5, 12.85, 2.3)
+scale = Vector3(1.1, 0.85, 1.1)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="VentEast" type="MeshInstance3D" parent="RoofDetails"]
+position = Vector3(5.5, 12.85, 2.3)
+scale = Vector3(1.1, 0.85, 1.1)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="Entrance" type="Node3D" parent="."]
+
+
+[node name="Landing" type="StaticBody3D" parent="Entrance"]
+position = Vector3(0, -0.025, -8.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Entrance/Landing"]
+position = Vector3(0, 0, 0)
+scale = Vector3(7, 0.12, 4.4)
+material_override = ExtResource("paving")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Entrance/Landing"]
+shape = SubResource("WallShape7")
+
+[node name="Canopy" type="StaticBody3D" parent="Entrance"]
+position = Vector3(0, 2.92, -7.95)
+
+[node name="Mesh" type="MeshInstance3D" parent="Entrance/Canopy"]
+position = Vector3(0, 0, 0)
+scale = Vector3(5.6, 0.18, 2.5)
+material_override = ExtResource("dorm_accent")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Entrance/Canopy"]
+shape = SubResource("WallShape8")
+
+[node name="CanopyRim" type="MeshInstance3D" parent="Entrance"]
+position = Vector3(0, 2.97, -9.2)
+scale = Vector3(5.75, 0.25, 0.12)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="WestColumn" type="StaticBody3D" parent="Entrance"]
+position = Vector3(-2.45, 1.44, -9)
+
+[node name="Mesh" type="MeshInstance3D" parent="Entrance/WestColumn"]
+position = Vector3(0, 0, 0)
+scale = Vector3(0.12, 2.8, 0.12)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Entrance/WestColumn"]
+shape = SubResource("WallShape9")
+
+[node name="EastColumn" type="StaticBody3D" parent="Entrance"]
+position = Vector3(2.45, 1.44, -9)
+
+[node name="Mesh" type="MeshInstance3D" parent="Entrance/EastColumn"]
+position = Vector3(0, 0, 0)
+scale = Vector3(0.12, 2.8, 0.12)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Entrance/EastColumn"]
+shape = SubResource("WallShape9")
+
+[node name="DoorHeader" type="MeshInstance3D" parent="Entrance"]
+position = Vector3(0, 2.63, -7.15)
+scale = Vector3(3.35, 0.15, 0.25)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="WestJamb" type="StaticBody3D" parent="Entrance"]
+position = Vector3(-1.63, 1.34, -7.15)
+
+[node name="Mesh" type="MeshInstance3D" parent="Entrance/WestJamb"]
+position = Vector3(0, 0, 0)
+scale = Vector3(0.14, 2.68, 0.25)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Entrance/WestJamb"]
+shape = SubResource("WallShape10")
+
+[node name="EastJamb" type="StaticBody3D" parent="Entrance"]
+position = Vector3(1.63, 1.34, -7.15)
+
+[node name="Mesh" type="MeshInstance3D" parent="Entrance/EastJamb"]
+position = Vector3(0, 0, 0)
+scale = Vector3(0.14, 2.68, 0.25)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Entrance/EastJamb"]
+shape = SubResource("WallShape10")
+
+[node name="VestibuleWest" type="StaticBody3D" parent="Entrance"]
+position = Vector3(-1.73, 1.43, -5.7)
+
+[node name="Mesh" type="MeshInstance3D" parent="Entrance/VestibuleWest"]
+position = Vector3(0, 0, 0)
+scale = Vector3(0.2, 2.8, 2.8)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Entrance/VestibuleWest"]
+shape = SubResource("WallShape11")
+
+[node name="VestibuleEast" type="StaticBody3D" parent="Entrance"]
+position = Vector3(1.73, 1.43, -5.7)
+
+[node name="Mesh" type="MeshInstance3D" parent="Entrance/VestibuleEast"]
+position = Vector3(0, 0, 0)
+scale = Vector3(0.2, 2.8, 2.8)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Entrance/VestibuleEast"]
+shape = SubResource("WallShape11")
+
+[node name="VestibuleCeiling" type="StaticBody3D" parent="Entrance"]
+position = Vector3(0, 2.87, -5.6)
+
+[node name="Mesh" type="MeshInstance3D" parent="Entrance/VestibuleCeiling"]
+position = Vector3(0, 0, 0)
+scale = Vector3(3.65, 0.12, 3.1)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Entrance/VestibuleCeiling"]
+shape = SubResource("WallShape12")
+
+[node name="InnerWall" type="StaticBody3D" parent="Entrance"]
+position = Vector3(0, 1.43, -4.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="Entrance/InnerWall"]
+position = Vector3(0, 0, 0)
+scale = Vector3(3.65, 2.8, 0.2)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Entrance/InnerWall"]
+shape = SubResource("WallShape13")
+
+[node name="InnerDoor" type="StaticBody3D" parent="Entrance"]
+position = Vector3(0, 1.29, -4.33)
+
+[node name="Mesh" type="MeshInstance3D" parent="Entrance/InnerDoor"]
+position = Vector3(0, 0, 0)
+scale = Vector3(1.1, 2.5, 0.08)
+material_override = ExtResource("dorm_door")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Entrance/InnerDoor"]
+shape = SubResource("WallShape14")
+
+[node name="InnerDoorHeader" type="MeshInstance3D" parent="Entrance"]
+position = Vector3(0, 2.58, -4.4)
+scale = Vector3(1.28, 0.1, 0.1)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="InnerWestJamb" type="MeshInstance3D" parent="Entrance"]
+position = Vector3(-0.6, 1.31, -4.4)
+scale = Vector3(0.09, 2.58, 0.1)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="InnerEastJamb" type="MeshInstance3D" parent="Entrance"]
+position = Vector3(0.6, 1.31, -4.4)
+scale = Vector3(0.09, 2.58, 0.1)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="InnerHandle" type="MeshInstance3D" parent="Entrance"]
+position = Vector3(0.37, 1.19, -4.405)
+scale = Vector3(0.035, 0.18, 0.045)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="EntryMat" type="MeshInstance3D" parent="Entrance"]
+position = Vector3(0, 0.043, -6.55)
+scale = Vector3(2, 0.014, 1.15)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="LeftDoorPivot" type="Node3D" parent="Entrance"]
+position = Vector3(-1.58, 0.04, -7.15)
+rotation_degrees = Vector3(0, -85, 0)
+
+[node name="Leaf" type="StaticBody3D" parent="Entrance/LeftDoorPivot"]
+position = Vector3(0.75, 1.245, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Entrance/LeftDoorPivot/Leaf"]
+position = Vector3(0, 0, 0)
+scale = Vector3(1.5, 2.45, 0.08)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Entrance/LeftDoorPivot/Leaf"]
+shape = SubResource("WallShape15")
+
+[node name="Pane" type="MeshInstance3D" parent="Entrance/LeftDoorPivot"]
+position = Vector3(0.75, 1.52, -0.055)
+scale = Vector3(1.3, 1.64, 0.035)
+material_override = ExtResource("dorm_glass")
+mesh = SubResource("UnitBox")
+
+[node name="LowerPanel" type="MeshInstance3D" parent="Entrance/LeftDoorPivot"]
+position = Vector3(0.75, 0.35, -0.055)
+scale = Vector3(1.3, 0.45, 0.04)
+material_override = ExtResource("dorm_accent")
+mesh = SubResource("UnitBox")
+
+[node name="Handle" type="MeshInstance3D" parent="Entrance/LeftDoorPivot"]
+position = Vector3(1.3, 1.19, -0.09)
+scale = Vector3(0.045, 0.3, 0.055)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="RightDoorPivot" type="Node3D" parent="Entrance"]
+position = Vector3(1.58, 0.04, -7.15)
+rotation_degrees = Vector3(0, 85, 0)
+
+[node name="Leaf" type="StaticBody3D" parent="Entrance/RightDoorPivot"]
+position = Vector3(-0.75, 1.245, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Entrance/RightDoorPivot/Leaf"]
+position = Vector3(0, 0, 0)
+scale = Vector3(1.5, 2.45, 0.08)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Entrance/RightDoorPivot/Leaf"]
+shape = SubResource("WallShape15")
+
+[node name="Pane" type="MeshInstance3D" parent="Entrance/RightDoorPivot"]
+position = Vector3(-0.75, 1.52, -0.055)
+scale = Vector3(1.3, 1.64, 0.035)
+material_override = ExtResource("dorm_glass")
+mesh = SubResource("UnitBox")
+
+[node name="LowerPanel" type="MeshInstance3D" parent="Entrance/RightDoorPivot"]
+position = Vector3(-0.75, 0.35, -0.055)
+scale = Vector3(1.3, 0.45, 0.04)
+material_override = ExtResource("dorm_accent")
+mesh = SubResource("UnitBox")
+
+[node name="Handle" type="MeshInstance3D" parent="Entrance/RightDoorPivot"]
+position = Vector3(-1.3, 1.19, -0.09)
+scale = Vector3(0.045, 0.3, 0.055)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="NameBoard" type="MeshInstance3D" parent="Entrance"]
+position = Vector3(0, 3.10, -9.28)
+scale = Vector3(5.8, 0.58, 0.1)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="Name" type="Label3D" parent="Entrance"]
+position = Vector3(0, 3.10, -9.34)
+rotation_degrees = Vector3(0, 180, 0)
+pixel_size = 0.008
+font_size = 48
+outline_size = 0
+modulate = Color(0.96, 0.94, 0.86, 1)
+text = "ОБЩЕЖИТИЕ"
+
+[node name="NumberBoard" type="MeshInstance3D" parent="Entrance"]
+position = Vector3(-2.25, 1.8, -7.25)
+scale = Vector3(0.48, 0.6, 0.08)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="Number" type="Label3D" parent="Entrance"]
+position = Vector3(-2.25, 1.8, -7.3)
+rotation_degrees = Vector3(0, 180, 0)
+pixel_size = 0.008
+font_size = 52
+outline_size = 0
+modulate = Color(0.96, 0.94, 0.86, 1)
+text = "1"
+
+[node name="AddressBoard" type="MeshInstance3D" parent="Entrance"]
+position = Vector3(2.6, 1.85, -7.25)
+scale = Vector3(1.45, 0.52, 0.08)
+material_override = ExtResource("dorm_accent")
+mesh = SubResource("UnitBox")
+
+[node name="Address" type="Label3D" parent="Entrance"]
+position = Vector3(2.6, 1.85, -7.3)
+rotation_degrees = Vector3(0, 180, 0)
+pixel_size = 0.0036
+font_size = 25
+outline_size = 0
+modulate = Color(0.96, 0.94, 0.86, 1)
+text = "СТУДЕНЧЕСКИЙ\nГОРОДОК"
+
+[node name="CeilingLamp" type="MeshInstance3D" parent="Entrance"]
+position = Vector3(0, 2.80, -7.8)
+scale = Vector3(0.9, 0.045, 0.28)
+material_override = SubResource("EntranceLampMaterial")
+mesh = SubResource("UnitBox")
+
+[node name="EntranceLight" type="OmniLight3D" parent="Entrance"]
+position = Vector3(0, 2.48, -6.75)
+light_color = Color(1, 0.88, 0.70, 1)
+light_energy = 0.65
+omni_range = 4.2
+shadow_enabled = false

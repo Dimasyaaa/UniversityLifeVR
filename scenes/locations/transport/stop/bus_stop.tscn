@@ -1,0 +1,558 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://materials/transport/metal.tres" id="metal"]
+
+[ext_resource type="Material" path="res://materials/transport/stop_blue.tres" id="stop_blue"]
+
+[ext_resource type="Material" path="res://materials/transport/stop_wood.tres" id="stop_wood"]
+
+[ext_resource type="Material" path="res://materials/transport/stop_safety.tres" id="stop_safety"]
+
+[ext_resource type="Material" path="res://materials/transport/stop_windscreen.tres" id="stop_windscreen"]
+
+[ext_resource type="Material" path="res://materials/transport/dorm_trim.tres" id="dorm_trim"]
+
+[ext_resource type="Material" path="res://materials/transport/paving.tres" id="paving"]
+
+[ext_resource type="PackedScene" path="res://scenes/locations/transport/stop/stop_bench.tscn" id="bench"]
+
+[ext_resource type="PackedScene" path="res://scenes/locations/transport/stop/stop_bin.tscn" id="bin"]
+
+[sub_resource type="BoxMesh" id="UnitBox"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="QuadMesh" id="BackGlass"]
+size = Vector2(5.55, 1.56)
+
+[sub_resource type="QuadMesh" id="SideGlass"]
+size = Vector2(3.15, 1.56)
+
+[sub_resource type="BoxShape3D" id="WaitingShape"]
+size = Vector3(7.2, 2.5, 3.2)
+
+[sub_resource type="CylinderMesh" id="DiagramDot"]
+top_radius = 0.045
+bottom_radius = 0.045
+height = 0.01
+radial_segments = 12
+rings = 1
+
+[sub_resource type="BoxShape3D" id="Shape1"]
+size = Vector3(6.45, 0.18, 3.95)
+
+[sub_resource type="BoxShape3D" id="Shape2"]
+size = Vector3(0.11, 2.74, 0.11)
+
+[sub_resource type="BoxShape3D" id="Shape3"]
+size = Vector3(5.8, 0.65, 0.09)
+
+[sub_resource type="BoxShape3D" id="BackGlassShape"]
+size = Vector3(5.8, 1.56, 0.06)
+
+[sub_resource type="BoxShape3D" id="Shape4"]
+size = Vector3(0.09, 0.65, 3.2)
+
+[sub_resource type="BoxShape3D" id="SideGlassShape"]
+size = Vector3(0.06, 1.56, 3.3)
+
+[sub_resource type="BoxShape3D" id="Shape5"]
+size = Vector3(1.35, 1.63, 0.12)
+
+[sub_resource type="BoxShape3D" id="Shape6"]
+size = Vector3(0.09, 2.72, 0.09)
+
+[node name="BusStop" type="Node3D"]
+
+
+[node name="Shelter" type="Node3D" parent="."]
+
+
+[node name="Roof" type="StaticBody3D" parent="Shelter"]
+position = Vector3(0, 2.86, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Shelter/Roof"]
+position = Vector3(0, 0, 0)
+scale = Vector3(6.45, 0.18, 3.95)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Shelter/Roof"]
+shape = SubResource("Shape1")
+
+[node name="RoofCap" type="MeshInstance3D" parent="Shelter"]
+position = Vector3(0, 2.98, 0)
+scale = Vector3(6.6, 0.08, 4.05)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="FrontFascia" type="MeshInstance3D" parent="Shelter"]
+position = Vector3(0, 2.83, -1.98)
+scale = Vector3(6.5, 0.35, 0.1)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="BackFascia" type="MeshInstance3D" parent="Shelter"]
+position = Vector3(0, 2.83, 1.98)
+scale = Vector3(6.5, 0.35, 0.1)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="FrontName" type="Label3D" parent="Shelter"]
+position = Vector3(0, 2.83, -2.042)
+rotation_degrees = Vector3(0, 180, 0)
+pixel_size = 0.007
+font_size = 40
+outline_size = 0
+modulate = Color(0.96, 0.94, 0.86, 1)
+text = "ОБЩЕЖИТИЕ"
+
+[node name="BackName" type="Label3D" parent="Shelter"]
+position = Vector3(0, 2.83, 2.042)
+rotation_degrees = Vector3(0, 0, 0)
+pixel_size = 0.007
+font_size = 40
+outline_size = 0
+modulate = Color(0.96, 0.94, 0.86, 1)
+text = "ОБЩЕЖИТИЕ"
+
+[node name="WestFrontPost" type="StaticBody3D" parent="Shelter"]
+position = Vector3(-2.9, 1.4, -1.65)
+
+[node name="Mesh" type="MeshInstance3D" parent="Shelter/WestFrontPost"]
+position = Vector3(0, 0, 0)
+scale = Vector3(0.11, 2.74, 0.11)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Shelter/WestFrontPost"]
+shape = SubResource("Shape2")
+
+[node name="WestBackPost" type="StaticBody3D" parent="Shelter"]
+position = Vector3(-2.9, 1.4, 1.65)
+
+[node name="Mesh" type="MeshInstance3D" parent="Shelter/WestBackPost"]
+position = Vector3(0, 0, 0)
+scale = Vector3(0.11, 2.74, 0.11)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Shelter/WestBackPost"]
+shape = SubResource("Shape2")
+
+[node name="EastFrontPost" type="StaticBody3D" parent="Shelter"]
+position = Vector3(2.9, 1.4, -1.65)
+
+[node name="Mesh" type="MeshInstance3D" parent="Shelter/EastFrontPost"]
+position = Vector3(0, 0, 0)
+scale = Vector3(0.11, 2.74, 0.11)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Shelter/EastFrontPost"]
+shape = SubResource("Shape2")
+
+[node name="EastBackPost" type="StaticBody3D" parent="Shelter"]
+position = Vector3(2.9, 1.4, 1.65)
+
+[node name="Mesh" type="MeshInstance3D" parent="Shelter/EastBackPost"]
+position = Vector3(0, 0, 0)
+scale = Vector3(0.11, 2.74, 0.11)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Shelter/EastBackPost"]
+shape = SubResource("Shape2")
+
+[node name="BackBottomRail" type="MeshInstance3D" parent="Shelter"]
+position = Vector3(0, 0.77, 1.73)
+scale = Vector3(5.8, 0.08, 0.1)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="BackTopRail" type="MeshInstance3D" parent="Shelter"]
+position = Vector3(0, 2.39, 1.73)
+scale = Vector3(5.8, 0.08, 0.1)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="BackLowerPanel" type="StaticBody3D" parent="Shelter"]
+position = Vector3(0, 0.4, 1.73)
+
+[node name="Mesh" type="MeshInstance3D" parent="Shelter/BackLowerPanel"]
+position = Vector3(0, 0, 0)
+scale = Vector3(5.8, 0.65, 0.09)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Shelter/BackLowerPanel"]
+shape = SubResource("Shape3")
+
+[node name="BackWindscreen" type="MeshInstance3D" parent="Shelter"]
+position = Vector3(0, 1.58, 1.73)
+material_override = ExtResource("stop_windscreen")
+mesh = SubResource("BackGlass")
+
+[node name="BackGlassBody" type="StaticBody3D" parent="Shelter"]
+position = Vector3(0, 1.58, 1.73)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Shelter/BackGlassBody"]
+shape = SubResource("BackGlassShape")
+
+[node name="EastLowerPanel" type="StaticBody3D" parent="Shelter"]
+position = Vector3(2.9, 0.4, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Shelter/EastLowerPanel"]
+position = Vector3(0, 0, 0)
+scale = Vector3(0.09, 0.65, 3.2)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Shelter/EastLowerPanel"]
+shape = SubResource("Shape4")
+
+[node name="EastBottomRail" type="MeshInstance3D" parent="Shelter"]
+position = Vector3(2.9, 0.77, 0)
+scale = Vector3(0.1, 0.08, 3.3)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="EastTopRail" type="MeshInstance3D" parent="Shelter"]
+position = Vector3(2.9, 2.39, 0)
+scale = Vector3(0.1, 0.08, 3.3)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="EastWindscreen" type="MeshInstance3D" parent="Shelter"]
+position = Vector3(2.9, 1.58, 0)
+rotation_degrees = Vector3(0, 90, 0)
+material_override = ExtResource("stop_windscreen")
+mesh = SubResource("SideGlass")
+
+[node name="EastGlassBody" type="StaticBody3D" parent="Shelter"]
+position = Vector3(2.9, 1.58, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Shelter/EastGlassBody"]
+shape = SubResource("SideGlassShape")
+
+[node name="Bench" parent="." instance=ExtResource("bench")]
+position = Vector3(0.9, 0.03, 1.09)
+
+[node name="Bin" parent="." instance=ExtResource("bin")]
+position = Vector3(4.3, 0.03, 0.65)
+rotation_degrees = Vector3(0, 180, 0)
+
+[node name="Information" type="Node3D" parent="."]
+position = Vector3(-1.95, 0, 1.54)
+
+[node name="Frame" type="StaticBody3D" parent="Information"]
+position = Vector3(0, 1.62, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Information/Frame"]
+position = Vector3(0, 0, 0)
+scale = Vector3(1.35, 1.63, 0.12)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Information/Frame"]
+shape = SubResource("Shape5")
+
+[node name="Paper" type="MeshInstance3D" parent="Information"]
+position = Vector3(0, 1.62, -0.071)
+scale = Vector3(1.23, 1.51, 0.025)
+material_override = ExtResource("paving")
+mesh = SubResource("UnitBox")
+
+[node name="Heading" type="Label3D" parent="Information"]
+position = Vector3(0, 2.19, -0.09)
+rotation_degrees = Vector3(0, 180, 0)
+pixel_size = 0.0038
+font_size = 30
+outline_size = 0
+modulate = Color(0.12, 0.22, 0.23, 1)
+text = "РАСПИСАНИЕ"
+
+[node name="RouteBadge" type="MeshInstance3D" parent="Information"]
+position = Vector3(-0.43, 1.91, -0.092)
+scale = Vector3(0.22, 0.24, 0.018)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="RouteNumber" type="Label3D" parent="Information"]
+position = Vector3(-0.43, 1.91, -0.107)
+rotation_degrees = Vector3(0, 180, 0)
+pixel_size = 0.0045
+font_size = 36
+outline_size = 0
+modulate = Color(0.96, 0.94, 0.86, 1)
+text = "1"
+
+[node name="Destination" type="Label3D" parent="Information"]
+position = Vector3(0.12, 1.93, -0.092)
+rotation_degrees = Vector3(0, 180, 0)
+pixel_size = 0.003
+font_size = 25
+outline_size = 0
+modulate = Color(0.12, 0.22, 0.23, 1)
+text = "УНИВЕРСИТЕТ"
+
+[node name="Origin" type="Label3D" parent="Information"]
+position = Vector3(0.045, 1.64, -0.092)
+rotation_degrees = Vector3(0, 180, 0)
+pixel_size = 0.0035
+font_size = 23
+outline_size = 0
+modulate = Color(0.12, 0.22, 0.23, 1)
+text = "Общежитие"
+
+[node name="Campus" type="Label3D" parent="Information"]
+position = Vector3(0.045, 1.37, -0.092)
+rotation_degrees = Vector3(0, 180, 0)
+pixel_size = 0.0035
+font_size = 23
+outline_size = 0
+modulate = Color(0.12, 0.22, 0.23, 1)
+text = "Кампус"
+
+[node name="RouteLine" type="MeshInstance3D" parent="Information"]
+position = Vector3(-0.47, 1.5, -0.098)
+scale = Vector3(0.018, 0.28, 0.014)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="OriginDot" type="MeshInstance3D" parent="Information"]
+position = Vector3(-0.47, 1.64, -0.11)
+rotation_degrees = Vector3(90, 0, 0)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("DiagramDot")
+
+[node name="CampusDot" type="MeshInstance3D" parent="Information"]
+position = Vector3(-0.47, 1.37, -0.11)
+rotation_degrees = Vector3(90, 0, 0)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("DiagramDot")
+
+[node name="ArrivalHeading" type="Label3D" parent="Information"]
+position = Vector3(0, 1.17, -0.092)
+rotation_degrees = Vector3(0, 180, 0)
+pixel_size = 0.0035
+font_size = 22
+outline_size = 0
+modulate = Color(0.12, 0.22, 0.23, 1)
+text = "Ближайший автобус"
+
+[node name="ArrivalValue" type="Label3D" parent="Information"]
+position = Vector3(0, 0.96, -0.092)
+rotation_degrees = Vector3(0, 180, 0)
+pixel_size = 0.0035
+font_size = 30
+outline_size = 0
+modulate = Color(0.12, 0.22, 0.23, 1)
+text = "—"
+
+[node name="StopSign" type="Node3D" parent="."]
+position = Vector3(4.6, 0, -2.7)
+
+[node name="Pole" type="StaticBody3D" parent="StopSign"]
+position = Vector3(0, 1.39, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="StopSign/Pole"]
+position = Vector3(0, 0, 0)
+scale = Vector3(0.09, 2.72, 0.09)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StopSign/Pole"]
+shape = SubResource("Shape6")
+
+[node name="Board" type="MeshInstance3D" parent="StopSign"]
+position = Vector3(0, 2.74, 0)
+scale = Vector3(0.82, 0.92, 0.1)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="Front" type="Node3D" parent="StopSign"]
+position = Vector3(0, 2.81, -0.061)
+rotation_degrees = Vector3(0, 180, 0)
+
+[node name="IconBody" type="MeshInstance3D" parent="StopSign/Front"]
+position = Vector3(0, 0, 0.009)
+scale = Vector3(0.47, 0.44, 0.025)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="IconWindow" type="MeshInstance3D" parent="StopSign/Front"]
+position = Vector3(0, 0.06, 0.028)
+scale = Vector3(0.35, 0.17, 0.018)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="LeftWheel" type="MeshInstance3D" parent="StopSign/Front"]
+position = Vector3(-0.15, -0.25, 0.011)
+scale = Vector3(0.09, 0.12, 0.02)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="RightWheel" type="MeshInstance3D" parent="StopSign/Front"]
+position = Vector3(0.15, -0.25, 0.011)
+scale = Vector3(0.09, 0.12, 0.02)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="Back" type="Node3D" parent="StopSign"]
+position = Vector3(0, 2.81, 0.061)
+rotation_degrees = Vector3(0, 0, 0)
+
+[node name="IconBody" type="MeshInstance3D" parent="StopSign/Back"]
+position = Vector3(0, 0, 0.009)
+scale = Vector3(0.47, 0.44, 0.025)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="IconWindow" type="MeshInstance3D" parent="StopSign/Back"]
+position = Vector3(0, 0.06, 0.028)
+scale = Vector3(0.35, 0.17, 0.018)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="LeftWheel" type="MeshInstance3D" parent="StopSign/Back"]
+position = Vector3(-0.15, -0.25, 0.011)
+scale = Vector3(0.09, 0.12, 0.02)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="RightWheel" type="MeshInstance3D" parent="StopSign/Back"]
+position = Vector3(0.15, -0.25, 0.011)
+scale = Vector3(0.09, 0.12, 0.02)
+material_override = ExtResource("dorm_trim")
+mesh = SubResource("UnitBox")
+
+[node name="Platform" type="Node3D" parent="."]
+
+
+[node name="SafetyStrip" type="MeshInstance3D" parent="Platform"]
+position = Vector3(0.5, 0.035, -2.96)
+scale = Vector3(8.3, 0.01, 0.55)
+material_override = ExtResource("stop_safety")
+mesh = SubResource("UnitBox")
+
+[node name="TactileGroove1" type="MeshInstance3D" parent="Platform"]
+position = Vector3(-3.35, 0.042, -2.96)
+scale = Vector3(0.027, 0.004, 0.42)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="TactileGroove2" type="MeshInstance3D" parent="Platform"]
+position = Vector3(-2.87, 0.042, -2.96)
+scale = Vector3(0.027, 0.004, 0.42)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="TactileGroove3" type="MeshInstance3D" parent="Platform"]
+position = Vector3(-2.39, 0.042, -2.96)
+scale = Vector3(0.027, 0.004, 0.42)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="TactileGroove4" type="MeshInstance3D" parent="Platform"]
+position = Vector3(-1.91, 0.042, -2.96)
+scale = Vector3(0.027, 0.004, 0.42)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="TactileGroove5" type="MeshInstance3D" parent="Platform"]
+position = Vector3(-1.43, 0.042, -2.96)
+scale = Vector3(0.027, 0.004, 0.42)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="TactileGroove6" type="MeshInstance3D" parent="Platform"]
+position = Vector3(-0.95, 0.042, -2.96)
+scale = Vector3(0.027, 0.004, 0.42)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="TactileGroove7" type="MeshInstance3D" parent="Platform"]
+position = Vector3(-0.47, 0.042, -2.96)
+scale = Vector3(0.027, 0.004, 0.42)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="TactileGroove8" type="MeshInstance3D" parent="Platform"]
+position = Vector3(0.01, 0.042, -2.96)
+scale = Vector3(0.027, 0.004, 0.42)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="TactileGroove9" type="MeshInstance3D" parent="Platform"]
+position = Vector3(0.49, 0.042, -2.96)
+scale = Vector3(0.027, 0.004, 0.42)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="TactileGroove10" type="MeshInstance3D" parent="Platform"]
+position = Vector3(0.97, 0.042, -2.96)
+scale = Vector3(0.027, 0.004, 0.42)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="TactileGroove11" type="MeshInstance3D" parent="Platform"]
+position = Vector3(1.45, 0.042, -2.96)
+scale = Vector3(0.027, 0.004, 0.42)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="TactileGroove12" type="MeshInstance3D" parent="Platform"]
+position = Vector3(1.93, 0.042, -2.96)
+scale = Vector3(0.027, 0.004, 0.42)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="TactileGroove13" type="MeshInstance3D" parent="Platform"]
+position = Vector3(2.41, 0.042, -2.96)
+scale = Vector3(0.027, 0.004, 0.42)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="TactileGroove14" type="MeshInstance3D" parent="Platform"]
+position = Vector3(2.89, 0.042, -2.96)
+scale = Vector3(0.027, 0.004, 0.42)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="TactileGroove15" type="MeshInstance3D" parent="Platform"]
+position = Vector3(3.37, 0.042, -2.96)
+scale = Vector3(0.027, 0.004, 0.42)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="TactileGroove16" type="MeshInstance3D" parent="Platform"]
+position = Vector3(3.85, 0.042, -2.96)
+scale = Vector3(0.027, 0.004, 0.42)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="TactileGroove17" type="MeshInstance3D" parent="Platform"]
+position = Vector3(4.33, 0.042, -2.96)
+scale = Vector3(0.027, 0.004, 0.42)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="WaitingPoint" type="Marker3D" parent="."]
+position = Vector3(0, 0.05, -2.25)
+
+[node name="BoardingPoint" type="Marker3D" parent="."]
+position = Vector3(1.65, 0.05, -3.25)
+
+[node name="BusStopPoint" type="Marker3D" parent="."]
+position = Vector3(0, 0.01, -5.5)
+rotation_degrees = Vector3(0, -90, 0)
+
+[node name="WaitingArea" type="Area3D" parent="."]
+position = Vector3(0, 1.28, -1.6)
+collision_layer = 0
+collision_mask = 1
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WaitingArea"]
+shape = SubResource("WaitingShape")

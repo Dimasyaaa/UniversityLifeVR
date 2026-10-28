@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[resource]
+resource_name = "stop_wood"
+albedo_color = Color(0.48, 0.34, 0.21, 1)
+roughness = 1

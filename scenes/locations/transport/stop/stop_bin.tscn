@@ -1,0 +1,52 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://materials/transport/metal.tres" id="metal"]
+
+[ext_resource type="Material" path="res://materials/transport/stop_blue.tres" id="stop_blue"]
+
+[sub_resource type="BoxMesh" id="UnitBox"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="CylinderMesh" id="BinBody"]
+top_radius = 0.3
+bottom_radius = 0.26
+height = 0.72
+radial_segments = 12
+rings = 1
+
+[sub_resource type="CylinderMesh" id="BinLid"]
+top_radius = 0.34
+bottom_radius = 0.34
+height = 0.07
+radial_segments = 12
+rings = 1
+
+[sub_resource type="CylinderShape3D" id="BinShape"]
+radius = 0.34
+height = 0.85
+
+[node name="StopBin" type="StaticBody3D"]
+
+
+[node name="Body" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.4, 0)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("BinBody")
+
+[node name="LidPivot" type="Node3D" parent="."]
+position = Vector3(0, 0.8, 0.28)
+
+[node name="Lid" type="MeshInstance3D" parent="LidPivot"]
+position = Vector3(0, 0, -0.28)
+material_override = ExtResource("metal")
+mesh = SubResource("BinLid")
+
+[node name="Opening" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.6, -0.292)
+scale = Vector3(0.35, 0.13, 0.025)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.425, 0)
+shape = SubResource("BinShape")

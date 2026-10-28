@@ -1,0 +1,76 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://materials/transport/bark.tres" id="bark"]
+
+[ext_resource type="Material" path="res://materials/transport/foliage.tres" id="foliage"]
+
+[ext_resource type="Material" path="res://materials/transport/foliage_sage.tres" id="foliage_sage"]
+
+[sub_resource type="CylinderMesh" id="TrunkMesh"]
+material = ExtResource("bark")
+top_radius = 0.14
+bottom_radius = 0.24
+height = 3.3
+radial_segments = 7
+rings = 1
+
+[sub_resource type="CylinderMesh" id="BranchMesh"]
+material = ExtResource("bark")
+top_radius = 0.055
+bottom_radius = 0.105
+height = 1.55
+radial_segments = 6
+rings = 1
+
+[sub_resource type="SphereMesh" id="CrownMesh"]
+material = ExtResource("foliage")
+radius = 1.8
+height = 3.6
+radial_segments = 8
+rings = 3
+
+[sub_resource type="CylinderShape3D" id="TrunkShape"]
+radius = 0.24
+height = 3.3
+
+[node name="CourtyardTree" type="Node3D"]
+
+
+[node name="Trunk" type="StaticBody3D" parent="."]
+position = Vector3(0, 1.65, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Trunk"]
+position = Vector3(0, 0, 0)
+mesh = SubResource("TrunkMesh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Trunk"]
+shape = SubResource("TrunkShape")
+
+[node name="BranchLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-0.44, 2.85, -0.1)
+rotation_degrees = Vector3(0, 10, 34)
+mesh = SubResource("BranchMesh")
+
+[node name="BranchRight" type="MeshInstance3D" parent="."]
+position = Vector3(0.48, 2.85, 0.05)
+rotation_degrees = Vector3(0, -18, -38)
+mesh = SubResource("BranchMesh")
+
+[node name="Crown" type="MeshInstance3D" parent="."]
+position = Vector3(0, 4.6, 0)
+scale = Vector3(1, 1.04, 0.92)
+rotation_degrees = Vector3(4, 17, 8)
+mesh = SubResource("CrownMesh")
+
+[node name="CrownLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-1.15, 3.95, -0.22)
+scale = Vector3(0.75, 0.79, 0.76)
+rotation_degrees = Vector3(0, 26, -8)
+mesh = SubResource("CrownMesh")
+material_override = ExtResource("foliage_sage")
+
+[node name="CrownRight" type="MeshInstance3D" parent="."]
+position = Vector3(1.02, 4.03, 0.18)
+scale = Vector3(0.78, 0.87, 0.77)
+rotation_degrees = Vector3(10, -20, -12)
+mesh = SubResource("CrownMesh")

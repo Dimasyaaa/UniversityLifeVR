@@ -1,0 +1,128 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://materials/transport/metal.tres" id="metal"]
+
+[ext_resource type="Material" path="res://materials/transport/stop_wood.tres" id="stop_wood"]
+
+[sub_resource type="BoxMesh" id="UnitBox"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="BoxShape3D" id="Shape1"]
+size = Vector3(3.4, 0.07, 0.56)
+
+[sub_resource type="BoxShape3D" id="Shape2"]
+size = Vector3(0.095, 0.46, 0.38)
+
+[sub_resource type="BoxShape3D" id="Shape3"]
+size = Vector3(3.4, 0.58, 0.08)
+
+[node name="StopBench" type="Node3D"]
+
+
+[node name="SeatSlat1" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.49, -0.21)
+scale = Vector3(3.4, 0.07, 0.12)
+material_override = ExtResource("stop_wood")
+mesh = SubResource("UnitBox")
+
+[node name="SeatSlat2" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.49, -0.07)
+scale = Vector3(3.4, 0.07, 0.12)
+material_override = ExtResource("stop_wood")
+mesh = SubResource("UnitBox")
+
+[node name="SeatSlat3" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.49, 0.07)
+scale = Vector3(3.4, 0.07, 0.12)
+material_override = ExtResource("stop_wood")
+mesh = SubResource("UnitBox")
+
+[node name="SeatSlat4" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.49, 0.21)
+scale = Vector3(3.4, 0.07, 0.12)
+material_override = ExtResource("stop_wood")
+mesh = SubResource("UnitBox")
+
+[node name="SeatBody" type="StaticBody3D" parent="."]
+position = Vector3(0, 0.49, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SeatBody"]
+shape = SubResource("Shape1")
+
+[node name="WestLeg" type="StaticBody3D" parent="."]
+position = Vector3(-1.35, 0.265, 0.05)
+
+[node name="Mesh" type="MeshInstance3D" parent="WestLeg"]
+position = Vector3(0, 0, 0)
+scale = Vector3(0.095, 0.46, 0.38)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WestLeg"]
+shape = SubResource("Shape2")
+
+[node name="WestBackSupport" type="MeshInstance3D" parent="."]
+position = Vector3(-1.35, 0.81, 0.29)
+scale = Vector3(0.065, 0.78, 0.065)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="EastLeg" type="StaticBody3D" parent="."]
+position = Vector3(1.35, 0.265, 0.05)
+
+[node name="Mesh" type="MeshInstance3D" parent="EastLeg"]
+position = Vector3(0, 0, 0)
+scale = Vector3(0.095, 0.46, 0.38)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EastLeg"]
+shape = SubResource("Shape2")
+
+[node name="EastBackSupport" type="MeshInstance3D" parent="."]
+position = Vector3(1.35, 0.81, 0.29)
+scale = Vector3(0.065, 0.78, 0.065)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="Backrest" type="StaticBody3D" parent="."]
+position = Vector3(0, 0.94, 0.3)
+
+[node name="Mesh" type="MeshInstance3D" parent="Backrest"]
+position = Vector3(0, 0, 0)
+scale = Vector3(3.4, 0.58, 0.08)
+material_override = ExtResource("stop_wood")
+mesh = SubResource("UnitBox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Backrest"]
+shape = SubResource("Shape3")
+
+[node name="BackrestGroove" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.95, 0.253)
+scale = Vector3(3.35, 0.025, 0.02)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="WestArmrest" type="MeshInstance3D" parent="."]
+position = Vector3(-1.64, 0.73, -0.02)
+scale = Vector3(0.065, 0.065, 0.61)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="WestArmSupport" type="MeshInstance3D" parent="."]
+position = Vector3(-1.64, 0.61, -0.23)
+scale = Vector3(0.065, 0.22, 0.065)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="EastArmrest" type="MeshInstance3D" parent="."]
+position = Vector3(1.64, 0.73, -0.02)
+scale = Vector3(0.065, 0.065, 0.61)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="EastArmSupport" type="MeshInstance3D" parent="."]
+position = Vector3(1.64, 0.61, -0.23)
+scale = Vector3(0.065, 0.22, 0.065)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")

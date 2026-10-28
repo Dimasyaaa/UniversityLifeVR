@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[resource]
+resource_name = "stop_windscreen"
+albedo_color = Color(0.43, 0.64, 0.67, 0.24)
+roughness = 0.55
+transparency = 1
+cull_mode = 2

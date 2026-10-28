@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[resource]
+resource_name = "Transport flowers"
+albedo_color = Color(0.59, 0.44, 0.66, 1)
+roughness = 1.0

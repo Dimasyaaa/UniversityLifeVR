@@ -1,0 +1,83 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://scenes/locations/transport/environment/road_meshes/road_approaches.tres" id="road"]
+[ext_resource type="Shape3D" path="res://scenes/locations/transport/environment/road_meshes/road_approaches_collision.tres" id="road_shape"]
+[ext_resource type="ArrayMesh" path="res://scenes/locations/transport/environment/road_meshes/road_shoulders.tres" id="shoulder"]
+[ext_resource type="Shape3D" path="res://scenes/locations/transport/environment/road_meshes/road_shoulders_collision.tres" id="shoulder_shape"]
+[ext_resource type="ArrayMesh" path="res://scenes/locations/transport/environment/road_meshes/road_markings.tres" id="marks"]
+[ext_resource type="Material" path="res://materials/transport/grass.tres" id="grass"]
+[ext_resource type="Material" path="res://materials/transport/foliage_sage.tres" id="sage"]
+
+[sub_resource type="SphereMesh" id="HillMesh"]
+radius = 1.0
+height = 2.0
+radial_segments = 10
+rings = 4
+
+[node name="RoadApproaches" type="Node3D"]
+
+[node name="Road" type="StaticBody3D" parent="."]
+
+[node name="Mesh" type="MeshInstance3D" parent="Road"]
+mesh = ExtResource("road")
+cast_shadow = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Road"]
+shape = ExtResource("road_shape")
+
+[node name="Shoulders" type="StaticBody3D" parent="."]
+
+[node name="Mesh" type="MeshInstance3D" parent="Shoulders"]
+mesh = ExtResource("shoulder")
+cast_shadow = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Shoulders"]
+shape = ExtResource("shoulder_shape")
+
+[node name="Markings" type="MeshInstance3D" parent="."]
+mesh = ExtResource("marks")
+cast_shadow = 0
+
+[node name="DistantHills" type="Node3D" parent="."]
+
+[node name="Hill1" type="MeshInstance3D" parent="DistantHills"]
+position = Vector3(-49, -4.7700000000000005, -86)
+scale = Vector3(18, 9, 32)
+mesh = SubResource("HillMesh")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Hill2" type="MeshInstance3D" parent="DistantHills"]
+position = Vector3(-98, -5.300000000000001, -84)
+scale = Vector3(20, 10, 33)
+mesh = SubResource("HillMesh")
+material_override = ExtResource("sage")
+cast_shadow = 0
+
+[node name="Hill3" type="MeshInstance3D" parent="DistantHills"]
+position = Vector3(-72, -7.42, -152)
+scale = Vector3(40, 14, 18)
+mesh = SubResource("HillMesh")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Hill4" type="MeshInstance3D" parent="DistantHills"]
+position = Vector3(49, -4.7700000000000005, -86)
+scale = Vector3(18, 9, 32)
+mesh = SubResource("HillMesh")
+material_override = ExtResource("sage")
+cast_shadow = 0
+
+[node name="Hill5" type="MeshInstance3D" parent="DistantHills"]
+position = Vector3(98, -5.300000000000001, -84)
+scale = Vector3(20, 10, 33)
+mesh = SubResource("HillMesh")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Hill6" type="MeshInstance3D" parent="DistantHills"]
+position = Vector3(72, -7.42, -152)
+scale = Vector3(40, 14, 18)
+mesh = SubResource("HillMesh")
+material_override = ExtResource("sage")
+cast_shadow = 0
