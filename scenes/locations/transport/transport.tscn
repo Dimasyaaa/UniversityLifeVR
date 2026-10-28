@@ -8,6 +8,8 @@
 
 [ext_resource type="PackedScene" path="res://scenes/locations/transport/stop/bus_stop.tscn" id="bus_stop"]
 
+[ext_resource type="PackedScene" path="res://scenes/locations/transport/bus/bus.tscn" id="bus"]
+
 [sub_resource type="ProceduralSkyMaterial" id="MorningSky"]
 sky_top_color = Color(0.28, 0.51, 0.68, 1)
 sky_horizon_color = Color(0.78, 0.85, 0.84, 1)
@@ -60,6 +62,10 @@ position = Vector3(0, 0, 24)
 
 [node name="BusStop" parent="." instance=ExtResource("bus_stop")]
 position = Vector3(9, 0, -18.2)
+
+[node name="Bus" parent="." instance=ExtResource("bus")]
+position = Vector3(7.5, 0.01, -23.95)
+rotation_degrees = Vector3(0, -90, 0)
 
 [node name="TransitionTo_TestRoom" parent="." instance=ExtResource("exit")]
 position = Vector3(-5, 0.04, 11)

@@ -1,0 +1,793 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://materials/transport/bus_body.tres" id="bus_body"]
+
+[ext_resource type="Material" path="res://materials/transport/bus_floor.tres" id="bus_floor"]
+
+[ext_resource type="Material" path="res://materials/transport/bus_glass.tres" id="bus_glass"]
+
+[ext_resource type="Material" path="res://materials/transport/bus_rubber.tres" id="bus_rubber"]
+
+[ext_resource type="Material" path="res://materials/transport/bus_headlight.tres" id="bus_headlight"]
+
+[ext_resource type="Material" path="res://materials/transport/bus_taillight.tres" id="bus_taillight"]
+
+[ext_resource type="Material" path="res://materials/transport/stop_blue.tres" id="stop_blue"]
+
+[ext_resource type="Material" path="res://materials/transport/metal.tres" id="metal"]
+
+[ext_resource type="Material" path="res://materials/transport/stop_safety.tres" id="stop_safety"]
+
+[ext_resource type="Material" path="res://materials/transport/dorm_glass.tres" id="dorm_glass"]
+
+[ext_resource type="PackedScene" path="res://scenes/locations/transport/bus/passenger_seat.tscn" id="seat"]
+
+[ext_resource type="PackedScene" path="res://scenes/locations/transport/bus/bus_door_leaf.tscn" id="door"]
+
+[sub_resource type="BoxMesh" id="UnitBox"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="CylinderMesh" id="TireMesh"]
+top_radius = 0.5
+bottom_radius = 0.5
+height = 0.26
+radial_segments = 20
+rings = 1
+
+[sub_resource type="CylinderMesh" id="HubMesh"]
+top_radius = 0.28
+bottom_radius = 0.28
+height = 0.3
+radial_segments = 16
+rings = 1
+
+[sub_resource type="CylinderShape3D" id="TireShape"]
+radius = 0.5
+height = 0.26
+
+[sub_resource type="CylinderMesh" id="RailMesh"]
+top_radius = 0.024
+bottom_radius = 0.024
+height = 2.3
+radial_segments = 8
+rings = 1
+
+[sub_resource type="CylinderMesh" id="LongRailMesh"]
+top_radius = 0.024
+bottom_radius = 0.024
+height = 7.5
+radial_segments = 8
+rings = 1
+
+[sub_resource type="CylinderMesh" id="SteeringWheelMesh"]
+top_radius = 0.2
+bottom_radius = 0.2
+height = 0.035
+radial_segments = 16
+rings = 1
+
+[sub_resource type="QuadMesh" id="FrontGlass"]
+size = Vector2(2.20, 1.28)
+
+[sub_resource type="QuadMesh" id="RearGlass"]
+size = Vector2(1.94, 1.10)
+
+[sub_resource type="QuadMesh" id="LeftGlass"]
+size = Vector2(8.90, 1.24)
+
+[sub_resource type="QuadMesh" id="RightBackGlass"]
+size = Vector2(7.025, 1.24)
+
+[sub_resource type="QuadMesh" id="RightFrontGlass"]
+size = Vector2(0.725, 1.24)
+
+[sub_resource type="BoxShape3D" id="BoxShape1"]
+size = Vector3(2.3, 0.18, 9.45)
+
+[sub_resource type="BoxShape3D" id="BoxShape2"]
+size = Vector3(2.42, 0.08, 9.58)
+
+[sub_resource type="BoxShape3D" id="BoxShape3"]
+size = Vector3(0.1, 0.82, 9.7)
+
+[sub_resource type="BoxShape3D" id="BoxShape4"]
+size = Vector3(0.1, 0.82, 1.125)
+
+[sub_resource type="BoxShape3D" id="BoxShape5"]
+size = Vector3(0.1, 0.82, 7.425)
+
+[sub_resource type="BoxShape3D" id="BoxShape6"]
+size = Vector3(2.5, 0.82, 0.14)
+
+[sub_resource type="BoxShape3D" id="BoxShape7"]
+size = Vector3(2.5, 0.18, 9.8)
+
+[sub_resource type="BoxShape3D" id="BoxShape8"]
+size = Vector3(0.11, 0.26, 9.7)
+
+[sub_resource type="BoxShape3D" id="BoxShape9"]
+size = Vector3(2.24, 0.32, 0.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape10"]
+size = Vector3(2.5, 0.32, 0.12)
+
+[sub_resource type="BoxShape3D" id="BoxShape11"]
+size = Vector3(0.15, 1.32, 0.12)
+
+[sub_resource type="BoxShape3D" id="BoxShape12"]
+size = Vector3(0.06, 1.32, 9)
+
+[sub_resource type="BoxShape3D" id="BoxShape13"]
+size = Vector3(0.06, 1.32, 7.025)
+
+[sub_resource type="BoxShape3D" id="BoxShape14"]
+size = Vector3(0.06, 1.32, 0.725)
+
+[sub_resource type="BoxShape3D" id="BoxShape15"]
+size = Vector3(2.35, 1.32, 0.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape16"]
+size = Vector3(2.15, 0.24, 0.63)
+
+[sub_resource type="BoxShape3D" id="BoxShape17"]
+size = Vector3(1.04, 1.15, 0.07)
+
+[node name="Bus" type="Node3D"]
+
+
+[node name="Body" type="AnimatableBody3D" parent="."]
+sync_to_physics = true
+
+[node name="Exterior" type="Node3D" parent="Body"]
+
+
+[node name="Chassis" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(0, 0.27, 0)
+scale = Vector3(2.3, 0.18, 9.45)
+material_override = ExtResource("bus_rubber")
+mesh = SubResource("UnitBox")
+
+[node name="ChassisShape" type="CollisionShape3D" parent="Body"]
+position = Vector3(0, 0.27, 0)
+shape = SubResource("BoxShape1")
+
+[node name="Floor" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(0, 0.41, 0)
+scale = Vector3(2.42, 0.08, 9.58)
+material_override = ExtResource("bus_floor")
+mesh = SubResource("UnitBox")
+
+[node name="FloorShape" type="CollisionShape3D" parent="Body"]
+position = Vector3(0, 0.41, 0)
+shape = SubResource("BoxShape2")
+
+[node name="LeftLowerBody" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(-1.2, 0.86, 0)
+scale = Vector3(0.1, 0.82, 9.7)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="LeftLowerBodyShape" type="CollisionShape3D" parent="Body"]
+position = Vector3(-1.2, 0.86, 0)
+shape = SubResource("BoxShape3")
+
+[node name="RightLowerFront" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(1.2, 0.86, -4.3375)
+scale = Vector3(0.1, 0.82, 1.125)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="RightLowerFrontShape" type="CollisionShape3D" parent="Body"]
+position = Vector3(1.2, 0.86, -4.3375)
+shape = SubResource("BoxShape4")
+
+[node name="RightLowerRear" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(1.2, 0.86, 1.1875)
+scale = Vector3(0.1, 0.82, 7.425)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="RightLowerRearShape" type="CollisionShape3D" parent="Body"]
+position = Vector3(1.2, 0.86, 1.1875)
+shape = SubResource("BoxShape5")
+
+[node name="LeftStripe" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(-1.258, 0.69, 0)
+scale = Vector3(0.025, 0.27, 9.7)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="RightFrontStripe" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(1.258, 0.69, -4.3375)
+scale = Vector3(0.025, 0.27, 1.125)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="RightRearStripe" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(1.258, 0.69, 1.1875)
+scale = Vector3(0.025, 0.27, 7.425)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="FrontNose" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(0, 0.86, -4.83)
+scale = Vector3(2.5, 0.82, 0.14)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="FrontNoseShape" type="CollisionShape3D" parent="Body"]
+position = Vector3(0, 0.86, -4.83)
+shape = SubResource("BoxShape6")
+
+[node name="RearLowerBody" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(0, 0.86, 4.83)
+scale = Vector3(2.5, 0.82, 0.14)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="RearLowerBodyShape" type="CollisionShape3D" parent="Body"]
+position = Vector3(0, 0.86, 4.83)
+shape = SubResource("BoxShape6")
+
+[node name="FrontBumper" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(0, 0.48, -4.94)
+scale = Vector3(2.53, 0.18, 0.13)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="RearBumper" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(0, 0.48, 4.94)
+scale = Vector3(2.53, 0.18, 0.13)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="Roof" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(0, 3.03, 0)
+scale = Vector3(2.5, 0.18, 9.8)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="RoofShape" type="CollisionShape3D" parent="Body"]
+position = Vector3(0, 3.03, 0)
+shape = SubResource("BoxShape7")
+
+[node name="LeftRoofRail" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(-1.205, 2.7, 0)
+scale = Vector3(0.11, 0.26, 9.7)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="LeftRoofRailShape" type="CollisionShape3D" parent="Body"]
+position = Vector3(-1.205, 2.7, 0)
+shape = SubResource("BoxShape8")
+
+[node name="RightRoofRail" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(1.205, 2.7, 0)
+scale = Vector3(0.11, 0.26, 9.7)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="RightRoofRailShape" type="CollisionShape3D" parent="Body"]
+position = Vector3(1.205, 2.7, 0)
+shape = SubResource("BoxShape8")
+
+[node name="FrontDestinationBoard" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(0, 2.73, -4.88)
+scale = Vector3(2.24, 0.32, 0.1)
+material_override = ExtResource("bus_rubber")
+mesh = SubResource("UnitBox")
+
+[node name="FrontDestinationBoardShape" type="CollisionShape3D" parent="Body"]
+position = Vector3(0, 2.73, -4.88)
+shape = SubResource("BoxShape9")
+
+[node name="FrontDestination" type="Label3D" parent="Body/Exterior"]
+position = Vector3(0, 2.73, -4.941)
+rotation_degrees = Vector3(0, 180, 0)
+pixel_size = 0.004
+font_size = 30
+outline_size = 0
+modulate = Color(0.96, 0.94, 0.82, 1)
+text = "1  УНИВЕРСИТЕТ"
+
+[node name="RearTopPanel" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(0, 2.73, 4.84)
+scale = Vector3(2.5, 0.32, 0.12)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="RearTopPanelShape" type="CollisionShape3D" parent="Body"]
+position = Vector3(0, 2.73, 4.84)
+shape = SubResource("BoxShape10")
+
+[node name="RearRouteBoard" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(0.82, 2.73, 4.912)
+scale = Vector3(0.36, 0.28, 0.02)
+material_override = ExtResource("bus_rubber")
+mesh = SubResource("UnitBox")
+
+[node name="RearRoute" type="Label3D" parent="Body/Exterior"]
+position = Vector3(0.82, 2.73, 4.93)
+rotation_degrees = Vector3(0, 0, 0)
+pixel_size = 0.005
+font_size = 36
+outline_size = 0
+modulate = Color(0.96, 0.94, 0.82, 1)
+text = "1"
+
+[node name="FrontWestPillar" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(-1.16, 1.93, -4.85)
+scale = Vector3(0.15, 1.32, 0.12)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="FrontWestPillarShape" type="CollisionShape3D" parent="Body"]
+position = Vector3(-1.16, 1.93, -4.85)
+shape = SubResource("BoxShape11")
+
+[node name="RearWestPillar" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(-1.16, 1.93, 4.85)
+scale = Vector3(0.15, 1.32, 0.12)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="RearWestPillarShape" type="CollisionShape3D" parent="Body"]
+position = Vector3(-1.16, 1.93, 4.85)
+shape = SubResource("BoxShape11")
+
+[node name="FrontEastPillar" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(1.16, 1.93, -4.85)
+scale = Vector3(0.15, 1.32, 0.12)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="FrontEastPillarShape" type="CollisionShape3D" parent="Body"]
+position = Vector3(1.16, 1.93, -4.85)
+shape = SubResource("BoxShape11")
+
+[node name="RearEastPillar" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(1.16, 1.93, 4.85)
+scale = Vector3(0.15, 1.32, 0.12)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="RearEastPillarShape" type="CollisionShape3D" parent="Body"]
+position = Vector3(1.16, 1.93, 4.85)
+shape = SubResource("BoxShape11")
+
+[node name="LeftPillar0" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(-1.23, 1.94, -4.55)
+scale = Vector3(0.07, 1.33, 0.07)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="LeftPillar1" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(-1.23, 1.94, -2.9)
+scale = Vector3(0.07, 1.33, 0.07)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="LeftPillar2" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(-1.23, 1.94, -1.25)
+scale = Vector3(0.07, 1.33, 0.07)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="LeftPillar3" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(-1.23, 1.94, 0.4)
+scale = Vector3(0.07, 1.33, 0.07)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="LeftPillar4" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(-1.23, 1.94, 2.05)
+scale = Vector3(0.07, 1.33, 0.07)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="LeftPillar5" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(-1.23, 1.94, 3.7)
+scale = Vector3(0.07, 1.33, 0.07)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="LeftPillar6" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(-1.23, 1.94, 4.55)
+scale = Vector3(0.07, 1.33, 0.07)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="RightPillar0" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(1.23, 1.94, -4.55)
+scale = Vector3(0.07, 1.33, 0.07)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="RightPillar1" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(1.23, 1.94, -3.815)
+scale = Vector3(0.07, 1.33, 0.07)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="RightPillar2" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(1.23, 1.94, -2.485)
+scale = Vector3(0.07, 1.33, 0.07)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="RightPillar3" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(1.23, 1.94, -0.85)
+scale = Vector3(0.07, 1.33, 0.07)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="RightPillar4" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(1.23, 1.94, 0.8)
+scale = Vector3(0.07, 1.33, 0.07)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="RightPillar5" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(1.23, 1.94, 2.45)
+scale = Vector3(0.07, 1.33, 0.07)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="RightPillar6" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(1.23, 1.94, 4.55)
+scale = Vector3(0.07, 1.33, 0.07)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")
+
+[node name="Windshield" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(0, 1.93, -4.909)
+rotation_degrees = Vector3(0, 180, 0)
+material_override = ExtResource("bus_glass")
+mesh = SubResource("FrontGlass")
+cast_shadow = 0
+
+[node name="RearWindow" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(0, 1.93, 4.909)
+material_override = ExtResource("bus_glass")
+mesh = SubResource("RearGlass")
+cast_shadow = 0
+
+[node name="LeftWindows" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(-1.252, 1.93, 0)
+rotation_degrees = Vector3(0, -90, 0)
+material_override = ExtResource("bus_glass")
+mesh = SubResource("LeftGlass")
+cast_shadow = 0
+
+[node name="RightRearWindows" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(1.252, 1.93, 0.9875)
+rotation_degrees = Vector3(0, 90, 0)
+material_override = ExtResource("bus_glass")
+mesh = SubResource("RightBackGlass")
+cast_shadow = 0
+
+[node name="RightFrontWindow" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(1.252, 1.93, -4.1375)
+rotation_degrees = Vector3(0, 90, 0)
+material_override = ExtResource("bus_glass")
+mesh = SubResource("RightFrontGlass")
+cast_shadow = 0
+
+[node name="LeftWindowCollision" type="CollisionShape3D" parent="Body"]
+position = Vector3(-1.22, 1.93, 0)
+shape = SubResource("BoxShape12")
+
+[node name="RightRearWindowCollision" type="CollisionShape3D" parent="Body"]
+position = Vector3(1.22, 1.93, 0.9875)
+shape = SubResource("BoxShape13")
+
+[node name="RightFrontWindowCollision" type="CollisionShape3D" parent="Body"]
+position = Vector3(1.22, 1.93, -4.1375)
+shape = SubResource("BoxShape14")
+
+[node name="WindshieldCollision" type="CollisionShape3D" parent="Body"]
+position = Vector3(0, 1.93, -4.84)
+shape = SubResource("BoxShape15")
+
+[node name="RearWindowCollision" type="CollisionShape3D" parent="Body"]
+position = Vector3(0, 1.93, 4.84)
+shape = SubResource("BoxShape15")
+
+[node name="LeftHeadlight" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(-0.85, 0.91, -4.915)
+scale = Vector3(0.42, 0.19, 0.035)
+material_override = ExtResource("bus_headlight")
+mesh = SubResource("UnitBox")
+
+[node name="LeftIndicator" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(-0.85, 1.1, -4.915)
+scale = Vector3(0.3, 0.065, 0.035)
+material_override = ExtResource("stop_safety")
+mesh = SubResource("UnitBox")
+
+[node name="LeftTailLight" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(-0.85, 0.91, 4.915)
+scale = Vector3(0.14, 0.35, 0.035)
+material_override = ExtResource("bus_taillight")
+mesh = SubResource("UnitBox")
+
+[node name="LeftRearIndicator" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(-0.85, 1.17, 4.915)
+scale = Vector3(0.14, 0.08, 0.035)
+material_override = ExtResource("stop_safety")
+mesh = SubResource("UnitBox")
+
+[node name="RightHeadlight" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(0.85, 0.91, -4.915)
+scale = Vector3(0.42, 0.19, 0.035)
+material_override = ExtResource("bus_headlight")
+mesh = SubResource("UnitBox")
+
+[node name="RightIndicator" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(0.85, 1.1, -4.915)
+scale = Vector3(0.3, 0.065, 0.035)
+material_override = ExtResource("stop_safety")
+mesh = SubResource("UnitBox")
+
+[node name="RightTailLight" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(0.85, 0.91, 4.915)
+scale = Vector3(0.14, 0.35, 0.035)
+material_override = ExtResource("bus_taillight")
+mesh = SubResource("UnitBox")
+
+[node name="RightRearIndicator" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(0.85, 1.17, 4.915)
+scale = Vector3(0.14, 0.08, 0.035)
+material_override = ExtResource("stop_safety")
+mesh = SubResource("UnitBox")
+
+[node name="RearGrille" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(0, 0.88, 4.915)
+scale = Vector3(1.16, 0.2, 0.025)
+material_override = ExtResource("bus_rubber")
+mesh = SubResource("UnitBox")
+
+[node name="LeftMirrorArm" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(-1.45, 2.24, -4.6)
+scale = Vector3(0.46, 0.05, 0.05)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="LeftMirror" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(-1.45, 2.02, -4.6)
+scale = Vector3(0.11, 0.42, 0.25)
+material_override = ExtResource("dorm_glass")
+mesh = SubResource("UnitBox")
+
+[node name="RightMirrorArm" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(1.45, 2.24, -4.6)
+scale = Vector3(0.46, 0.05, 0.05)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="RightMirror" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(1.45, 2.02, -4.6)
+scale = Vector3(0.11, 0.42, 0.25)
+material_override = ExtResource("dorm_glass")
+mesh = SubResource("UnitBox")
+
+[node name="Wheels" type="Node3D" parent="."]
+
+
+[node name="LeftFront" type="Node3D" parent="Wheels"]
+position = Vector3(-1.27, 0.5, -1.9)
+
+[node name="Tire" type="MeshInstance3D" parent="Wheels/LeftFront"]
+position = Vector3(0, 0, 0)
+rotation_degrees = Vector3(0, 0, 90)
+material_override = ExtResource("bus_rubber")
+mesh = SubResource("TireMesh")
+
+[node name="Hub" type="MeshInstance3D" parent="Wheels/LeftFront"]
+position = Vector3(0, 0, 0)
+rotation_degrees = Vector3(0, 0, 90)
+material_override = ExtResource("metal")
+mesh = SubResource("HubMesh")
+
+[node name="LeftFrontWheelShape" type="CollisionShape3D" parent="Body"]
+position = Vector3(-1.27, 0.5, -1.9)
+rotation_degrees = Vector3(0, 0, 90)
+shape = SubResource("TireShape")
+
+[node name="LeftRear" type="Node3D" parent="Wheels"]
+position = Vector3(-1.27, 0.5, 3)
+
+[node name="Tire" type="MeshInstance3D" parent="Wheels/LeftRear"]
+position = Vector3(0, 0, 0)
+rotation_degrees = Vector3(0, 0, 90)
+material_override = ExtResource("bus_rubber")
+mesh = SubResource("TireMesh")
+
+[node name="Hub" type="MeshInstance3D" parent="Wheels/LeftRear"]
+position = Vector3(0, 0, 0)
+rotation_degrees = Vector3(0, 0, 90)
+material_override = ExtResource("metal")
+mesh = SubResource("HubMesh")
+
+[node name="LeftRearWheelShape" type="CollisionShape3D" parent="Body"]
+position = Vector3(-1.27, 0.5, 3)
+rotation_degrees = Vector3(0, 0, 90)
+shape = SubResource("TireShape")
+
+[node name="RightFront" type="Node3D" parent="Wheels"]
+position = Vector3(1.27, 0.5, -1.9)
+
+[node name="Tire" type="MeshInstance3D" parent="Wheels/RightFront"]
+position = Vector3(0, 0, 0)
+rotation_degrees = Vector3(0, 0, 90)
+material_override = ExtResource("bus_rubber")
+mesh = SubResource("TireMesh")
+
+[node name="Hub" type="MeshInstance3D" parent="Wheels/RightFront"]
+position = Vector3(0, 0, 0)
+rotation_degrees = Vector3(0, 0, 90)
+material_override = ExtResource("metal")
+mesh = SubResource("HubMesh")
+
+[node name="RightFrontWheelShape" type="CollisionShape3D" parent="Body"]
+position = Vector3(1.27, 0.5, -1.9)
+rotation_degrees = Vector3(0, 0, 90)
+shape = SubResource("TireShape")
+
+[node name="RightRear" type="Node3D" parent="Wheels"]
+position = Vector3(1.27, 0.5, 3)
+
+[node name="Tire" type="MeshInstance3D" parent="Wheels/RightRear"]
+position = Vector3(0, 0, 0)
+rotation_degrees = Vector3(0, 0, 90)
+material_override = ExtResource("bus_rubber")
+mesh = SubResource("TireMesh")
+
+[node name="Hub" type="MeshInstance3D" parent="Wheels/RightRear"]
+position = Vector3(0, 0, 0)
+rotation_degrees = Vector3(0, 0, 90)
+material_override = ExtResource("metal")
+mesh = SubResource("HubMesh")
+
+[node name="RightRearWheelShape" type="CollisionShape3D" parent="Body"]
+position = Vector3(1.27, 0.5, 3)
+rotation_degrees = Vector3(0, 0, 90)
+shape = SubResource("TireShape")
+
+[node name="Interior" type="Node3D" parent="."]
+
+
+[node name="Seats" type="Node3D" parent="Interior"]
+
+
+[node name="LeftRow1" parent="Interior/Seats" instance=ExtResource("seat")]
+position = Vector3(-0.82, 0.45, -1.4)
+
+[node name="RightRow1" parent="Interior/Seats" instance=ExtResource("seat")]
+position = Vector3(0.82, 0.45, -1.4)
+
+[node name="LeftRow2" parent="Interior/Seats" instance=ExtResource("seat")]
+position = Vector3(-0.82, 0.45, 0)
+
+[node name="RightRow2" parent="Interior/Seats" instance=ExtResource("seat")]
+position = Vector3(0.82, 0.45, 0)
+
+[node name="LeftRow3" parent="Interior/Seats" instance=ExtResource("seat")]
+position = Vector3(-0.82, 0.45, 1.4)
+
+[node name="RightRow3" parent="Interior/Seats" instance=ExtResource("seat")]
+position = Vector3(0.82, 0.45, 1.4)
+
+[node name="LeftRow4" parent="Interior/Seats" instance=ExtResource("seat")]
+position = Vector3(-0.82, 0.45, 2.8)
+
+[node name="RightRow4" parent="Interior/Seats" instance=ExtResource("seat")]
+position = Vector3(0.82, 0.45, 2.8)
+
+[node name="LeftRow5" parent="Interior/Seats" instance=ExtResource("seat")]
+position = Vector3(-0.82, 0.45, 4.1)
+
+[node name="RightRow5" parent="Interior/Seats" instance=ExtResource("seat")]
+position = Vector3(0.82, 0.45, 4.1)
+
+[node name="DriverSeat" parent="Interior" instance=ExtResource("seat")]
+position = Vector3(-0.65, 0.45, -3.8)
+scale = Vector3(0.92, 0.92, 0.92)
+
+[node name="Dashboard" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(0, 1.12, -4.33)
+scale = Vector3(2.15, 0.24, 0.63)
+material_override = ExtResource("bus_rubber")
+mesh = SubResource("UnitBox")
+
+[node name="DashboardShape" type="CollisionShape3D" parent="Body"]
+position = Vector3(0, 1.12, -4.33)
+shape = SubResource("BoxShape16")
+
+[node name="DriverDivider" type="MeshInstance3D" parent="Body/Exterior"]
+position = Vector3(-0.66, 1.04, -2.55)
+scale = Vector3(1.04, 1.15, 0.07)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="DriverDividerShape" type="CollisionShape3D" parent="Body"]
+position = Vector3(-0.66, 1.04, -2.55)
+shape = SubResource("BoxShape17")
+
+[node name="SteeringWheel" type="MeshInstance3D" parent="Interior"]
+position = Vector3(-0.65, 1.36, -4.15)
+rotation_degrees = Vector3(62, 0, 0)
+material_override = ExtResource("bus_rubber")
+mesh = SubResource("SteeringWheelMesh")
+
+[node name="LeftOverheadRail" type="MeshInstance3D" parent="Interior"]
+position = Vector3(-0.54, 2.56, 0.25)
+rotation_degrees = Vector3(90, 0, 0)
+material_override = ExtResource("stop_safety")
+mesh = SubResource("LongRailMesh")
+
+[node name="RightOverheadRail" type="MeshInstance3D" parent="Interior"]
+position = Vector3(0.54, 2.56, 0.25)
+rotation_degrees = Vector3(90, 0, 0)
+material_override = ExtResource("stop_safety")
+mesh = SubResource("LongRailMesh")
+
+[node name="FrontStanchion" type="MeshInstance3D" parent="Interior"]
+position = Vector3(0.43, 1.6, -1.9)
+material_override = ExtResource("stop_safety")
+mesh = SubResource("RailMesh")
+
+[node name="RearStanchion" type="MeshInstance3D" parent="Interior"]
+position = Vector3(0.43, 1.6, 2.8)
+material_override = ExtResource("stop_safety")
+mesh = SubResource("RailMesh")
+
+[node name="LeftCeilingLight" type="MeshInstance3D" parent="Interior"]
+position = Vector3(-0.6, 2.925, 0.15)
+scale = Vector3(0.08, 0.025, 7.9)
+material_override = ExtResource("bus_headlight")
+mesh = SubResource("UnitBox")
+
+[node name="RightCeilingLight" type="MeshInstance3D" parent="Interior"]
+position = Vector3(0.6, 2.925, 0.15)
+scale = Vector3(0.08, 0.025, 7.9)
+material_override = ExtResource("bus_headlight")
+mesh = SubResource("UnitBox")
+
+[node name="CabinLight" type="OmniLight3D" parent="Interior"]
+position = Vector3(0, 2.6, 0.25)
+light_color = Color(0.92, 0.95, 1, 1)
+light_energy = 0.3
+omni_range = 6
+shadow_enabled = false
+
+[node name="Doors" type="Node3D" parent="."]
+
+
+[node name="FrontLeafPivot" type="Node3D" parent="Doors"]
+position = Vector3(1.24, 0.45, -3.775)
+
+[node name="Leaf" parent="Doors/FrontLeafPivot" instance=ExtResource("door")]
+position = Vector3(0, 0, 0.3125)
+
+[node name="RearLeafPivot" type="Node3D" parent="Doors"]
+position = Vector3(1.24, 0.45, -2.525)
+
+[node name="Leaf" parent="Doors/RearLeafPivot" instance=ExtResource("door")]
+position = Vector3(0, 0, -0.3125)
+
+[node name="DoorEntry" type="Marker3D" parent="."]
+position = Vector3(1.32, 0.46, -3.15)
+rotation_degrees = Vector3(0, -90, 0)
+
+[node name="AisleEntry" type="Marker3D" parent="Interior"]
+position = Vector3(0, 0.46, -2.05)
+rotation_degrees = Vector3(0, 180, 0)
+
+[node name="PassengerAnchor" type="Marker3D" parent="Interior"]
+position = Vector3(-0.82, 0.45, 0)
+rotation_degrees = Vector3(0, 90, 0)
+
+[node name="PassengerEyeTarget" type="Marker3D" parent="Interior"]
+position = Vector3(-0.78, 1.66, 0)
+rotation_degrees = Vector3(0, 90, 0)

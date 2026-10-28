@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://scenes/locations/transport/bus/meshes/passenger_seat.tres" id="seat"]
+
+[sub_resource type="BoxShape3D" id="BoxShape1"]
+size = Vector3(0.66, 0.13, 0.58)
+
+[sub_resource type="BoxShape3D" id="BoxShape2"]
+size = Vector3(0.66, 0.82, 0.11)
+
+[node name="PassengerSeat" type="AnimatableBody3D"]
+sync_to_physics = true
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = ExtResource("seat")
+
+[node name="SeatCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.46, 0)
+shape = SubResource("BoxShape1")
+
+[node name="BackCollision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.91, 0.29)
+shape = SubResource("BoxShape2")

@@ -1,0 +1,74 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://materials/transport/metal.tres" id="metal"]
+
+[ext_resource type="Material" path="res://materials/transport/stop_blue.tres" id="stop_blue"]
+
+[ext_resource type="Material" path="res://materials/transport/bus_glass.tres" id="bus_glass"]
+
+[ext_resource type="Material" path="res://materials/transport/bus_body.tres" id="bus_body"]
+
+[sub_resource type="BoxMesh" id="UnitBox"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="QuadMesh" id="DoorGlass"]
+size = Vector2(0.555, 1.42)
+
+[sub_resource type="BoxShape3D" id="BoxShape1"]
+size = Vector3(0.075, 2.12, 0.615)
+
+[node name="BusDoorLeaf" type="AnimatableBody3D"]
+sync_to_physics = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 1.06, 0)
+shape = SubResource("BoxShape1")
+
+[node name="FrontFrame" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.06, -0.29)
+scale = Vector3(0.08, 2.12, 0.035)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="RearFrame" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.06, 0.29)
+scale = Vector3(0.08, 2.12, 0.035)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="TopFrame" type="MeshInstance3D" parent="."]
+position = Vector3(0, 2.1, 0)
+scale = Vector3(0.08, 0.04, 0.615)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="BottomFrame" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.035, 0)
+scale = Vector3(0.08, 0.07, 0.615)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="MiddleFrame" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.63, 0)
+scale = Vector3(0.08, 0.04, 0.615)
+material_override = ExtResource("metal")
+mesh = SubResource("UnitBox")
+
+[node name="LowerPanel" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.32, 0)
+scale = Vector3(0.075, 0.55, 0.55)
+material_override = ExtResource("stop_blue")
+mesh = SubResource("UnitBox")
+
+[node name="Glass" type="MeshInstance3D" parent="."]
+position = Vector3(0.044, 1.36, 0)
+rotation_degrees = Vector3(0, 90, 0)
+material_override = ExtResource("bus_glass")
+mesh = SubResource("DoorGlass")
+cast_shadow = 0
+
+[node name="Handle" type="MeshInstance3D" parent="."]
+position = Vector3(0.09, 1.06, 0)
+scale = Vector3(0.04, 0.26, 0.04)
+material_override = ExtResource("bus_body")
+mesh = SubResource("UnitBox")

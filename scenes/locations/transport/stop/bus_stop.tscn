@@ -544,7 +544,7 @@ position = Vector3(0, 0.05, -2.25)
 position = Vector3(1.65, 0.05, -3.25)
 
 [node name="BusStopPoint" type="Marker3D" parent="."]
-position = Vector3(0, 0.01, -5.5)
+position = Vector3(-1.5, 0.01, -5.75)
 rotation_degrees = Vector3(0, -90, 0)
 
 [node name="WaitingArea" type="Area3D" parent="."]
