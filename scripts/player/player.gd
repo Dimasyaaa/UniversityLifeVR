@@ -23,6 +23,13 @@ var _tracked_frames: int = 0
 var _calibration_down: bool = false
 var _turn_ready: bool = true
 var _movement_enabled: bool = true
+var _passenger_active: bool = false
+var _passenger_anchor: Marker3D
+var _passenger_eye: Marker3D
+var _passenger_anchor_pose: Transform3D
+var _passenger_height_offset: float = 0.0
+var _passenger_collision_layer: int = 0
+var _passenger_collision_mask: int = 0
 
 
 func _enter_tree() -> void:
@@ -55,8 +62,9 @@ func _physics_process(delta: float) -> void:
 		request_calibration()
 	_calibration_down = pressed
 	_try_calibrate()
+	_follow_passenger_anchor()
 	_update_body()
-	if not _movement_enabled:
+	if not _movement_enabled or _passenger_active:
 		velocity = Vector3.ZERO
 		return
 	_handle_turn()
@@ -89,7 +97,90 @@ func set_movement_enabled(enabled: bool) -> void:
 
 
 func is_movement_enabled() -> bool:
+	# Общий допуск от меню/SceneManager; кресло ограничивает ходьбу отдельно.
 	return _movement_enabled
+
+
+## Сохраняет XR-отслеживание, но фиксирует пассажира относительно выбранного места.
+func enter_passenger_mode(anchor: Marker3D, eye_target: Marker3D) -> bool:
+	if _passenger_active or not _movement_enabled:
+		return false
+	if not is_instance_valid(eye_target) or not eye_target.is_inside_tree() or eye_target.is_queued_for_deletion():
+		return false
+	if is_ancestor_of(eye_target) or not place_at_spawn(anchor):
+		return false
+	release_held_objects()
+	_passenger_anchor = anchor
+	_passenger_eye = eye_target
+	_passenger_anchor_pose = _get_passenger_anchor_pose()
+	_passenger_height_offset = 0.0
+	_passenger_collision_layer = collision_layer
+	_passenger_collision_mask = collision_mask
+	_passenger_active = true
+	# Капсула не должна пересекать кресло; руки и телефон продолжают взаимодействия.
+	collision_layer = 0
+	collision_mask = 0
+	_align_passenger_eyes()
+	_update_body()
+	reset_physics_interpolation()
+	return true
+
+
+func is_passenger_mode() -> bool:
+	return _passenger_active
+
+
+func _clear_passenger_mode() -> void:
+	if not _passenger_active:
+		return
+	xr_origin.position.y -= _passenger_height_offset
+	collision_layer = _passenger_collision_layer
+	collision_mask = _passenger_collision_mask
+	_passenger_active = false
+	_passenger_anchor = null
+	_passenger_eye = null
+	_passenger_height_offset = 0.0
+	velocity = Vector3.ZERO
+	_turn_ready = false
+
+
+func _get_passenger_anchor_pose() -> Transform3D:
+	return Transform3D(_passenger_anchor.global_basis.orthonormalized(), _passenger_anchor.global_position)
+
+
+func _follow_passenger_anchor() -> void:
+	if not _passenger_active:
+		return
+	if not _passenger_targets_valid():
+		_clear_passenger_mode()
+		return
+	var current_pose: Transform3D = _get_passenger_anchor_pose()
+	if current_pose.is_equal_approx(_passenger_anchor_pose):
+		return
+	global_transform = current_pose * _passenger_anchor_pose.affine_inverse() * global_transform
+	_passenger_anchor_pose = current_pose
+
+
+func _passenger_targets_valid() -> bool:
+	return (
+		is_instance_valid(_passenger_anchor) and _passenger_anchor.is_inside_tree()
+		and is_instance_valid(_passenger_eye) and _passenger_eye.is_inside_tree()
+	)
+
+
+func _align_passenger_eyes() -> void:
+	var forward: Vector3 = -_passenger_anchor.global_basis.z
+	forward.y = 0.0
+	var head_forward: Vector3 = -camera.global_basis.z
+	head_forward.y = 0.0
+	if forward.length_squared() > 0.0001 and head_forward.length_squared() > 0.0001:
+		global_rotate(Vector3.UP, head_forward.normalized().signed_angle_to(forward.normalized(), Vector3.UP))
+	global_position.y = _passenger_anchor.global_position.y
+	var adjustment: Vector3 = _passenger_eye.global_position - camera.global_position
+	global_position += Vector3(adjustment.x, 0.0, adjustment.z)
+	xr_origin.position.y += adjustment.y
+	_passenger_height_offset += adjustment.y
+	_passenger_anchor_pose = _get_passenger_anchor_pose()
 
 
 func release_held_objects() -> void:
@@ -117,6 +208,8 @@ func place_at_spawn(spawn: Marker3D) -> bool:
 	if target_forward.length_squared() < 0.0001:
 		push_warning("Направление точки появления должно иметь горизонтальную составляющую.")
 		return false
+	# Любой переход через общую точку появления завершает пассажирский режим.
+	_clear_passenger_mode()
 	var head_forward: Vector3 = -camera.global_basis.z
 	head_forward.y = 0.0
 	if head_forward.length_squared() < 0.0001:
@@ -180,6 +273,13 @@ func _try_calibrate() -> void:
 	var head_offset: Vector3 = xr_origin.basis * camera.position
 	xr_origin.position = Vector3(-head_offset.x, eye_height - head_offset.y, -head_offset.z)
 	_calibration_pending = false
+	if _passenger_active:
+		# Калибровка создала новый базовый offset; поверх него снова задаём высоту кресла.
+		_passenger_height_offset = 0.0
+		if _passenger_targets_valid():
+			_align_passenger_eyes()
+		else:
+			_clear_passenger_mode()
 	calibrated.emit(eye_height)
 	print("VR Player calibrated: eye height ", eye_height)
 

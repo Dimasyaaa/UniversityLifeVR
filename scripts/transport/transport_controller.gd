@@ -5,10 +5,15 @@ signal waiting_started
 signal waiting_finished
 signal bus_arrived
 signal doors_opened
+signal player_boarded
+signal seat_selected(seat_name: StringName)
 
 const Player = preload("res://scripts/player/player.gd")
+const PassengerSeat = preload("res://scripts/transport/passenger_seat.gd")
 
-enum State { BEFORE_WAITING, APPROACHING, OPENING_DOORS, BOARDING_READY }
+enum State { BEFORE_WAITING, APPROACHING, OPENING_DOORS, BOARDING_READY, IN_BUS, SEATED }
+enum Placement { NONE, ENTERING, SITTING }
+enum FadePhase { OUT, BLACK, IN }
 
 const BRAKING_PART: float = 0.35
 const WHEEL_RADIUS: float = 0.5
@@ -21,6 +26,9 @@ const SAVED_PHASES: Array[String] = ["before_waiting", "approaching", "opening_d
 @export_range(0.2, 5.0, 0.1) var door_open_duration_seconds: float = 1.5
 @export_range(60.0, 90.0, 1.0) var door_open_angle_degrees: float = 82.0
 
+@export_group("Bus Boarding")
+@export_range(0.1, 0.5, 0.05) var boarding_fade_seconds: float = 0.15
+
 @onready var _waiting_area: Area3D = $BusStop/WaitingArea
 @onready var _arrival_value: Label3D = $BusStop/Information/ArrivalValue
 @onready var _bus: Node3D = $Bus
@@ -29,6 +37,9 @@ const SAVED_PHASES: Array[String] = ["before_waiting", "approaching", "opening_d
 @onready var _front_door: Node3D = $Bus/Doors/FrontLeafPivot
 @onready var _rear_door: Node3D = $Bus/Doors/RearLeafPivot
 @onready var _wheels: Node3D = $Bus/Wheels
+@onready var _boarding_area: Area3D = $Bus/BoardingArea
+@onready var _boarding_shape: CollisionShape3D = $Bus/BoardingArea/CollisionShape3D
+@onready var _cabin_area: Area3D = $Bus/CabinArea
 
 var state: State = State.BEFORE_WAITING
 var _approach_elapsed: float = 0.0
@@ -37,11 +48,38 @@ var _path_distance: float = 0.0
 var _wheel_angle: float = 0.0
 var _return_game_seconds: float = -1.0
 var _return_clock_speed: float = 0.0
+var _seats: Array[PassengerSeat] = []
+var _passenger: Player
+var _selected_seat: PassengerSeat
+var _placement: Placement = Placement.NONE
+var _fade_phase: FadePhase = FadePhase.OUT
+var _fade_elapsed: float = 0.0
+var _black_frames: int = 0
+var _placement_success: bool = false
+var _boarding_armed: bool = true
 
 
 func _ready() -> void:
+	for node: Node in $Bus/Interior/Seats.get_children():
+		var seat: PassengerSeat = node as PassengerSeat
+		if seat != null:
+			_seats.append(seat)
+			seat.seat_requested.connect(_on_seat_requested)
 	_apply_restored_pose()
 	_waiting_area.body_entered.connect(_on_waiting_area_body_entered)
+	_boarding_area.body_entered.connect(_on_boarding_area_entered)
+	_boarding_area.body_exited.connect(_on_boarding_area_exited)
+	_cabin_area.body_exited.connect(_on_cabin_area_exited)
+
+
+func _process(_delta: float) -> void:
+	if _placement != Placement.NONE and _fade_phase == FadePhase.BLACK and _can_update_transport():
+		_black_frames += 1
+
+
+func _exit_tree() -> void:
+	# Убираем только своё затемнение, не затрагивая запрос SceneManager.
+	XRToolsFade.set_fade(self, Color(0, 0, 0, 0))
 
 
 func _physics_process(delta: float) -> void:
@@ -51,6 +89,9 @@ func _physics_process(delta: float) -> void:
 		# Учитываем также время затемнения при обычном возвращении в локацию.
 		_catch_up_return_time()
 		_return_game_seconds = -1.0
+	if _placement != Placement.NONE:
+		_update_placement(delta)
+		return
 	match state:
 		State.BEFORE_WAITING:
 			# Игрок мог оказаться в зоне во время затемнения или паузы меню.
@@ -62,6 +103,12 @@ func _physics_process(delta: float) -> void:
 			_update_approach(delta)
 		State.OPENING_DOORS:
 			_update_doors(delta)
+		State.BOARDING_READY:
+			if _boarding_armed:
+				for body: Node3D in _boarding_area.get_overlapping_bodies():
+					if body is Player:
+						_request_boarding(body)
+						break
 
 
 func get_remaining_wait_seconds() -> float:
@@ -81,9 +128,13 @@ func is_boarding_available() -> bool:
 func get_save_data() -> Dictionary:
 	if _return_game_seconds >= 0.0:
 		_catch_up_return_time()
+	# Сохраняется готовый автобус; позиция игрока по договорённости — у общежития.
+	var saved_state: State = state
+	if state == State.IN_BUS or state == State.SEATED:
+		saved_state = State.BOARDING_READY
 	return {
 		"version": SAVE_VERSION,
-		"phase": SAVED_PHASES[state],
+		"phase": SAVED_PHASES[saved_state],
 		"approach_progress": _approach_elapsed / approach_duration_seconds,
 		"door_progress": _door_elapsed / door_open_duration_seconds,
 		"game_seconds": TimeManager.get_total_seconds(),
@@ -190,6 +241,121 @@ func _apply_restored_pose() -> void:
 		wheel.rotation.x = _wheel_angle
 	_apply_door_pose()
 	_update_arrival_text()
+	_set_seat_selection(false)
+
+
+func _on_boarding_area_entered(body: Node3D) -> void:
+	if body is Player:
+		_request_boarding.call_deferred(body)
+
+
+func _on_boarding_area_exited(body: Node3D) -> void:
+	if body is Player:
+		_boarding_armed = true
+
+
+func _on_cabin_area_exited(body: Node3D) -> void:
+	if body == _passenger and state == State.IN_BUS and _placement == Placement.NONE:
+		state = State.BOARDING_READY
+		_boarding_armed = false
+		_passenger = null
+		_set_seat_selection(false)
+
+
+func _request_boarding(player: Player) -> void:
+	if state != State.BOARDING_READY or _placement != Placement.NONE or not _boarding_armed:
+		return
+	if not _can_update_transport() or not is_instance_valid(player) or not player.is_movement_enabled() or player.is_passenger_mode():
+		return
+	if not _is_player_at_door(player):
+		return
+	_passenger = player
+	_boarding_armed = false
+	_begin_placement(Placement.ENTERING)
+
+
+func _is_player_at_door(player: Player) -> bool:
+	if not _boarding_area.overlaps_body(player):
+		return false
+	# Список Area3D обновляется на физическом кадре и может отставать после загрузки.
+	# Дополнительно сверяем текущую позицию головы с простым объёмом входа.
+	var box: BoxShape3D = _boarding_shape.shape as BoxShape3D
+	var capsule: CapsuleShape3D = player.body_collision.shape as CapsuleShape3D
+	var bounds := AABB(-box.size * 0.5, box.size).grow(capsule.radius)
+	return bounds.has_point(_boarding_shape.to_local(player.camera.global_position))
+
+
+func _on_seat_requested(seat: Node3D) -> void:
+	if state != State.IN_BUS or _placement != Placement.NONE or not _can_update_transport():
+		return
+	if seat not in _seats or not is_instance_valid(_passenger) or not _cabin_area.overlaps_body(_passenger):
+		return
+	var selected: PassengerSeat = seat as PassengerSeat
+	if _passenger.camera.global_position.distance_to(selected.passenger_eye_target.global_position) > 2.0:
+		return
+	_selected_seat = selected
+	_begin_placement(Placement.SITTING)
+
+
+func _begin_placement(kind: Placement) -> void:
+	_placement = kind
+	_fade_phase = FadePhase.OUT
+	_fade_elapsed = 0.0
+	_black_frames = 0
+	_placement_success = false
+	_set_seat_selection(false)
+
+
+func _update_placement(delta: float) -> void:
+	match _fade_phase:
+		FadePhase.OUT:
+			_fade_elapsed = minf(boarding_fade_seconds, _fade_elapsed + delta)
+			XRToolsFade.set_fade(self, Color(0, 0, 0, _fade_elapsed / boarding_fade_seconds))
+			if _fade_elapsed >= boarding_fade_seconds:
+				_fade_phase = FadePhase.BLACK
+				_black_frames = 0
+		FadePhase.BLACK:
+			if _black_frames >= 2:
+				_place_passenger_under_black()
+				_fade_phase = FadePhase.IN
+				_fade_elapsed = 0.0
+		FadePhase.IN:
+			_fade_elapsed = minf(boarding_fade_seconds, _fade_elapsed + delta)
+			XRToolsFade.set_fade(self, Color(0, 0, 0, 1.0 - _fade_elapsed / boarding_fade_seconds))
+			if _fade_elapsed >= boarding_fade_seconds:
+				_finish_placement()
+
+
+func _place_passenger_under_black() -> void:
+	if not is_instance_valid(_passenger):
+		return
+	if _placement == Placement.ENTERING:
+		if _passenger.place_at_spawn($Bus/Interior/AisleEntry):
+			state = State.IN_BUS
+			_placement_success = true
+	elif _placement == Placement.SITTING and is_instance_valid(_selected_seat):
+		if _passenger.enter_passenger_mode(_selected_seat.passenger_anchor, _selected_seat.passenger_eye_target):
+			state = State.SEATED
+			_placement_success = true
+
+
+func _finish_placement() -> void:
+	var completed: Placement = _placement
+	_placement = Placement.NONE
+	XRToolsFade.set_fade(self, Color(0, 0, 0, 0))
+	_set_seat_selection(state == State.IN_BUS)
+	if not _placement_success:
+		return
+	if completed == Placement.ENTERING:
+		player_boarded.emit()
+	elif completed == Placement.SITTING:
+		seat_selected.emit(StringName(_selected_seat.name))
+	_save_transport_checkpoint.call_deferred()
+
+
+func _set_seat_selection(enabled: bool) -> void:
+	for seat: PassengerSeat in _seats:
+		seat.set_selection_enabled(enabled)
 
 
 func _can_update_transport() -> bool:
@@ -293,5 +459,5 @@ func _update_arrival_text() -> void:
 			# Округление вверх не показывает 00:00 до завершения ожидания.
 			var seconds: int = ceili(get_remaining_wait_seconds())
 			_arrival_value.text = "%02d:%02d" % [floori(seconds / 60.0), seconds % 60]
-		State.OPENING_DOORS, State.BOARDING_READY:
+		State.OPENING_DOORS, State.BOARDING_READY, State.IN_BUS, State.SEATED:
 			_arrival_value.text = "Прибыл"

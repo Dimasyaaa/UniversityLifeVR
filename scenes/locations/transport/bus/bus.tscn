@@ -132,6 +132,12 @@ size = Vector3(2.15, 0.24, 0.63)
 [sub_resource type="BoxShape3D" id="BoxShape17"]
 size = Vector3(1.04, 1.15, 0.07)
 
+[sub_resource type="BoxShape3D" id="BoardingShape"]
+size = Vector3(1.3, 2.4, 1.2)
+
+[sub_resource type="BoxShape3D" id="CabinShape"]
+size = Vector3(2.35, 2.8, 9.4)
+
 [node name="Bus" type="Node3D"]
 
 
@@ -693,6 +699,7 @@ position = Vector3(0.82, 0.45, 4.1)
 [node name="DriverSeat" parent="Interior" instance=ExtResource("seat")]
 position = Vector3(-0.65, 0.45, -3.8)
 scale = Vector3(0.92, 0.92, 0.92)
+selectable = false
 
 [node name="Dashboard" type="MeshInstance3D" parent="Body/Exterior"]
 position = Vector3(0, 1.12, -4.33)
@@ -791,3 +798,21 @@ rotation_degrees = Vector3(0, 90, 0)
 [node name="PassengerEyeTarget" type="Marker3D" parent="Interior"]
 position = Vector3(-0.78, 1.66, 0)
 rotation_degrees = Vector3(0, 90, 0)
+
+[node name="BoardingArea" type="Area3D" parent="."]
+position = Vector3(1.95, 1.2, -3.15)
+collision_layer = 0
+collision_mask = 1
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoardingArea"]
+shape = SubResource("BoardingShape")
+
+[node name="CabinArea" type="Area3D" parent="."]
+position = Vector3(0, 1.8, 0)
+collision_layer = 0
+collision_mask = 1
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CabinArea"]
+shape = SubResource("CabinShape")
