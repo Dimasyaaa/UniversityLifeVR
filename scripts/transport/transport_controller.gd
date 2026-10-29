@@ -1,5 +1,5 @@
 extends Node3D
-## Локальный транспорт: подъезд и отсчёт до прибытия запускаются вместе.
+## Подъезд, посадка и поездка используют общего игрока, часы и сохранение.
 
 signal waiting_started
 signal waiting_finished
@@ -7,16 +7,19 @@ signal bus_arrived
 signal doors_opened
 signal player_boarded
 signal seat_selected(seat_name: StringName)
+signal ride_started
+signal ride_finished
 
 const Player = preload("res://scripts/player/player.gd")
 const PassengerSeat = preload("res://scripts/transport/passenger_seat.gd")
 
-enum State { BEFORE_WAITING, APPROACHING, OPENING_DOORS, BOARDING_READY, IN_BUS, SEATED }
+enum State { BEFORE_WAITING, APPROACHING, OPENING_DOORS, BOARDING_READY, IN_BUS, SEATED, CLOSING_DOORS, RIDING, RIDE_FINISHED }
 enum Placement { NONE, ENTERING, SITTING }
 enum FadePhase { OUT, BLACK, IN }
 
 const BRAKING_PART: float = 0.35
 const WHEEL_RADIUS: float = 0.5
+const RIDE_RAMP_PART: float = 0.2
 const SAVE_VERSION: int = 1
 const SAVED_PHASES: Array[String] = ["before_waiting", "approaching", "opening_doors", "boarding_ready"]
 
@@ -29,11 +32,19 @@ const SAVED_PHASES: Array[String] = ["before_waiting", "approaching", "opening_d
 @export_group("Bus Boarding")
 @export_range(0.1, 0.5, 0.05) var boarding_fade_seconds: float = 0.15
 
+@export_group("Bus Ride")
+## Задержка после завершения размещения в кресле; реальные секунды.
+@export_range(0.0, 10.0, 0.5) var departure_delay_seconds: float = 2.0
+## Длительность движения. Игровые минуты проходят только через TimeManager.
+@export_range(5.0, 120.0, 0.5) var ride_duration_seconds: float = 55.0
+
 @onready var _waiting_area: Area3D = $BusStop/WaitingArea
 @onready var _arrival_value: Label3D = $BusStop/Information/ArrivalValue
 @onready var _bus: Node3D = $Bus
 @onready var _approach_path: Path3D = $BusApproachPath
 @onready var _stop_point: Marker3D = $BusStop/BusStopPoint
+@onready var _ride_path: Path3D = $BusRidePath
+@onready var _ride_end: Marker3D = $BusRideEnd
 @onready var _front_door: Node3D = $Bus/Doors/FrontLeafPivot
 @onready var _rear_door: Node3D = $Bus/Doors/RearLeafPivot
 @onready var _wheels: Node3D = $Bus/Wheels
@@ -57,6 +68,9 @@ var _fade_elapsed: float = 0.0
 var _black_frames: int = 0
 var _placement_success: bool = false
 var _boarding_armed: bool = true
+var _departure_elapsed: float = 0.0
+var _ride_elapsed: float = 0.0
+var _ride_distance: float = 0.0
 
 
 func _ready() -> void:
@@ -109,6 +123,14 @@ func _physics_process(delta: float) -> void:
 					if body is Player:
 						_request_boarding(body)
 						break
+		State.SEATED:
+			_departure_elapsed = minf(departure_delay_seconds, _departure_elapsed + delta)
+			if _departure_elapsed >= departure_delay_seconds:
+				state = State.CLOSING_DOORS
+		State.CLOSING_DOORS:
+			_update_closing_doors(delta)
+		State.RIDING:
+			_update_ride(delta)
 
 
 func get_remaining_wait_seconds() -> float:
@@ -130,13 +152,13 @@ func get_save_data() -> Dictionary:
 		_catch_up_return_time()
 	# Сохраняется готовый автобус; позиция игрока по договорённости — у общежития.
 	var saved_state: State = state
-	if state == State.IN_BUS or state == State.SEATED:
+	if state >= State.IN_BUS:
 		saved_state = State.BOARDING_READY
 	return {
 		"version": SAVE_VERSION,
 		"phase": SAVED_PHASES[saved_state],
 		"approach_progress": _approach_elapsed / approach_duration_seconds,
-		"door_progress": _door_elapsed / door_open_duration_seconds,
+		"door_progress": 1.0 if saved_state == State.BOARDING_READY else _door_elapsed / door_open_duration_seconds,
 		"game_seconds": TimeManager.get_total_seconds(),
 		"clock_speed": maxf(0.0, TimeManager.game_seconds_per_real_second),
 	}
@@ -349,6 +371,7 @@ func _finish_placement() -> void:
 	if completed == Placement.ENTERING:
 		player_boarded.emit()
 	elif completed == Placement.SITTING:
+		_departure_elapsed = 0.0
 		seat_selected.emit(StringName(_selected_seat.name))
 	_save_transport_checkpoint.call_deferred()
 
@@ -434,6 +457,47 @@ func _update_doors(delta: float) -> void:
 		_save_transport_checkpoint.call_deferred()
 
 
+func _update_closing_doors(delta: float) -> void:
+	_door_elapsed = maxf(0.0, _door_elapsed - delta)
+	_apply_door_pose()
+	if _door_elapsed > 0.0:
+		return
+	# Только эта смена состояния запускает поездку; повторный выбор кресла закрыт.
+	state = State.RIDING
+	_ride_elapsed = 0.0
+	_ride_distance = 0.0
+	_update_arrival_text()
+	ride_started.emit()
+	_save_transport_checkpoint.call_deferred()
+
+
+func _update_ride(delta: float) -> void:
+	_ride_elapsed = minf(ride_duration_seconds, _ride_elapsed + delta)
+	var progress: float = _ride_elapsed / ride_duration_seconds
+	var distance: float = _ride_path.curve.get_baked_length() * _ride_progress(progress)
+	var travelled: float = distance - _ride_distance
+	_ride_distance = distance
+	_bus.global_transform = _ride_path.global_transform * _ride_path.curve.sample_baked_with_rotation(distance, true, false)
+	_wheel_angle = wrapf(_wheel_angle - travelled / WHEEL_RADIUS, -PI, PI)
+	for wheel: Node3D in _wheels.get_children():
+		wheel.rotation.x = _wheel_angle
+	if progress >= 1.0:
+		_bus.global_transform = _ride_end.global_transform
+		state = State.RIDE_FINISHED
+		ride_finished.emit()
+		_save_transport_checkpoint.call_deferred()
+
+
+func _ride_progress(progress: float) -> float:
+	# Интеграл плавного разгона/торможения: скорость и ускорение без скачков.
+	var ramp: float = minf(progress, 1.0 - progress) / RIDE_RAMP_PART
+	var normalizer: float = 1.0 - RIDE_RAMP_PART
+	if progress < RIDE_RAMP_PART or progress > 1.0 - RIDE_RAMP_PART:
+		var ramp_distance: float = RIDE_RAMP_PART * (ramp * ramp * ramp - 0.5 * ramp * ramp * ramp * ramp) / normalizer
+		return ramp_distance if progress < RIDE_RAMP_PART else 1.0 - ramp_distance
+	return (progress - RIDE_RAMP_PART * 0.5) / normalizer
+
+
 func _save_transport_checkpoint() -> void:
 	# Переход и загрузка сами управляют общим сохранением; не вмешиваемся в них.
 	if SceneManager.get_current_location() != self or SceneManager.is_transitioning() or SaveManager.is_loading():
@@ -461,3 +525,5 @@ func _update_arrival_text() -> void:
 			_arrival_value.text = "%02d:%02d" % [floori(seconds / 60.0), seconds % 60]
 		State.OPENING_DOORS, State.BOARDING_READY, State.IN_BUS, State.SEATED:
 			_arrival_value.text = "Прибыл"
+		State.CLOSING_DOORS, State.RIDING, State.RIDE_FINISHED:
+			_arrival_value.text = "Уехал"

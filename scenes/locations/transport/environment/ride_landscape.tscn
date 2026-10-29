@@ -1,0 +1,1058 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://materials/transport/grass.tres" id="grass"]
+[ext_resource type="Material" path="res://materials/transport/foliage.tres" id="foliage"]
+[ext_resource type="Material" path="res://materials/transport/foliage_sage.tres" id="foliage_sage"]
+[ext_resource type="Material" path="res://materials/transport/gravel.tres" id="gravel"]
+[ext_resource type="Material" path="res://materials/transport/asphalt.tres" id="asphalt"]
+[ext_resource type="Material" path="res://materials/transport/stone.tres" id="stone"]
+[ext_resource type="Material" path="res://materials/transport/flowers.tres" id="flowers"]
+[ext_resource type="PackedScene" path="res://scenes/locations/transport/environment/courtyard_tree.tscn" id="tree"]
+[ext_resource type="ArrayMesh" path="res://scenes/locations/transport/environment/road_meshes/ride_road.tres" id="ride_road"]
+[ext_resource type="ArrayMesh" path="res://scenes/locations/transport/environment/road_meshes/ride_shoulders.tres" id="ride_shoulders"]
+[ext_resource type="ArrayMesh" path="res://scenes/locations/transport/environment/road_meshes/ride_markings.tres" id="ride_markings"]
+[ext_resource type="ArrayMesh" path="res://scenes/locations/transport/environment/road_meshes/ride_lake_water.tres" id="ride_lake_water"]
+[ext_resource type="ArrayMesh" path="res://scenes/locations/transport/environment/road_meshes/ride_lake_bank.tres" id="ride_lake_bank"]
+[ext_resource type="Shape3D" path="res://scenes/locations/transport/environment/road_meshes/ride_road_collision.tres" id="road_shape"]
+
+[ext_resource type="PackedScene" path="res://scenes/locations/transport/environment/roadside_lamp.tscn" id="lamp"]
+[ext_resource type="ArrayMesh" path="res://scenes/locations/transport/environment/roadside_grass.tres" id="grass_patch"]
+
+[sub_resource type="SphereMesh" id="HillMesh"]
+radius = 1.0
+height = 2.0
+radial_segments = 24
+rings = 8
+
+[sub_resource type="SphereMesh" id="ShrubMesh"]
+radius = 1.0
+height = 2.0
+radial_segments = 10
+rings = 4
+
+[sub_resource type="SphereMesh" id="RockMesh"]
+radius = 1.0
+height = 2.0
+radial_segments = 8
+rings = 3
+
+[sub_resource type="BoxMesh" id="GroundMesh"]
+size = Vector3(420, 1, 380)
+
+[sub_resource type="BoxShape3D" id="GroundShape"]
+size = Vector3(420, 1, 380)
+
+[sub_resource type="StandardMaterial3D" id="WaterMaterial"]
+resource_name = "Lake shallow water"
+vertex_color_use_as_albedo = true
+roughness = 0.72
+
+[sub_resource type="StandardMaterial3D" id="BankMaterial"]
+albedo_color = Color(0.64, 0.62, 0.43, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="MarkingMaterial"]
+albedo_color = Color(0.88, 0.89, 0.75, 1)
+roughness = 1.0
+
+[node name="RideLandscape" type="Node3D"]
+
+[node name="Ground" type="StaticBody3D" parent="."]
+position = Vector3(50, -0.52, -190)
+
+[node name="Mesh" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("GroundMesh")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("GroundShape")
+
+[node name="Road" type="StaticBody3D" parent="."]
+
+[node name="Mesh" type="MeshInstance3D" parent="Road"]
+mesh = ExtResource("ride_road")
+material_override = ExtResource("asphalt")
+cast_shadow = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Road"]
+shape = ExtResource("road_shape")
+
+[node name="Shoulders" type="MeshInstance3D" parent="."]
+mesh = ExtResource("ride_shoulders")
+material_override = ExtResource("gravel")
+cast_shadow = 0
+
+[node name="Markings" type="MeshInstance3D" parent="."]
+mesh = ExtResource("ride_markings")
+material_override = SubResource("MarkingMaterial")
+cast_shadow = 0
+
+[node name="Lake" type="Node3D" parent="."]
+position = Vector3(48, 0, -174)
+
+[node name="Water" type="MeshInstance3D" parent="Lake"]
+mesh = ExtResource("ride_lake_water")
+material_override = SubResource("WaterMaterial")
+cast_shadow = 0
+
+[node name="Bank" type="MeshInstance3D" parent="Lake"]
+mesh = ExtResource("ride_lake_bank")
+material_override = SubResource("BankMaterial")
+cast_shadow = 0
+
+[node name="Hills" type="Node3D" parent="."]
+
+[node name="Hill01" type="MeshInstance3D" parent="Hills"]
+position = Vector3(5.0, -5.0, -159.0)
+scale = Vector3(24.0, 11.0, 30.0)
+mesh = SubResource("HillMesh")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Hill02" type="MeshInstance3D" parent="Hills"]
+position = Vector3(10.0, -4.0, -210.0)
+scale = Vector3(30.0, 10.0, 25.0)
+mesh = SubResource("HillMesh")
+material_override = ExtResource("foliage_sage")
+cast_shadow = 0
+
+[node name="Hill03" type="MeshInstance3D" parent="Hills"]
+position = Vector3(-30.0, -7.0, -219.0)
+scale = Vector3(40.0, 16.0, 45.0)
+mesh = SubResource("HillMesh")
+material_override = ExtResource("foliage_sage")
+cast_shadow = 0
+
+[node name="Hill04" type="MeshInstance3D" parent="Hills"]
+position = Vector3(53.0, -7.0, -245.0)
+scale = Vector3(35.0, 16.0, 28.0)
+mesh = SubResource("HillMesh")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Hill05" type="MeshInstance3D" parent="Hills"]
+position = Vector3(111.0, -9.0, -287.0)
+scale = Vector3(60.0, 20.0, 34.0)
+mesh = SubResource("HillMesh")
+material_override = ExtResource("foliage_sage")
+cast_shadow = 0
+
+[node name="Hill06" type="MeshInstance3D" parent="Hills"]
+position = Vector3(159.0, -8.0, -227.0)
+scale = Vector3(37.0, 18.0, 38.0)
+mesh = SubResource("HillMesh")
+material_override = ExtResource("foliage_sage")
+cast_shadow = 0
+
+[node name="Hill07" type="MeshInstance3D" parent="Hills"]
+position = Vector3(145.0, -5.0, -180.0)
+scale = Vector3(27.0, 12.0, 29.0)
+mesh = SubResource("HillMesh")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Hill08" type="MeshInstance3D" parent="Hills"]
+position = Vector3(177.0, -9.0, -150.0)
+scale = Vector3(42.0, 20.0, 42.0)
+mesh = SubResource("HillMesh")
+material_override = ExtResource("foliage_sage")
+cast_shadow = 0
+
+[node name="Hill09" type="MeshInstance3D" parent="Hills"]
+position = Vector3(29.0, -5.0, -108.0)
+scale = Vector3(22.0, 12.0, 23.0)
+mesh = SubResource("HillMesh")
+material_override = ExtResource("foliage_sage")
+cast_shadow = 0
+
+[node name="Hill10" type="MeshInstance3D" parent="Hills"]
+position = Vector3(126.0, -6.0, -74.0)
+scale = Vector3(22.0, 14.0, 29.0)
+mesh = SubResource("HillMesh")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Hill11" type="MeshInstance3D" parent="Hills"]
+position = Vector3(-62.0, -10.0, -160.0)
+scale = Vector3(37.0, 20.0, 57.0)
+mesh = SubResource("HillMesh")
+material_override = ExtResource("foliage_sage")
+cast_shadow = 0
+
+[node name="Hill12" type="MeshInstance3D" parent="Hills"]
+position = Vector3(198.0, -9.0, -288.0)
+scale = Vector3(54.0, 21.0, 48.0)
+mesh = SubResource("HillMesh")
+material_override = ExtResource("foliage_sage")
+cast_shadow = 0
+
+[node name="Trees" type="Node3D" parent="."]
+
+[node name="Tree01" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(58.0, 0.0, -67.0)
+scale = Vector3(0.9, 0.9, 0.9)
+rotation_degrees = Vector3(0, 0, 0)
+
+[node name="Tree02" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(91.0, 1.76709019319449, -66.0)
+scale = Vector3(1.02, 1.02, 1.02)
+rotation_degrees = Vector3(0, 47, 0)
+
+[node name="Tree03" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(57.0, 1.00152817762568, -103.0)
+scale = Vector3(1.14, 1.14, 1.14)
+rotation_degrees = Vector3(0, 94, 0)
+
+[node name="Tree04" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(88.0, 0.0, -116.0)
+scale = Vector3(1.26, 1.26, 1.26)
+rotation_degrees = Vector3(0, 141, 0)
+
+[node name="Tree05" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(56.0, 0.0, -129.0)
+scale = Vector3(0.9, 0.9, 0.9)
+rotation_degrees = Vector3(0, 188, 0)
+
+[node name="Tree06" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(100.0, 0.0, -129.0)
+scale = Vector3(1.02, 1.02, 1.02)
+rotation_degrees = Vector3(0, 235, 0)
+
+[node name="Tree07" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(24.0, 1.26189122386195, -156.0)
+scale = Vector3(1.14, 1.14, 1.14)
+rotation_degrees = Vector3(0, 282, 0)
+
+[node name="Tree08" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(19.0, 1.66892654692319, -174.0)
+scale = Vector3(1.26, 1.26, 1.26)
+rotation_degrees = Vector3(0, 329, 0)
+
+[node name="Tree09" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(23.0, 1.62496388749401, -193.0)
+scale = Vector3(0.9, 0.9, 0.9)
+rotation_degrees = Vector3(0, 16, 0)
+
+[node name="Tree10" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(30.0, 1.70358909525486, -199.0)
+scale = Vector3(1.02, 1.02, 1.02)
+rotation_degrees = Vector3(0, 63, 0)
+
+[node name="Tree11" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(65.0, 0.0, -212.0)
+scale = Vector3(1.14, 1.14, 1.14)
+rotation_degrees = Vector3(0, 110, 0)
+
+[node name="Tree12" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(77.0, 0.44995057528347, -230.0)
+scale = Vector3(1.26, 1.26, 1.26)
+rotation_degrees = Vector3(0, 157, 0)
+
+[node name="Tree13" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(122.0, 0.0, -200.0)
+scale = Vector3(0.9, 0.9, 0.9)
+rotation_degrees = Vector3(0, 204, 0)
+
+[node name="Tree14" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(122.0, 0.0, -210.0)
+scale = Vector3(1.02, 1.02, 1.02)
+rotation_degrees = Vector3(0, 251, 0)
+
+[node name="Tree15" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(126.0, 0.0, -220.0)
+scale = Vector3(1.14, 1.14, 1.14)
+rotation_degrees = Vector3(0, 298, 0)
+
+[node name="Tree16" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(121.0, 0.0, -233.0)
+scale = Vector3(1.26, 1.26, 1.26)
+rotation_degrees = Vector3(0, 345, 0)
+
+[node name="Tree17" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(94.0, 0.0, -249.0)
+scale = Vector3(0.9, 0.9, 0.9)
+rotation_degrees = Vector3(0, 32, 0)
+
+[node name="Tree18" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(139.0, 0.0, -116.0)
+scale = Vector3(1.02, 1.02, 1.02)
+rotation_degrees = Vector3(0, 79, 0)
+
+[node name="Tree19" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(110.0, 0.0, -100.0)
+scale = Vector3(1.14, 1.14, 1.14)
+rotation_degrees = Vector3(0, 126, 0)
+
+[node name="Tree20" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(21.0, 0.0, -133.0)
+scale = Vector3(1.26, 1.26, 1.26)
+rotation_degrees = Vector3(0, 173, 0)
+
+[node name="Shrubs" type="Node3D" parent="."]
+
+[node name="Shrub01" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(62.00000, 0.60509, -79.00000)
+scale = Vector3(1.60000002384186, 0.64999997615814, 1.20000004768372)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+cast_shadow = 0
+
+[node name="Shrub02" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(85.0, 0.34999999403954, -101.0)
+scale = Vector3(1.79999995231628, 0.64999997615814, 1.20000004768372)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage_sage")
+cast_shadow = 0
+
+[node name="Shrub03" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(61.0, 0.34999999403954, -119.0)
+scale = Vector3(2.0, 0.64999997615814, 1.20000004768372)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+cast_shadow = 0
+
+[node name="Shrub04" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(90.0, 0.30000001192093, -126.0)
+scale = Vector3(1.60000002384186, 0.64999997615814, 1.20000004768372)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage_sage")
+cast_shadow = 0
+
+[node name="Shrub05" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(30.0, 0.31999999284744, -153.0)
+scale = Vector3(1.79999995231628, 0.64999997615814, 1.20000004768372)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+cast_shadow = 0
+
+[node name="Shrub06" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(26.0, 0.34999999403954, -186.0)
+scale = Vector3(2.0, 0.64999997615814, 1.20000004768372)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage_sage")
+cast_shadow = 0
+
+[node name="Shrub07" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(37.0, 0.30000001192093, -196.0)
+scale = Vector3(1.60000002384186, 0.64999997615814, 1.20000004768372)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+cast_shadow = 0
+
+[node name="Shrub08" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(69.0, 0.30000001192093, -205.0)
+scale = Vector3(1.79999995231628, 0.64999997615814, 1.20000004768372)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage_sage")
+cast_shadow = 0
+
+[node name="Shrub09" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(120.0, 0.40000000596046, -185.0)
+scale = Vector3(2.0, 0.64999997615814, 1.20000004768372)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+cast_shadow = 0
+
+[node name="Shrub10" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(115.0, 0.30000001192093, -207.0)
+scale = Vector3(1.60000002384186, 0.64999997615814, 1.20000004768372)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage_sage")
+cast_shadow = 0
+
+[node name="Shrub11" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(119.0, 0.34999999403954, -218.0)
+scale = Vector3(1.79999995231628, 0.64999997615814, 1.20000004768372)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+cast_shadow = 0
+
+[node name="Shrub12" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(89.0, 0.30000001192093, -225.0)
+scale = Vector3(2.0, 0.64999997615814, 1.20000004768372)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage_sage")
+cast_shadow = 0
+
+[node name="Rocks" type="Node3D" parent="."]
+
+[node name="Rock01" type="MeshInstance3D" parent="Rocks"]
+position = Vector3(63.0, 0.20000000298023, -112.0)
+scale = Vector3(0.80000001192093, 0.44999998807907, 0.64999997615814)
+mesh = SubResource("RockMesh")
+material_override = ExtResource("stone")
+cast_shadow = 0
+
+[node name="Rock02" type="MeshInstance3D" parent="Rocks"]
+position = Vector3(87.0, 0.18000000715256, -119.0)
+scale = Vector3(1.04999995231628, 0.44999998807907, 0.94999998807907)
+mesh = SubResource("RockMesh")
+material_override = ExtResource("stone")
+cast_shadow = 0
+
+[node name="Rock03" type="MeshInstance3D" parent="Rocks"]
+position = Vector3(29.0, 0.20000000298023, -159.0)
+scale = Vector3(1.29999995231628, 0.44999998807907, 0.64999997615814)
+mesh = SubResource("RockMesh")
+material_override = ExtResource("stone")
+cast_shadow = 0
+
+[node name="Rock04" type="MeshInstance3D" parent="Rocks"]
+position = Vector3(26.0, 0.25, -185.0)
+scale = Vector3(0.80000001192093, 0.44999998807907, 0.94999998807907)
+mesh = SubResource("RockMesh")
+material_override = ExtResource("stone")
+cast_shadow = 0
+
+[node name="Rock05" type="MeshInstance3D" parent="Rocks"]
+position = Vector3(38.0, 0.15000000596046, -195.0)
+scale = Vector3(1.04999995231628, 0.44999998807907, 0.64999997615814)
+mesh = SubResource("RockMesh")
+material_override = ExtResource("stone")
+cast_shadow = 0
+
+[node name="Rock06" type="MeshInstance3D" parent="Rocks"]
+position = Vector3(67.0, 0.20000000298023, -201.0)
+scale = Vector3(1.29999995231628, 0.44999998807907, 0.94999998807907)
+mesh = SubResource("RockMesh")
+material_override = ExtResource("stone")
+cast_shadow = 0
+
+[node name="Rock07" type="MeshInstance3D" parent="Rocks"]
+position = Vector3(117.0, 0.30000001192093, -205.0)
+scale = Vector3(0.80000001192093, 0.44999998807907, 0.64999997615814)
+mesh = SubResource("RockMesh")
+material_override = ExtResource("stone")
+cast_shadow = 0
+
+[node name="Rock08" type="MeshInstance3D" parent="Rocks"]
+position = Vector3(119.0, 0.20000000298023, -222.0)
+scale = Vector3(1.04999995231628, 0.44999998807907, 0.94999998807907)
+mesh = SubResource("RockMesh")
+material_override = ExtResource("stone")
+cast_shadow = 0
+
+[node name="Flowers" type="Node3D" parent="."]
+
+[node name="Flowers01" type="MeshInstance3D" parent="Flowers"]
+position = Vector3(28.0, 0.11999999731779, -195.0)
+scale = Vector3(0.34999999403954, 0.18000000715256, 0.28000000119209)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("flowers")
+cast_shadow = 0
+
+[node name="Flowers02" type="MeshInstance3D" parent="Flowers"]
+position = Vector3(29.7999992370605, 0.11999999731779, -193.73779296875)
+scale = Vector3(0.34999999403954, 0.18000000715256, 0.28000000119209)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("flowers")
+cast_shadow = 0
+
+[node name="Flowers03" type="MeshInstance3D" parent="Flowers"]
+position = Vector3(31.6000003814697, 0.11999999731779, -193.636047363281)
+scale = Vector3(0.34999999403954, 0.18000000715256, 0.28000000119209)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("flowers")
+cast_shadow = 0
+
+[node name="Flowers04" type="MeshInstance3D" parent="Flowers"]
+position = Vector3(33.4000015258789, 0.11999999731779, -194.788314819336)
+scale = Vector3(0.34999999403954, 0.18000000715256, 0.28000000119209)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("flowers")
+cast_shadow = 0
+
+[node name="Flowers05" type="MeshInstance3D" parent="Flowers"]
+position = Vector3(35.2000007629395, 0.11999999731779, -196.135208129883)
+scale = Vector3(0.34999999403954, 0.18000000715256, 0.28000000119209)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("flowers")
+cast_shadow = 0
+
+[node name="Flowers06" type="MeshInstance3D" parent="Flowers"]
+position = Vector3(37.0, 0.11999999731779, -196.438385009766)
+scale = Vector3(0.34999999403954, 0.18000000715256, 0.28000000119209)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("flowers")
+cast_shadow = 0
+
+[node name="Flowers07" type="MeshInstance3D" parent="Flowers"]
+position = Vector3(38.7999992370605, 0.11999999731779, -195.419128417969)
+scale = Vector3(0.34999999403954, 0.18000000715256, 0.28000000119209)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("flowers")
+cast_shadow = 0
+
+[node name="Flowers08" type="MeshInstance3D" parent="Flowers"]
+position = Vector3(40.5999984741211, 0.11999999731779, -194.014526367188)
+scale = Vector3(0.34999999403954, 0.18000000715256, 0.28000000119209)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("flowers")
+cast_shadow = 0
+
+[node name="RoadsideLamps" type="Node3D" parent="."]
+
+[node name="Lamp01" parent="RoadsideLamps" instance=ExtResource("lamp")]
+position = Vector3(19.66807, 0.03000, -18.27985)
+rotation = Vector3(0, 1.599659, 0)
+scale = Vector3(1.000, 1.000, 1.000)
+
+[node name="Lamp02" parent="RoadsideLamps" instance=ExtResource("lamp")]
+position = Vector3(41.49419, 0.03000, -34.72002)
+rotation = Vector3(0, -1.570796, 0)
+scale = Vector3(1.000, 1.000, 1.000)
+
+[node name="Lamp03" parent="RoadsideLamps" instance=ExtResource("lamp")]
+position = Vector3(65.95801, 0.03000, -23.67768)
+rotation = Vector3(0, 2.153019, 0)
+scale = Vector3(1.000, 1.000, 1.000)
+
+[node name="Lamp04" parent="RoadsideLamps" instance=ExtResource("lamp")]
+position = Vector3(64.05485, 0.03000, -48.32883)
+rotation = Vector3(0, -0.162883, 0)
+scale = Vector3(1.000, 1.000, 1.000)
+
+[node name="Lamp05" parent="RoadsideLamps" instance=ExtResource("lamp")]
+position = Vector3(80.72003, 0.03000, -68.62662)
+rotation = Vector3(0, 3.141593, 0)
+scale = Vector3(1.000, 1.000, 1.000)
+
+[node name="Lamp06" parent="RoadsideLamps" instance=ExtResource("lamp")]
+position = Vector3(64.27998, 0.03000, -90.62662)
+rotation = Vector3(0, -0.000000, 0)
+scale = Vector3(1.000, 1.000, 1.000)
+
+[node name="Lamp07" parent="RoadsideLamps" instance=ExtResource("lamp")]
+position = Vector3(80.72004, 0.03000, -112.62662)
+rotation = Vector3(0, 3.141593, 0)
+scale = Vector3(1.000, 1.000, 1.000)
+
+[node name="Lamp08" parent="RoadsideLamps" instance=ExtResource("lamp")]
+position = Vector3(65.27999, 0.00600, -134.62662)
+rotation = Vector3(0, -0.000000, 0)
+scale = Vector3(1.000, 1.000, 1.000)
+
+[node name="Lamp09" parent="RoadsideLamps" instance=ExtResource("lamp")]
+position = Vector3(81.71841, 0.00600, -153.80130)
+rotation = Vector3(0, 2.617568, 0)
+scale = Vector3(1.000, 1.000, 1.000)
+
+[node name="Lamp10" parent="RoadsideLamps" instance=ExtResource("lamp")]
+position = Vector3(86.11790, 0.00600, -178.65440)
+rotation = Vector3(0, -0.780143, 0)
+scale = Vector3(1.000, 1.000, 1.000)
+
+[node name="Lamp11" parent="RoadsideLamps" instance=ExtResource("lamp")]
+position = Vector3(108.80429, 0.00600, -189.19099)
+rotation = Vector3(0, 2.852848, 0)
+scale = Vector3(1.000, 1.000, 1.000)
+
+[node name="Lamp12" parent="RoadsideLamps" instance=ExtResource("lamp")]
+position = Vector3(96.27998, 0.00600, -212.29378)
+rotation = Vector3(0, -0.000000, 0)
+scale = Vector3(1.000, 1.000, 1.000)
+
+[node name="Tree21" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(27.49419, 0.00000, -40.00000)
+rotation = Vector3(0, 0.000000, 0)
+scale = Vector3(0.850, 0.850, 0.850)
+
+[node name="Tree22" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(40.49419, 0.00000, -15.00000)
+rotation = Vector3(0, 0.820000, 0)
+scale = Vector3(0.960, 0.960, 0.960)
+
+[node name="Tree23" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(51.38857, 0.00000, -37.40981)
+rotation = Vector3(0, 1.640000, 0)
+scale = Vector3(1.070, 1.070, 1.070)
+
+[node name="Tree24" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(72.04675, 0.00000, -24.20876)
+rotation = Vector3(0, 2.460000, 0)
+scale = Vector3(1.180, 1.180, 1.180)
+
+[node name="Tree25" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(60.03627, 0.00000, -46.06944)
+rotation = Vector3(0, 3.280000, 0)
+scale = Vector3(0.850, 0.850, 0.850)
+
+[node name="Tree26" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(82.00000, 0.00000, -52.62662)
+rotation = Vector3(0, 4.100000, 0)
+scale = Vector3(0.960, 0.960, 0.960)
+
+[node name="Tree27" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(60.00000, 0.00000, -64.62662)
+rotation = Vector3(0, 4.920000, 0)
+scale = Vector3(1.070, 1.070, 1.070)
+
+[node name="Tree28" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(85.00000, 0.81338, -74.62662)
+rotation = Vector3(0, 5.740000, 0)
+scale = Vector3(1.180, 1.180, 1.180)
+
+[node name="Tree29" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(61.00000, 1.06868, -84.62662)
+rotation = Vector3(0, 6.560000, 0)
+scale = Vector3(0.850, 0.850, 0.850)
+
+[node name="Tree30" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(84.00001, 0.00000, -94.62662)
+rotation = Vector3(0, 7.380000, 0)
+scale = Vector3(0.960, 0.960, 0.960)
+
+[node name="Tree31" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(59.00000, 0.00000, -106.62662)
+rotation = Vector3(0, 8.200000, 0)
+scale = Vector3(1.070, 1.070, 1.070)
+
+[node name="Tree32" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(82.99999, 0.00000, -116.62662)
+rotation = Vector3(0, 9.020000, 0)
+scale = Vector3(1.180, 1.180, 1.180)
+
+[node name="Tree33" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(85.00000, 0.00000, -124.62662)
+rotation = Vector3(0, 9.840000, 0)
+scale = Vector3(0.850, 0.850, 0.850)
+
+[node name="Tree34" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(84.00000, 0.00000, -138.62662)
+rotation = Vector3(0, 10.660000, 0)
+scale = Vector3(0.960, 0.960, 0.960)
+
+[node name="Tree35" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(83.47178, 0.00000, -148.20119)
+rotation = Vector3(0, 11.480000, 0)
+scale = Vector3(1.070, 1.070, 1.070)
+
+[node name="Tree36" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(91.71985, 0.00000, -155.75674)
+rotation = Vector3(0, 12.300000, 0)
+scale = Vector3(1.180, 1.180, 1.180)
+
+[node name="Tree37" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(106.21439, 0.00000, -175.66905)
+rotation = Vector3(0, 13.120000, 0)
+scale = Vector3(0.850, 0.850, 0.850)
+
+[node name="Tree38" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(89.00000, 0.00000, -196.29378)
+rotation = Vector3(0, 13.940000, 0)
+scale = Vector3(0.960, 0.960, 0.960)
+
+[node name="Tree39" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(117.00001, 0.00000, -204.29378)
+rotation = Vector3(0, 14.760000, 0)
+scale = Vector3(1.070, 1.070, 1.070)
+
+[node name="Tree40" parent="Trees" instance=ExtResource("tree")]
+position = Vector3(90.00001, 0.00000, -213.29378)
+rotation = Vector3(0, 15.580000, 0)
+scale = Vector3(1.180, 1.180, 1.180)
+
+[node name="Shrub13" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(23.52806, 0.22000, -16.49897)
+scale = Vector3(1.10, 0.45, 0.85)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage_sage")
+cast_shadow = 0
+
+[node name="Shrub14" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(31.59419, 0.22000, -36.70000)
+scale = Vector3(1.35, 0.45, 1.05)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+cast_shadow = 0
+
+[node name="Shrub15" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(39.69419, 0.22000, -16.10000)
+scale = Vector3(1.60, 0.45, 0.85)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+cast_shadow = 0
+
+[node name="Shrub16" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(47.79419, 0.22000, -36.70000)
+scale = Vector3(1.10, 0.45, 1.05)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage_sage")
+cast_shadow = 0
+
+[node name="Shrub17" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(58.12605, 0.22000, -17.80296)
+scale = Vector3(1.35, 0.45, 0.85)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+cast_shadow = 0
+
+[node name="Shrub18" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(55.95346, 0.22000, -39.35423)
+scale = Vector3(1.60, 0.45, 1.05)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+cast_shadow = 0
+
+[node name="Shrub19" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(75.10816, 0.22000, -29.65816)
+scale = Vector3(1.10, 0.45, 0.85)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage_sage")
+cast_shadow = 0
+
+[node name="Shrub20" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(61.18845, 0.22000, -45.99220)
+scale = Vector3(1.35, 0.45, 1.05)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+cast_shadow = 0
+
+[node name="Shrub21" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(82.84050, 0.22000, -48.94917)
+scale = Vector3(1.60, 0.45, 0.85)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+cast_shadow = 0
+
+[node name="Shrub22" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(62.30000, 0.22000, -57.52662)
+scale = Vector3(1.10, 0.45, 1.05)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage_sage")
+cast_shadow = 0
+
+[node name="Shrub23" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(82.70000, 0.22000, -65.62662)
+scale = Vector3(1.35, 0.45, 0.85)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+cast_shadow = 0
+
+[node name="Shrub24" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(62.10000, 0.22000, -73.72662)
+scale = Vector3(1.60, 0.45, 1.05)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+cast_shadow = 0
+
+[node name="Shrub25" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(82.50000, 0.22000, -81.82661)
+scale = Vector3(1.10, 0.45, 0.85)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage_sage")
+cast_shadow = 0
+
+[node name="Shrub26" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(62.30000, 0.38802, -91.02662)
+scale = Vector3(1.35, 0.45, 1.05)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+cast_shadow = 0
+
+[node name="Shrub27" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(82.89999, 0.22000, -98.02661)
+scale = Vector3(1.60, 0.45, 0.85)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+cast_shadow = 0
+
+[node name="Shrub28" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(62.30000, 0.22000, -106.12662)
+scale = Vector3(1.10, 0.45, 1.05)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage_sage")
+cast_shadow = 0
+
+[node name="Shrub29" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(82.70000, 0.22000, -114.22663)
+scale = Vector3(1.35, 0.45, 0.85)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+cast_shadow = 0
+
+[node name="Shrub30" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(62.10000, 0.22000, -122.32662)
+scale = Vector3(1.60, 0.45, 1.05)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+cast_shadow = 0
+
+[node name="Shrub31" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(80.50000, 0.22000, -130.42662)
+scale = Vector3(1.10, 0.45, 0.85)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage_sage")
+cast_shadow = 0
+
+[node name="Shrub32" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(63.29999, 0.22000, -138.52661)
+scale = Vector3(1.35, 0.45, 1.05)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+cast_shadow = 0
+
+[node name="Shrub33" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(80.94631, 0.22000, -146.09737)
+scale = Vector3(1.60, 0.45, 0.85)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+cast_shadow = 0
+
+[node name="Shrub34" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(67.13926, 0.22000, -159.20425)
+scale = Vector3(1.10, 0.45, 1.05)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage_sage")
+cast_shadow = 0
+
+[node name="Shrub35" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(86.57477, 0.22000, -156.94652)
+scale = Vector3(1.35, 0.45, 0.85)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+cast_shadow = 0
+
+[node name="Shrub36" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(78.53639, 0.22000, -175.18887)
+scale = Vector3(1.60, 0.45, 1.05)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+cast_shadow = 0
+
+[node name="Shrub37" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(97.25466, 0.20000, -168.21106)
+scale = Vector3(1.10, 0.45, 0.85)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage_sage")
+cast_shadow = 0
+
+[node name="Shrub38" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(89.66071, 0.22000, -185.88338)
+scale = Vector3(1.35, 0.45, 1.05)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+cast_shadow = 0
+
+[node name="Shrub39" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(108.33906, 0.20000, -182.28781)
+scale = Vector3(1.60, 0.45, 0.85)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+cast_shadow = 0
+
+[node name="Shrub40" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(94.20374, 0.20000, -194.76859)
+scale = Vector3(1.10, 0.45, 1.05)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage_sage")
+cast_shadow = 0
+
+[node name="Shrub41" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(111.70000, 0.20000, -201.09378)
+scale = Vector3(1.35, 0.45, 0.85)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+cast_shadow = 0
+
+[node name="Shrub42" type="MeshInstance3D" parent="Shrubs"]
+position = Vector3(94.10000, 0.22000, -209.19377)
+scale = Vector3(1.60, 0.45, 1.05)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+cast_shadow = 0
+
+[node name="RoadsideGrass" type="Node3D" parent="."]
+
+[node name="Grass01" type="MeshInstance3D" parent="RoadsideGrass"]
+position = Vector3(17.76151, 0.00000, -16.56715)
+rotation = Vector3(0, 0.0000, 0)
+scale = Vector3(1.8, 1.0, 1.5)
+mesh = ExtResource("grass_patch")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Grass02" type="MeshInstance3D" parent="RoadsideGrass"]
+position = Vector3(27.89419, 0.00000, -36.45000)
+rotation = Vector3(0, 0.7000, 0)
+scale = Vector3(1.8, 1.0, 1.5)
+mesh = ExtResource("grass_patch")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Grass03" type="MeshInstance3D" parent="RoadsideGrass"]
+position = Vector3(42.69419, 0.00000, -14.20000)
+rotation = Vector3(0, 1.4000, 0)
+scale = Vector3(1.8, 1.0, 1.5)
+mesh = ExtResource("grass_patch")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Grass04" type="MeshInstance3D" parent="RoadsideGrass"]
+position = Vector3(50.27763, 0.00000, -39.31494)
+rotation = Vector3(0, 2.1000, 0)
+scale = Vector3(1.8, 1.0, 1.5)
+mesh = ExtResource("grass_patch")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Grass05" type="MeshInstance3D" parent="RoadsideGrass"]
+position = Vector3(61.93562, 0.00000, -19.48713)
+rotation = Vector3(0, 2.8000, 0)
+scale = Vector3(1.8, 1.0, 1.5)
+mesh = ExtResource("grass_patch")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Grass06" type="MeshInstance3D" parent="RoadsideGrass"]
+position = Vector3(58.53969, 0.00000, -40.89673)
+rotation = Vector3(0, 3.5000, 0)
+scale = Vector3(1.8, 1.0, 1.5)
+mesh = ExtResource("grass_patch")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Grass07" type="MeshInstance3D" parent="RoadsideGrass"]
+position = Vector3(80.11840, 0.00000, -38.38448)
+rotation = Vector3(0, 4.2000, 0)
+scale = Vector3(1.8, 1.0, 1.5)
+mesh = ExtResource("grass_patch")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Grass08" type="MeshInstance3D" parent="RoadsideGrass"]
+position = Vector3(62.55001, 0.00000, -51.42662)
+rotation = Vector3(0, 4.9000, 0)
+scale = Vector3(1.8, 1.0, 1.5)
+mesh = ExtResource("grass_patch")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Grass09" type="MeshInstance3D" parent="RoadsideGrass"]
+position = Vector3(82.40000, 0.00000, -61.82661)
+rotation = Vector3(0, 5.6000, 0)
+scale = Vector3(1.8, 1.0, 1.5)
+mesh = ExtResource("grass_patch")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Grass10" type="MeshInstance3D" parent="RoadsideGrass"]
+position = Vector3(61.10000, 0.16268, -75.52662)
+rotation = Vector3(0, 6.3000, 0)
+scale = Vector3(1.8, 1.0, 1.5)
+mesh = ExtResource("grass_patch")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Grass11" type="MeshInstance3D" parent="RoadsideGrass"]
+position = Vector3(82.45000, 0.00000, -83.72662)
+rotation = Vector3(0, 7.0000, 0)
+scale = Vector3(1.8, 1.0, 1.5)
+mesh = ExtResource("grass_patch")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Grass12" type="MeshInstance3D" parent="RoadsideGrass"]
+position = Vector3(62.59999, 0.00000, -93.02662)
+rotation = Vector3(0, 7.7000, 0)
+scale = Vector3(1.8, 1.0, 1.5)
+mesh = ExtResource("grass_patch")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Grass13" type="MeshInstance3D" parent="RoadsideGrass"]
+position = Vector3(82.50000, 0.00000, -103.42662)
+rotation = Vector3(0, 8.4000, 0)
+scale = Vector3(1.8, 1.0, 1.5)
+mesh = ExtResource("grass_patch")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Grass14" type="MeshInstance3D" parent="RoadsideGrass"]
+position = Vector3(62.55000, 0.00000, -113.82661)
+rotation = Vector3(0, 9.1000, 0)
+scale = Vector3(1.8, 1.0, 1.5)
+mesh = ExtResource("grass_patch")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Grass15" type="MeshInstance3D" parent="RoadsideGrass"]
+position = Vector3(82.39999, 0.00000, -124.22664)
+rotation = Vector3(0, 9.8000, 0)
+scale = Vector3(1.8, 1.0, 1.5)
+mesh = ExtResource("grass_patch")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Grass16" type="MeshInstance3D" parent="RoadsideGrass"]
+position = Vector3(62.30000, 0.00000, -136.82661)
+rotation = Vector3(0, 10.5000, 0)
+scale = Vector3(1.8, 1.0, 1.5)
+mesh = ExtResource("grass_patch")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Grass17" type="MeshInstance3D" parent="RoadsideGrass"]
+position = Vector3(86.00146, 0.00000, -147.40994)
+rotation = Vector3(0, 11.2000, 0)
+scale = Vector3(1.8, 1.0, 1.5)
+mesh = ExtResource("grass_patch")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Grass18" type="MeshInstance3D" parent="RoadsideGrass"]
+position = Vector3(67.52731, 0.00000, -161.84274)
+rotation = Vector3(0, 11.9000, 0)
+scale = Vector3(1.8, 1.0, 1.5)
+mesh = ExtResource("grass_patch")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Grass19" type="MeshInstance3D" parent="RoadsideGrass"]
+position = Vector3(88.16296, 0.00000, -159.13162)
+rotation = Vector3(0, 12.6000, 0)
+scale = Vector3(1.8, 1.0, 1.5)
+mesh = ExtResource("grass_patch")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Grass20" type="MeshInstance3D" parent="RoadsideGrass"]
+position = Vector3(83.26151, 0.00000, -178.17795)
+rotation = Vector3(0, 13.3000, 0)
+scale = Vector3(1.8, 1.0, 1.5)
+mesh = ExtResource("grass_patch")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Grass21" type="MeshInstance3D" parent="RoadsideGrass"]
+position = Vector3(102.67520, -0.02000, -174.17433)
+rotation = Vector3(0, 14.0000, 0)
+scale = Vector3(1.8, 1.0, 1.5)
+mesh = ExtResource("grass_patch")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Grass22" type="MeshInstance3D" parent="RoadsideGrass"]
+position = Vector3(93.62823, -0.02000, -191.70718)
+rotation = Vector3(0, 14.7000, 0)
+scale = Vector3(1.8, 1.0, 1.5)
+mesh = ExtResource("grass_patch")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Grass23" type="MeshInstance3D" parent="RoadsideGrass"]
+position = Vector3(111.45001, -0.02000, -197.09378)
+rotation = Vector3(0, 15.4000, 0)
+scale = Vector3(1.8, 1.0, 1.5)
+mesh = ExtResource("grass_patch")
+material_override = ExtResource("grass")
+cast_shadow = 0
+
+[node name="Grass24" type="MeshInstance3D" parent="RoadsideGrass"]
+position = Vector3(91.39998, 0.00000, -210.79378)
+rotation = Vector3(0, 16.1000, 0)
+scale = Vector3(1.8, 1.0, 1.5)
+mesh = ExtResource("grass_patch")
+material_override = ExtResource("grass")
+cast_shadow = 0

@@ -2,6 +2,8 @@
 
 [ext_resource type="PackedScene" path="res://scenes/locations/transport/environment/transport_landscape.tscn" id="landscape"]
 
+[ext_resource type="PackedScene" path="res://scenes/locations/transport/environment/ride_landscape.tscn" id="ride_landscape"]
+
 [ext_resource type="PackedScene" path="res://scenes/objects/location_exit.tscn" id="exit"]
 
 [ext_resource type="PackedScene" path="res://scenes/locations/transport/buildings/dormitory_exterior.tscn" id="dormitory"]
@@ -19,6 +21,14 @@ _data = {
 "tilts": PackedFloat32Array(0, 0, 0, 0)
 }
 point_count = 4
+
+[sub_resource type="Curve3D" id="BusRideCurve"]
+bake_interval = 0.25
+_data = {
+"points": PackedVector3Array(0, 0, 0, 5.5, 0, 0, 7.5, 0.01, -23.95, -5.5, 0, 0, 8, 0, 0, 24, 0.01, -24.35, -8, 0, 0, 14.718389, 0, 0, 48, 0.01, -24.35, 0, 0, 14.718389, 0, 0, -19, 74.65, 0.01, -51, 0, 0, 19, 0, 0, -12.333333, 74.65, 0.01, -108, 0, 0, 12.333333, 0, 0, -20, 74.65, 0.01, -145, 0, 0, 20, 0, 0, -8, 105.65, 0.01, -196, 0, 0, 8, 0, 0, 0, 105.65, 0.01, -220),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 8
 
 [sub_resource type="ProceduralSkyMaterial" id="MorningSky"]
 sky_top_color = Color(0.28, 0.51, 0.68, 1)
@@ -46,6 +56,7 @@ fog_density = 0.0018
 fog_sky_affect = 0.12
 
 [node name="Transport" type="Node3D"]
+process_physics_priority = -10
 script = ExtResource("controller")
 
 
@@ -60,6 +71,8 @@ shadow_enabled = true
 directional_shadow_max_distance = 65
 
 [node name="Landscape" parent="." instance=ExtResource("landscape")]
+
+[node name="RideLandscape" parent="." instance=ExtResource("ride_landscape")]
 
 
 [node name="Spawn_Default" type="Marker3D" parent="."]
@@ -84,6 +97,12 @@ rotation_degrees = Vector3(0, 180, 0)
 
 [node name="BusApproachPath" type="Path3D" parent="."]
 curve = SubResource("BusApproachCurve")
+
+[node name="BusRidePath" type="Path3D" parent="."]
+curve = SubResource("BusRideCurve")
+
+[node name="BusRideEnd" type="Marker3D" parent="."]
+position = Vector3(105.65, 0.01, -220)
 
 [node name="TransitionTo_TestRoom" parent="." instance=ExtResource("exit")]
 position = Vector3(-5, 0.04, 11)

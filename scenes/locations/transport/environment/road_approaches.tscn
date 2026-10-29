@@ -76,8 +76,8 @@ material_override = ExtResource("grass")
 cast_shadow = 0
 
 [node name="Hill6" type="MeshInstance3D" parent="DistantHills"]
-position = Vector3(72, -7.42, -152)
-scale = Vector3(40, 14, 18)
+position = Vector3(132, -6.9, -141)
+scale = Vector3(32, 13, 24)
 mesh = SubResource("HillMesh")
 material_override = ExtResource("sage")
 cast_shadow = 0

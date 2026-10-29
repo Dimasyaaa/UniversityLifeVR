@@ -24,6 +24,8 @@
 
 [ext_resource type="PackedScene" path="res://scenes/locations/transport/bus/bus_door_leaf.tscn" id="door"]
 
+[ext_resource type="ArrayMesh" path="res://scenes/locations/transport/bus/meshes/wheel_housing.tres" id="wheel_housing"]
+
 [sub_resource type="BoxMesh" id="UnitBox"]
 size = Vector3(1, 1, 1)
 
@@ -131,6 +133,9 @@ size = Vector3(2.15, 0.24, 0.63)
 
 [sub_resource type="BoxShape3D" id="BoxShape17"]
 size = Vector3(1.04, 1.15, 0.07)
+
+[sub_resource type="ConvexPolygonShape3D" id="WheelHousingShape"]
+points = PackedVector3Array(-0.075000, -0.060000, 0.560000, -0.075000, 0.000000, 0.560000, -0.075000, 0.109251, 0.549240, -0.075000, 0.214303, 0.517373, -0.075000, 0.311119, 0.465623, -0.075000, 0.395980, 0.395980, -0.075000, 0.465623, 0.311119, -0.075000, 0.517373, 0.214303, -0.075000, 0.549240, 0.109251, -0.075000, 0.560000, 0.000000, -0.075000, 0.549240, -0.109251, -0.075000, 0.517373, -0.214303, -0.075000, 0.465623, -0.311119, -0.075000, 0.395980, -0.395980, -0.075000, 0.311119, -0.465623, -0.075000, 0.214303, -0.517373, -0.075000, 0.109251, -0.549240, -0.075000, 0.000000, -0.560000, -0.075000, -0.060000, -0.560000, 0.075000, -0.060000, 0.560000, 0.075000, 0.000000, 0.560000, 0.075000, 0.109251, 0.549240, 0.075000, 0.214303, 0.517373, 0.075000, 0.311119, 0.465623, 0.075000, 0.395980, 0.395980, 0.075000, 0.465623, 0.311119, 0.075000, 0.517373, 0.214303, 0.075000, 0.549240, 0.109251, 0.075000, 0.560000, 0.000000, 0.075000, 0.549240, -0.109251, 0.075000, 0.517373, -0.214303, 0.075000, 0.465623, -0.311119, 0.075000, 0.395980, -0.395980, 0.075000, 0.311119, -0.465623, 0.075000, 0.214303, -0.517373, 0.075000, 0.109251, -0.549240, 0.075000, 0.000000, -0.560000, 0.075000, -0.060000, -0.560000)
 
 [sub_resource type="BoxShape3D" id="BoardingShape"]
 size = Vector3(1.3, 2.4, 1.2)
@@ -667,10 +672,10 @@ shape = SubResource("TireShape")
 
 
 [node name="LeftRow1" parent="Interior/Seats" instance=ExtResource("seat")]
-position = Vector3(-0.82, 0.45, -1.4)
+position = Vector3(-0.755, 0.45, -1.4)
 
 [node name="RightRow1" parent="Interior/Seats" instance=ExtResource("seat")]
-position = Vector3(0.82, 0.45, -1.4)
+position = Vector3(0.755, 0.45, -1.4)
 
 [node name="LeftRow2" parent="Interior/Seats" instance=ExtResource("seat")]
 position = Vector3(-0.82, 0.45, 0)
@@ -685,10 +690,10 @@ position = Vector3(-0.82, 0.45, 1.4)
 position = Vector3(0.82, 0.45, 1.4)
 
 [node name="LeftRow4" parent="Interior/Seats" instance=ExtResource("seat")]
-position = Vector3(-0.82, 0.45, 2.8)
+position = Vector3(-0.755, 0.45, 2.8)
 
 [node name="RightRow4" parent="Interior/Seats" instance=ExtResource("seat")]
-position = Vector3(0.82, 0.45, 2.8)
+position = Vector3(0.755, 0.45, 2.8)
 
 [node name="LeftRow5" parent="Interior/Seats" instance=ExtResource("seat")]
 position = Vector3(-0.82, 0.45, 4.1)
@@ -816,3 +821,41 @@ monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CabinArea"]
 shape = SubResource("CabinShape")
+
+[node name="WheelHousings" type="Node3D" parent="Interior"]
+
+[node name="LeftFront" type="MeshInstance3D" parent="Interior/WheelHousings"]
+position = Vector3(-1.17, 0.5, -1.9)
+mesh = ExtResource("wheel_housing")
+material_override = ExtResource("bus_floor")
+
+[node name="LeftFrontHousingShape" type="CollisionShape3D" parent="Body"]
+position = Vector3(-1.17, 0.5, -1.9)
+shape = SubResource("WheelHousingShape")
+
+[node name="RightFront" type="MeshInstance3D" parent="Interior/WheelHousings"]
+position = Vector3(1.17, 0.5, -1.9)
+mesh = ExtResource("wheel_housing")
+material_override = ExtResource("bus_floor")
+
+[node name="RightFrontHousingShape" type="CollisionShape3D" parent="Body"]
+position = Vector3(1.17, 0.5, -1.9)
+shape = SubResource("WheelHousingShape")
+
+[node name="LeftRear" type="MeshInstance3D" parent="Interior/WheelHousings"]
+position = Vector3(-1.17, 0.5, 3.0)
+mesh = ExtResource("wheel_housing")
+material_override = ExtResource("bus_floor")
+
+[node name="LeftRearHousingShape" type="CollisionShape3D" parent="Body"]
+position = Vector3(-1.17, 0.5, 3.0)
+shape = SubResource("WheelHousingShape")
+
+[node name="RightRear" type="MeshInstance3D" parent="Interior/WheelHousings"]
+position = Vector3(1.17, 0.5, 3.0)
+mesh = ExtResource("wheel_housing")
+material_override = ExtResource("bus_floor")
+
+[node name="RightRearHousingShape" type="CollisionShape3D" parent="Body"]
+position = Vector3(1.17, 0.5, 3.0)
+shape = SubResource("WheelHousingShape")
