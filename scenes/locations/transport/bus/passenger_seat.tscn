@@ -29,3 +29,6 @@ shape = SubResource("BoxShape2")
 
 [node name="PassengerEyeTarget" type="Marker3D" parent="."]
 position = Vector3(0, 1.21, -0.03)
+
+[node name="StandingPoint" type="Marker3D" parent="."]
+position = Vector3(0.82, 0.01, -0.16)

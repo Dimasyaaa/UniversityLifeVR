@@ -7,6 +7,7 @@ signal seat_requested(seat: Node3D)
 
 @onready var passenger_anchor: Marker3D = $PassengerAnchor
 @onready var passenger_eye_target: Marker3D = $PassengerEyeTarget
+@onready var standing_point: Marker3D = $StandingPoint
 
 var _selection_enabled: bool = false
 

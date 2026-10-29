@@ -1,0 +1,79 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://materials/transport/paving.tres" id="paving"]
+[ext_resource type="Material" path="res://materials/transport/stop_safety.tres" id="safety"]
+[ext_resource type="PackedScene" path="res://scenes/locations/transport/stop/bus_stop.tscn" id="original_stop"]
+[ext_resource type="PackedScene" path="res://scenes/objects/location_exit.tscn" id="exit"]
+
+[sub_resource type="BoxMesh" id="UnitBox"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="ArrayMesh" id="PlatformMesh"]
+_surfaces = [{
+"aabb": AABB(-4.3, -0.02, -7.8, 8.6, 0.099999994, 15.6),
+"format": 34359738375,
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 36,
+"vertex_data": PackedByteArray("MzODwArXoz0zM/PAMzODQArXoz0zM/PAMzODQArXoz0zM/NAMzODwArXoz0zM/PAMzODQArXoz0zM/NAMzODwArXoz0zM/NAmpmJwArXo7yamfnAmpmJQArXo7yamflAmpmJQArXo7yamfnAmpmJwArXo7yamfnAmpmJwArXo7yamflAmpmJQArXo7yamflAmpmJwArXo7yamfnAmpmJQArXo7yamfnAMzODQArXoz0zM/PAmpmJwArXo7yamfnAMzODQArXoz0zM/PAMzODwArXoz0zM/PAmpmJQArXo7yamfnAmpmJQArXo7yamflAMzODQArXoz0zM/NAmpmJQArXo7yamfnAMzODQArXoz0zM/NAMzODQArXoz0zM/PAmpmJQArXo7yamflAmpmJwArXo7yamflAMzODwArXoz0zM/NAmpmJQArXo7yamflAMzODwArXoz0zM/NAMzODQArXoz0zM/NAmpmJwArXo7yamflAmpmJwArXo7yamfnAMzODwArXoz0zM/PAmpmJwArXo7yamflAMzODwArXoz0zM/PAMzODwArXoz0zM/NA/3///wAA/7//f///AAD/v/9///8AAP+//3///wAA/7//f///AAD/v/9///8AAP+//38AAAAA/7//fwAAAAD/v/9/AAAAAP+//38AAAAA/7//fwAAAAD/v/9/AAAAAP+/Sfj//9N3PoBJ+P//03c+gEn4///Tdz6ASfj//9N3PoBJ+P//03c+gEn4///Tdz6AqfJUjXd+lcap8lSNd36VxqnyVI13fpXGqfJUjXd+lcap8lSNd36VxqnyVI13fpXG/3+1h4F/FYT/f7WHgX8VhP9/tYeBfxWE/3+1h4F/FYT/f7WHgX8VhP9/tYeBfxWEVQ1UjXd+ablVDVSNd35puVUNVI13fmm5VQ1UjXd+ablVDVSNd35puVUNVI13fmm5")
+}]
+
+[sub_resource type="ConvexPolygonShape3D" id="PlatformShape"]
+points = PackedVector3Array(-4.3, -0.02, -7.8, 4.3, -0.02, -7.8, 4.3, -0.02, 7.8, -4.3, -0.02, 7.8, -4.1, 0.08, -7.6, 4.1, 0.08, -7.6, 4.1, 0.08, 7.6, -4.1, 0.08, 7.6)
+
+[node name="DestinationStop" type="Node3D"]
+
+[node name="Platform" type="StaticBody3D" parent="."]
+
+[node name="Mesh" type="MeshInstance3D" parent="Platform"]
+mesh = SubResource("PlatformMesh")
+material_override = ExtResource("paving")
+cast_shadow = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform"]
+shape = SubResource("PlatformShape")
+
+[node name="SafetyStrip" type="MeshInstance3D" parent="."]
+position = Vector3(-3.95, 0.085, -0.4)
+scale = Vector3(0.12, 0.008, 12.5)
+mesh = SubResource("UnitBox")
+material_override = ExtResource("safety")
+cast_shadow = 0
+
+[node name="OriginalStop" parent="." instance=ExtResource("original_stop")]
+position = Vector3(-0.9, 0.05, -1.5)
+rotation_degrees = Vector3(0, 90, 0)
+
+[node name="AlightingThreshold" type="Marker3D" parent="."]
+position = Vector3(-3.1, 0.12, -3.15)
+rotation_degrees = Vector3(0, -135, 0)
+
+[node name="TransitionTo_TestRoom" parent="." instance=ExtResource("exit")]
+position = Vector3(2.6, 0.08, 6)
+monitoring = false
+target_location = &"test_room"
+target_spawn = &"Spawn_Default"
+
+[node name="Label" parent="TransitionTo_TestRoom" index="5"]
+text = "Тестовая комната"
+
+[node name="FrontName" parent="OriginalStop/Shelter" index="4"]
+text = "УНИВЕРСИТЕТ"
+
+[node name="BackName" parent="OriginalStop/Shelter" index="5"]
+text = "УНИВЕРСИТЕТ"
+
+[node name="Heading" parent="OriginalStop/Information" index="2"]
+text = "МАРШРУТ"
+
+[node name="ArrivalHeading" parent="OriginalStop/Information" index="11"]
+visible = false
+
+[node name="ArrivalValue" parent="OriginalStop/Information" index="12"]
+visible = false
+
+[node name="BusStopPoint" parent="OriginalStop" index="8"]
+position = Vector3(-1.5, -0.04, -5.75)
+
+[node name="WaitingArea" parent="OriginalStop" index="9"]
+monitoring = false
