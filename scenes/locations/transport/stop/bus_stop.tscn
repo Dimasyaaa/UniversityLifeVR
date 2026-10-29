@@ -551,7 +551,7 @@ rotation_degrees = Vector3(0, -90, 0)
 position = Vector3(0, 1.28, -1.6)
 collision_layer = 0
 collision_mask = 1
-monitoring = false
+monitoring = true
 monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="WaitingArea"]

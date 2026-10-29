@@ -136,7 +136,7 @@ size = Vector3(1.04, 1.15, 0.07)
 
 
 [node name="Body" type="AnimatableBody3D" parent="."]
-sync_to_physics = true
+sync_to_physics = false
 
 [node name="Exterior" type="Node3D" parent="Body"]
 

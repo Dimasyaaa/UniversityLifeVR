@@ -10,6 +10,16 @@
 
 [ext_resource type="PackedScene" path="res://scenes/locations/transport/bus/bus.tscn" id="bus"]
 
+[ext_resource type="Script" path="res://scripts/transport/transport_controller.gd" id="controller"]
+
+[sub_resource type="Curve3D" id="BusApproachCurve"]
+bake_interval = 0.25
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 19, -75.05, 0.01, -108, 0, 0, -19, 0, 0, 14.939303, -75.05, 0.01, -51, -14.939303, 0, 0, 18.5, 0, 0, -48, 0.01, -23.95, -18.5, 0, 0, 0, 0, 0, 7.5, 0.01, -23.95),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
 [sub_resource type="ProceduralSkyMaterial" id="MorningSky"]
 sky_top_color = Color(0.28, 0.51, 0.68, 1)
 sky_horizon_color = Color(0.78, 0.85, 0.84, 1)
@@ -36,6 +46,7 @@ fog_density = 0.0018
 fog_sky_affect = 0.12
 
 [node name="Transport" type="Node3D"]
+script = ExtResource("controller")
 
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -64,8 +75,15 @@ position = Vector3(0, 0, 24)
 position = Vector3(9, 0, -18.2)
 
 [node name="Bus" parent="." instance=ExtResource("bus")]
-position = Vector3(7.5, 0.01, -23.95)
-rotation_degrees = Vector3(0, -90, 0)
+position = Vector3(-75.05, 0.01, -108)
+rotation_degrees = Vector3(0, 180, 0)
+
+[node name="BusApproachStart" type="Marker3D" parent="."]
+position = Vector3(-75.05, 0.01, -108)
+rotation_degrees = Vector3(0, 180, 0)
+
+[node name="BusApproachPath" type="Path3D" parent="."]
+curve = SubResource("BusApproachCurve")
 
 [node name="TransitionTo_TestRoom" parent="." instance=ExtResource("exit")]
 position = Vector3(-5, 0.04, 11)

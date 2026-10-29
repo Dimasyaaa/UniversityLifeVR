@@ -18,7 +18,7 @@ size = Vector2(0.555, 1.42)
 size = Vector3(0.075, 2.12, 0.615)
 
 [node name="BusDoorLeaf" type="AnimatableBody3D"]
-sync_to_physics = true
+sync_to_physics = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 position = Vector3(0, 1.06, 0)
