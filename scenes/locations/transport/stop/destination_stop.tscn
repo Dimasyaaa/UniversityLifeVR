@@ -8,6 +8,9 @@
 [sub_resource type="BoxMesh" id="UnitBox"]
 size = Vector3(1, 1, 1)
 
+[sub_resource type="BoxShape3D" id="GateExitShape"]
+size = Vector3(1.9, 2.5, 0.65)
+
 [sub_resource type="ArrayMesh" id="PlatformMesh"]
 _surfaces = [{
 "aabb": AABB(-4.3, -0.02, -7.8, 8.6, 0.099999994, 15.6),
@@ -49,13 +52,30 @@ position = Vector3(-3.1, 0.12, -3.15)
 rotation_degrees = Vector3(0, -135, 0)
 
 [node name="TransitionTo_TestRoom" parent="." instance=ExtResource("exit")]
-position = Vector3(2.6, 0.08, 6)
+position = Vector3(10.55, 0.08, 5.5)
+rotation_degrees = Vector3(0, -90, 0)
 monitoring = false
 target_location = &"test_room"
 target_spawn = &"Spawn_Default"
 
+[node name="CollisionShape3D" parent="TransitionTo_TestRoom" index="0"]
+position = Vector3(0, 1.25, 0)
+shape = SubResource("GateExitShape")
+
+[node name="Threshold" parent="TransitionTo_TestRoom" index="1"]
+visible = false
+
+[node name="LeftPost" parent="TransitionTo_TestRoom" index="2"]
+visible = false
+
+[node name="RightPost" parent="TransitionTo_TestRoom" index="3"]
+visible = false
+
+[node name="Top" parent="TransitionTo_TestRoom" index="4"]
+visible = false
+
 [node name="Label" parent="TransitionTo_TestRoom" index="5"]
-text = "Тестовая комната"
+visible = false
 
 [node name="FrontName" parent="OriginalStop/Shelter" index="4"]
 text = "УНИВЕРСИТЕТ"

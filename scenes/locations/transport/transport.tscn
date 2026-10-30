@@ -12,6 +12,8 @@
 
 [ext_resource type="PackedScene" path="res://scenes/locations/transport/stop/destination_stop.tscn" id="destination_stop"]
 
+[ext_resource type="PackedScene" path="res://scenes/locations/transport/buildings/university_entrance.tscn" id="university"]
+
 [ext_resource type="PackedScene" path="res://scenes/locations/transport/bus/bus.tscn" id="bus"]
 
 [ext_resource type="Script" path="res://scripts/transport/transport_controller.gd" id="controller"]
@@ -91,6 +93,10 @@ position = Vector3(9, 0, -18.2)
 
 [node name="DestinationStop" parent="." instance=ExtResource("destination_stop")]
 position = Vector3(112.3, 0, -220)
+
+[node name="UniversityEntrance" parent="." instance=ExtResource("university")]
+position = Vector3(122.3, 0, -214.5)
+rotation_degrees = Vector3(0, -90, 0)
 
 [node name="Bus" parent="." instance=ExtResource("bus")]
 position = Vector3(-75.05, 0.01, -108)

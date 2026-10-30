@@ -1,0 +1,332 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://materials/transport/university_plaster.tres" id="plaster"]
+[ext_resource type="Material" path="res://materials/transport/dorm_trim.tres" id="trim"]
+[ext_resource type="Material" path="res://materials/transport/stone.tres" id="stone"]
+[ext_resource type="Material" path="res://materials/transport/metal.tres" id="metal"]
+[ext_resource type="Material" path="res://materials/transport/paving.tres" id="paving"]
+[ext_resource type="PackedScene" path="res://scenes/locations/transport/buildings/university_facade.tscn" id="facade"]
+[ext_resource type="PackedScene" path="res://scenes/locations/transport/environment/courtyard_tree.tscn" id="tree"]
+[ext_resource type="ArrayMesh" path="res://scenes/locations/transport/buildings/meshes/university_fence.tres" id="fence"]
+
+[sub_resource type="BoxMesh" id="UnitBox"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="BoxShape3D" id="Shape1"]
+size = Vector3(3, 0.1, 6.6)
+
+[sub_resource type="BoxShape3D" id="Shape2"]
+size = Vector3(3, 0.06, 12.9)
+
+[sub_resource type="BoxShape3D" id="Shape3"]
+size = Vector3(4, 1.56, 0.12)
+
+[sub_resource type="BoxShape3D" id="Shape4"]
+size = Vector3(0.46, 1.84, 0.46)
+
+[sub_resource type="BoxShape3D" id="Shape5"]
+size = Vector3(2.76, 1.48, 0.12)
+
+[node name="UniversityEntrance" type="Node3D"]
+
+[node name="UniversityFacade" parent="." instance=ExtResource("facade")]
+
+[node name="ApproachPath" type="StaticBody3D" parent="."]
+position = Vector3(0, 0.03, 3.15)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ApproachPath"]
+shape = SubResource("Shape1")
+
+[node name="Mesh" type="MeshInstance3D" parent="ApproachPath"]
+position = Vector3(0, 0, 0)
+scale = Vector3(3, 0.1, 6.6)
+mesh = SubResource("UnitBox")
+material_override = ExtResource("paving")
+
+[node name="CourtyardPath" type="StaticBody3D" parent="."]
+position = Vector3(0, 0.01, -6.45)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CourtyardPath"]
+shape = SubResource("Shape2")
+
+[node name="Mesh" type="MeshInstance3D" parent="CourtyardPath"]
+position = Vector3(0, 0, 0)
+scale = Vector3(3, 0.06, 12.9)
+mesh = SubResource("UnitBox")
+material_override = ExtResource("paving")
+
+[node name="EntranceApron" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.01, -10.8)
+scale = Vector3(7, 0.06, 3)
+mesh = SubResource("UnitBox")
+material_override = ExtResource("paving")
+
+[node name="LeftFence1" type="StaticBody3D" parent="."]
+position = Vector3(-3.7, 0, 0)
+
+[node name="Bars" type="MeshInstance3D" parent="LeftFence1"]
+mesh = ExtResource("fence")
+material_override = ExtResource("metal")
+visibility_range_end = 110.0
+visibility_range_end_margin = 10.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftFence1"]
+position = Vector3(0, 0.84, 0)
+shape = SubResource("Shape3")
+
+[node name="LeftFence2" type="StaticBody3D" parent="."]
+position = Vector3(-7.7, 0, 0)
+
+[node name="Bars" type="MeshInstance3D" parent="LeftFence2"]
+mesh = ExtResource("fence")
+material_override = ExtResource("metal")
+visibility_range_end = 110.0
+visibility_range_end_margin = 10.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftFence2"]
+position = Vector3(0, 0.84, 0)
+shape = SubResource("Shape3")
+
+[node name="LeftFence3" type="StaticBody3D" parent="."]
+position = Vector3(-11.7, 0, 0)
+
+[node name="Bars" type="MeshInstance3D" parent="LeftFence3"]
+mesh = ExtResource("fence")
+material_override = ExtResource("metal")
+visibility_range_end = 110.0
+visibility_range_end_margin = 10.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftFence3"]
+position = Vector3(0, 0.84, 0)
+shape = SubResource("Shape3")
+
+[node name="LeftPost1" type="StaticBody3D" parent="."]
+position = Vector3(-1.7, 0.95, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftPost1"]
+shape = SubResource("Shape4")
+
+[node name="Mesh" type="MeshInstance3D" parent="LeftPost1"]
+position = Vector3(0, 0, 0)
+scale = Vector3(0.46, 1.84, 0.46)
+mesh = SubResource("UnitBox")
+material_override = ExtResource("plaster")
+
+[node name="LeftPost1Cap" type="MeshInstance3D" parent="."]
+position = Vector3(-1.7, 1.91, 0)
+scale = Vector3(0.58, 0.12, 0.58)
+mesh = SubResource("UnitBox")
+material_override = ExtResource("trim")
+
+[node name="LeftPost2" type="StaticBody3D" parent="."]
+position = Vector3(-5.7, 0.95, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftPost2"]
+shape = SubResource("Shape4")
+
+[node name="Mesh" type="MeshInstance3D" parent="LeftPost2"]
+position = Vector3(0, 0, 0)
+scale = Vector3(0.46, 1.84, 0.46)
+mesh = SubResource("UnitBox")
+material_override = ExtResource("plaster")
+
+[node name="LeftPost2Cap" type="MeshInstance3D" parent="."]
+position = Vector3(-5.7, 1.91, 0)
+scale = Vector3(0.58, 0.12, 0.58)
+mesh = SubResource("UnitBox")
+material_override = ExtResource("trim")
+
+[node name="LeftPost3" type="StaticBody3D" parent="."]
+position = Vector3(-9.7, 0.95, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftPost3"]
+shape = SubResource("Shape4")
+
+[node name="Mesh" type="MeshInstance3D" parent="LeftPost3"]
+position = Vector3(0, 0, 0)
+scale = Vector3(0.46, 1.84, 0.46)
+mesh = SubResource("UnitBox")
+material_override = ExtResource("plaster")
+
+[node name="LeftPost3Cap" type="MeshInstance3D" parent="."]
+position = Vector3(-9.7, 1.91, 0)
+scale = Vector3(0.58, 0.12, 0.58)
+mesh = SubResource("UnitBox")
+material_override = ExtResource("trim")
+
+[node name="LeftPost4" type="StaticBody3D" parent="."]
+position = Vector3(-13.7, 0.95, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftPost4"]
+shape = SubResource("Shape4")
+
+[node name="Mesh" type="MeshInstance3D" parent="LeftPost4"]
+position = Vector3(0, 0, 0)
+scale = Vector3(0.46, 1.84, 0.46)
+mesh = SubResource("UnitBox")
+material_override = ExtResource("plaster")
+
+[node name="LeftPost4Cap" type="MeshInstance3D" parent="."]
+position = Vector3(-13.7, 1.91, 0)
+scale = Vector3(0.58, 0.12, 0.58)
+mesh = SubResource("UnitBox")
+material_override = ExtResource("trim")
+
+[node name="RightFence1" type="StaticBody3D" parent="."]
+position = Vector3(3.7, 0, 0)
+
+[node name="Bars" type="MeshInstance3D" parent="RightFence1"]
+mesh = ExtResource("fence")
+material_override = ExtResource("metal")
+visibility_range_end = 110.0
+visibility_range_end_margin = 10.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RightFence1"]
+position = Vector3(0, 0.84, 0)
+shape = SubResource("Shape3")
+
+[node name="RightFence2" type="StaticBody3D" parent="."]
+position = Vector3(7.7, 0, 0)
+
+[node name="Bars" type="MeshInstance3D" parent="RightFence2"]
+mesh = ExtResource("fence")
+material_override = ExtResource("metal")
+visibility_range_end = 110.0
+visibility_range_end_margin = 10.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RightFence2"]
+position = Vector3(0, 0.84, 0)
+shape = SubResource("Shape3")
+
+[node name="RightFence3" type="StaticBody3D" parent="."]
+position = Vector3(11.7, 0, 0)
+
+[node name="Bars" type="MeshInstance3D" parent="RightFence3"]
+mesh = ExtResource("fence")
+material_override = ExtResource("metal")
+visibility_range_end = 110.0
+visibility_range_end_margin = 10.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RightFence3"]
+position = Vector3(0, 0.84, 0)
+shape = SubResource("Shape3")
+
+[node name="RightPost1" type="StaticBody3D" parent="."]
+position = Vector3(1.7, 0.95, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RightPost1"]
+shape = SubResource("Shape4")
+
+[node name="Mesh" type="MeshInstance3D" parent="RightPost1"]
+position = Vector3(0, 0, 0)
+scale = Vector3(0.46, 1.84, 0.46)
+mesh = SubResource("UnitBox")
+material_override = ExtResource("plaster")
+
+[node name="RightPost1Cap" type="MeshInstance3D" parent="."]
+position = Vector3(1.7, 1.91, 0)
+scale = Vector3(0.58, 0.12, 0.58)
+mesh = SubResource("UnitBox")
+material_override = ExtResource("trim")
+
+[node name="RightPost2" type="StaticBody3D" parent="."]
+position = Vector3(5.7, 0.95, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RightPost2"]
+shape = SubResource("Shape4")
+
+[node name="Mesh" type="MeshInstance3D" parent="RightPost2"]
+position = Vector3(0, 0, 0)
+scale = Vector3(0.46, 1.84, 0.46)
+mesh = SubResource("UnitBox")
+material_override = ExtResource("plaster")
+
+[node name="RightPost2Cap" type="MeshInstance3D" parent="."]
+position = Vector3(5.7, 1.91, 0)
+scale = Vector3(0.58, 0.12, 0.58)
+mesh = SubResource("UnitBox")
+material_override = ExtResource("trim")
+
+[node name="RightPost3" type="StaticBody3D" parent="."]
+position = Vector3(9.7, 0.95, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RightPost3"]
+shape = SubResource("Shape4")
+
+[node name="Mesh" type="MeshInstance3D" parent="RightPost3"]
+position = Vector3(0, 0, 0)
+scale = Vector3(0.46, 1.84, 0.46)
+mesh = SubResource("UnitBox")
+material_override = ExtResource("plaster")
+
+[node name="RightPost3Cap" type="MeshInstance3D" parent="."]
+position = Vector3(9.7, 1.91, 0)
+scale = Vector3(0.58, 0.12, 0.58)
+mesh = SubResource("UnitBox")
+material_override = ExtResource("trim")
+
+[node name="RightPost4" type="StaticBody3D" parent="."]
+position = Vector3(13.7, 0.95, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RightPost4"]
+shape = SubResource("Shape4")
+
+[node name="Mesh" type="MeshInstance3D" parent="RightPost4"]
+position = Vector3(0, 0, 0)
+scale = Vector3(0.46, 1.84, 0.46)
+mesh = SubResource("UnitBox")
+material_override = ExtResource("plaster")
+
+[node name="RightPost4Cap" type="MeshInstance3D" parent="."]
+position = Vector3(13.7, 1.91, 0)
+scale = Vector3(0.58, 0.12, 0.58)
+mesh = SubResource("UnitBox")
+material_override = ExtResource("trim")
+
+[node name="OpenWicket" type="StaticBody3D" parent="."]
+position = Vector3(-1.44, 0, 0)
+rotation_degrees = Vector3(0, 82, 0)
+
+[node name="Bars" type="MeshInstance3D" parent="OpenWicket"]
+position = Vector3(1.38, 0, 0)
+scale = Vector3(0.69, 0.92, 1)
+mesh = ExtResource("fence")
+material_override = ExtResource("metal")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OpenWicket"]
+position = Vector3(1.38, 0.8, 0)
+shape = SubResource("Shape5")
+
+[node name="GatePlaque" type="MeshInstance3D" parent="."]
+position = Vector3(2.35, 1.2, 0.27)
+scale = Vector3(0.8, 0.55, 0.06)
+mesh = SubResource("UnitBox")
+material_override = ExtResource("metal")
+
+[node name="GateName" type="Label3D" parent="."]
+position = Vector3(2.35, 1.2, 0.31)
+pixel_size = 0.0017
+font_size = 27
+outline_size = 0
+modulate = Color(0.91, 0.88, 0.79, 1)
+text = "УНИВЕРСИТЕТ"
+no_depth_test = false
+
+[node name="CourtyardTree1" parent="." instance=ExtResource("tree")]
+position = Vector3(-8, 0, -4)
+scale = Vector3(0.85, 0.85, 0.85)
+
+[node name="CourtyardTree2" parent="." instance=ExtResource("tree")]
+position = Vector3(8, 0, -4)
+scale = Vector3(0.9, 0.9, 0.9)
+
+[node name="CourtyardTree3" parent="." instance=ExtResource("tree")]
+position = Vector3(-8.5, 0, -9)
+scale = Vector3(0.92, 0.92, 0.92)
+
+[node name="CourtyardTree4" parent="." instance=ExtResource("tree")]
+position = Vector3(8.5, 0, -9)
+scale = Vector3(0.83, 0.83, 0.83)
+
+[node name="GateTarget" type="Marker3D" parent="."]
+position = Vector3(0, 0.08, -0.55)

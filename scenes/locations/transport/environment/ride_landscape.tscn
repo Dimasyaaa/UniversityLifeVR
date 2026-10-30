@@ -139,14 +139,14 @@ material_override = ExtResource("foliage_sage")
 cast_shadow = 0
 
 [node name="Hill06" type="MeshInstance3D" parent="Hills"]
-position = Vector3(159.0, -8.0, -227.0)
+position = Vector3(186.0, -8.0, -240.0)
 scale = Vector3(37.0, 18.0, 38.0)
 mesh = SubResource("HillMesh")
 material_override = ExtResource("foliage_sage")
 cast_shadow = 0
 
 [node name="Hill07" type="MeshInstance3D" parent="Hills"]
-position = Vector3(145.0, -5.0, -180.0)
+position = Vector3(183.0, -5.0, -180.0)
 scale = Vector3(27.0, 12.0, 29.0)
 mesh = SubResource("HillMesh")
 material_override = ExtResource("grass")
