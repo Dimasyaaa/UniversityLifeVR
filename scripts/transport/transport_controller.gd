@@ -149,6 +149,11 @@ func is_boarding_available() -> bool:
 	return state == State.BOARDING_READY
 
 
+## Доля открытия для синхронизации локального звука с существующей анимацией.
+func get_door_open_progress() -> float:
+	return clampf(_door_elapsed / door_open_duration_seconds, 0.0, 1.0)
+
+
 ## SaveManager хранит этот словарь в общем разделе состояний локаций.
 func get_save_data() -> Dictionary:
 	if _return_game_seconds >= 0.0:

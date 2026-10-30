@@ -18,6 +18,8 @@
 
 [ext_resource type="Script" path="res://scripts/transport/transport_controller.gd" id="controller"]
 
+[ext_resource type="PackedScene" path="res://scenes/locations/transport/transport_audio.tscn" id="audio"]
+
 [sub_resource type="Curve3D" id="BusApproachCurve"]
 bake_interval = 0.25
 _data = {
@@ -62,6 +64,8 @@ fog_sky_affect = 0.12
 [node name="Transport" type="Node3D"]
 process_physics_priority = -10
 script = ExtResource("controller")
+
+[node name="TransportAudio" parent="." instance=ExtResource("audio")]
 
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]

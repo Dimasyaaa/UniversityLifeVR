@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/transport/transport_audio.gd" id="audio_script"]
+[ext_resource type="AudioStream" path="res://assets/audio/transport/outdoor_loop.wav" id="outdoor"]
+
+[node name="TransportAudio" type="Node"]
+process_physics_priority = 10
+script = ExtResource("audio_script")
+
+[node name="Outdoor" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("outdoor")
+volume_db = -80.0
+max_polyphony = 1
