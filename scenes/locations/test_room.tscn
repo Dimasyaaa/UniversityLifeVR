@@ -182,7 +182,7 @@ pixel_size = 0.005
 font_size = 48
 outline_size = 8
 modulate = Color(0.2, 0.85, 0.4, 1)
-text = "A"
+text = "Кампус: временная заглушка\nTestRoom — модуль кампуса ещё не подключён"
 
 [node name="Spawn_Second" type="Marker3D" parent="."]
 position = Vector3(3, 0, -3)

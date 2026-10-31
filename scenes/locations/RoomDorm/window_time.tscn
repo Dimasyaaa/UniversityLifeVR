@@ -1,0 +1,53 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/RoomDorm/window_time.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/locations/RoomDorm/window_wait_screen.tscn" id="2_screen"]
+[ext_resource type="Shader" path="res://resources/RoomDorm/window_light.gdshader" id="3_shader"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/interactable_body.gd" id="4_pointer_body"]
+
+[sub_resource type="BoxShape3D" id="Window_shape"]
+size = Vector3(2.1, 1.5, 0.06)
+
+[sub_resource type="ShaderMaterial" id="Floor_material"]
+resource_local_to_scene = true
+shader = ExtResource("3_shader")
+shader_parameter/light_color = Color(1, 0.77, 0.47, 1)
+shader_parameter/strength = 0.13
+
+[sub_resource type="PlaneMesh" id="Floor_mesh"]
+size = Vector2(1.9, 2.7)
+
+[node name="WindowTime" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="InteractionBody" type="StaticBody3D" parent="." groups=["interactable"]]
+position = Vector3(0.05, 1.45, -2.99)
+collision_layer = 4194305
+script = ExtResource("4_pointer_body")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionBody"]
+shape = SubResource("Window_shape")
+
+[node name="Sunlight" type="SpotLight3D" parent="."]
+position = Vector3(0.05, 2.1, -2.86)
+rotation_degrees = Vector3(-38, 180, 0)
+light_color = Color(1, 0.77, 0.47, 1)
+light_energy = 0.65
+light_cull_mask = 1
+spot_range = 8.0
+spot_angle = 53.0
+spot_attenuation = 0.8
+spot_angle_attenuation = 0.7
+shadow_enabled = false
+
+[node name="FloorLight" type="MeshInstance3D" parent="."]
+position = Vector3(0.2, 0.002, -1.115)
+scale = Vector3(1, 1, 1.1)
+rotation = Vector3(0, -0.28, 0)
+cast_shadow = 0
+mesh = SubResource("Floor_mesh")
+material_override = SubResource("Floor_material")
+
+[node name="Screen" parent="." instance=ExtResource("2_screen")]
+
+[connection signal="pointer_event" from="InteractionBody" to="." method="_on_window_pointer_seen"]

@@ -24,6 +24,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_statistics")
+location_names = Dictionary[StringName, String]({
+&"test_room": "Кампус: временная TestRoom",
+&"dorm_room": "Комната в общежитии",
+&"transport": "Транспорт"
+})
 
 [node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 1

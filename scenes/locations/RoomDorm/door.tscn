@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://c3hx1dcuxm7bc"]
+
+[ext_resource type="Material" uid="uid://dq8tvgb1np8uw" path="res://materials/RoomDorm/doorMaterial.tres" id="2_p0e35"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_hun61"]
+material = ExtResource("2_p0e35")
+size = Vector3(1, 2.5, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bhunq"]
+size = Vector3(1, 2.5, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_riqys"]
+size = Vector3(1.1, 2.6, 0.3)
+
+[node name="Door" type="Node3D" unique_id=2055464324]
+
+[node name="DoorPivot" type="Node3D" parent="." unique_id=448552281]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0364643, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="DoorPivot" unique_id=434430339]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5054569, 1.2190707, -0.024390101)
+mesh = SubResource("BoxMesh_hun61")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="DoorPivot/MeshInstance3D" unique_id=961784868]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DoorPivot/MeshInstance3D/StaticBody3D" unique_id=1646179235]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("BoxShape3D_bhunq")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=686784318]
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="InteractArea" type="CollisionShape3D" parent="Area3D" unique_id=1479117213]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5310074, 1.2190707, -0.024390101)
+shape = SubResource("BoxShape3D_riqys")

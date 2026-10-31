@@ -1,0 +1,130 @@
+[gd_scene format=3 uid="uid://g3lencj71qim"]
+
+[ext_resource type="Script" uid="uid://c6a2gt3pj1t7a" path="res://scripts/RoomDorm/alarm_clock.gd" id="1_script"]
+[ext_resource type="ArrayMesh" path="res://resources/RoomDorm/alarm_body_mesh.tres" id="2_case"]
+[ext_resource type="AudioStream" path="res://assets/audio/RoomDorm/alarm_ring.wav" id="3_sound"]
+
+[sub_resource type="StandardMaterial3D" id="MatAlarm"]
+albedo_color = Color(0.73, 0.78, 0.72, 1)
+roughness = 0.42
+
+[sub_resource type="BoxMesh" id="BoxMesh_alarm"]
+material = SubResource("MatAlarm")
+size = Vector3(0.064, 0.008, 0.036)
+
+[sub_resource type="StandardMaterial3D" id="MatScreen"]
+shading_mode = 0
+albedo_color = Color(0.012, 0.028, 0.027, 1)
+
+[sub_resource type="BoxMesh" id="MeshScreen"]
+material = SubResource("MatScreen")
+size = Vector3(0.138, 0.048, 0.001)
+
+[sub_resource type="StandardMaterial3D" id="MatButton"]
+albedo_color = Color(0.93, 0.29, 0.13, 1)
+roughness = 0.55
+
+[sub_resource type="StandardMaterial3D" id="MatRubber"]
+albedo_color = Color(0.045, 0.065, 0.065, 1)
+roughness = 1.0
+
+[sub_resource type="BoxMesh" id="MeshFoot"]
+material = SubResource("MatRubber")
+size = Vector3(0.018, 0.008, 0.065)
+
+[sub_resource type="StandardMaterial3D" id="MatIndicator"]
+shading_mode = 0
+albedo_color = Color(1, 0.31, 0.12, 1)
+
+[sub_resource type="SphereMesh" id="MeshIndicator"]
+material = SubResource("MatIndicator")
+radius = 0.002
+height = 0.004
+radial_segments = 8
+rings = 4
+
+[sub_resource type="BoxShape3D" id="BoxShape_alarm"]
+size = Vector3(0.16, 0.08, 0.1)
+
+[node name="AlarmClock" type="RigidBody3D" unique_id=331756429 groups=["interactable"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mass = 0.5
+freeze = true
+script = ExtResource("1_script")
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=327006560]
+mesh = ExtResource("2_case")
+material_override = SubResource("MatAlarm")
+
+[node name="Screen" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.001, 0.0508)
+mesh = SubResource("MeshScreen")
+
+[node name="OffButton" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.036, 0)
+mesh = SubResource("BoxMesh_alarm")
+material_override = SubResource("MatButton")
+
+[node name="ButtonLabel" type="Label3D" parent="OffButton"]
+position = Vector3(0, 0.0042, 0)
+rotation = Vector3(-1.5707963, 0, 0)
+pixel_size = 0.00024
+text = "OFF"
+font_size = 30
+outline_size = 0
+modulate = Color(1, 0.95, 0.85, 1)
+
+[node name="LeftFoot" type="MeshInstance3D" parent="."]
+position = Vector3(-0.052, -0.036, 0)
+mesh = SubResource("MeshFoot")
+
+[node name="RightFoot" type="MeshInstance3D" parent="."]
+position = Vector3(0.052, -0.036, 0)
+mesh = SubResource("MeshFoot")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1309002776]
+shape = SubResource("BoxShape_alarm")
+
+[node name="InteractArea" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractArea"]
+shape = SubResource("BoxShape_alarm")
+
+[node name="TimeLabel" type="Label3D" parent="." unique_id=70293266]
+position = Vector3(0, 0.002, 0.052)
+pixel_size = 0.0004
+text = "08:00"
+font_size = 60
+outline_size = 0
+modulate = Color(0.48, 1, 0.77, 1)
+no_depth_test = false
+
+[node name="BrandLabel" type="Label3D" parent="."]
+position = Vector3(0, 0.0205, 0.052)
+pixel_size = 0.00018
+text = "DAY / 01"
+font_size = 22
+outline_size = 0
+modulate = Color(0.48, 0.67, 0.60, 1)
+
+[node name="StatusLabel" type="Label3D" parent="."]
+position = Vector3(0, -0.018, 0.052)
+pixel_size = 0.0002
+text = "ПОДЪЁМ"
+font_size = 23
+outline_size = 0
+modulate = Color(1, 0.59, 0.32, 1)
+
+[node name="Indicator" type="MeshInstance3D" parent="."]
+position = Vector3(0.058, -0.017, 0.053)
+mesh = SubResource("MeshIndicator")
+
+[node name="AlarmSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_sound")
+volume_db = -8.0
+unit_size = 1.5
+max_distance = 8.0

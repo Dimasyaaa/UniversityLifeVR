@@ -1,0 +1,260 @@
+[gd_scene format=3 uid="uid://dlmvbwkoltvsm"]
+
+[ext_resource type="PackedScene" uid="uid://bitqv01gfi4qt" path="res://scenes/locations/RoomDorm/room.tscn" id="1_06884"]
+[ext_resource type="PackedScene" uid="uid://g3lencj71qim" path="res://scenes/locations/RoomDorm/alarm_clock.tscn" id="9_fa07w"]
+[ext_resource type="Script" uid="uid://c0aw8e5b04i30" path="res://scripts/RoomDorm/dorm_room.gd" id="10_room_state"]
+[ext_resource type="PackedScene" path="res://scenes/locations/RoomDorm/dorm_wakeup.tscn" id="11_wakeup"]
+[ext_resource type="PackedScene" path="res://scenes/locations/RoomDorm/breakfast_food.tscn" id="12_pizza"]
+[ext_resource type="PackedScene" path="res://scenes/locations/RoomDorm/clothing_item.tscn" id="13_clothing"]
+[ext_resource type="Script" uid="uid://di60javq8r6mv" path="res://scripts/RoomDorm/clothes_rack.gd" id="14_clothes"]
+[ext_resource type="PackedScene" path="res://scenes/locations/RoomDorm/bed_rest_screen.tscn" id="15_rest_screen"]
+[ext_resource type="PackedScene" path="res://scenes/locations/RoomDorm/window_time.tscn" id="16_window"]
+[ext_resource type="PackedScene" path="res://scenes/locations/RoomDorm/window_street.tscn" id="17_street"]
+[ext_resource type="PackedScene" path="res://scenes/locations/RoomDorm/dorm_audio.tscn" id="18_audio"]
+[ext_resource type="Script" path="res://scripts/objects/location_exit.gd" id="19_exit"]
+
+[sub_resource type="ProceduralSkyMaterial" id="SkyMaterial_room"]
+sky_top_color = Color(0.64, 0.65, 0.66, 1)
+sky_horizon_color = Color(0.85, 0.85, 0.84, 1)
+sky_energy_multiplier = 0.35
+ground_bottom_color = Color(0.24, 0.25, 0.24, 1)
+ground_horizon_color = Color(0.55, 0.54, 0.52, 1)
+ground_energy_multiplier = 0.3
+
+[sub_resource type="Sky" id="Sky_bhunq"]
+radiance_size = 2
+sky_material = SubResource("SkyMaterial_room")
+
+[sub_resource type="Environment" id="Environment_bhunq"]
+resource_local_to_scene = true
+background_mode = 1
+background_color = Color(0.57, 0.76, 0.88, 1)
+sky = SubResource("Sky_bhunq")
+ambient_light_source = 2
+ambient_light_color = Color(1, 0.85, 0.68, 1)
+ambient_light_energy = 0.4
+ambient_light_sky_contribution = 0.0
+reflected_light_source = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape_frige"]
+size = Vector3(0.828, 1.955, 0.92)
+
+[sub_resource type="BoxShape3D" id="BoxShape_micro"]
+size = Vector3(0.45, 0.37, 0.59)
+
+[sub_resource type="BoxShape3D" id="BoxShape_windw"]
+size = Vector3(2.1, 1.5, 0.4)
+
+[sub_resource type="BoxShape3D" id="BoxShape_bed01"]
+size = Vector3(1.196562052, 0.785833299, 2.357499838)
+
+[sub_resource type="BoxShape3D" id="BoxShape_doorw"]
+size = Vector3(1.1, 2.1, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="MatShirt1"]
+albedo_color = Color(0.75, 0.15, 0.15, 1)
+roughness = 0.95
+metallic_specular = 0.2
+
+[sub_resource type="StandardMaterial3D" id="MatShirt2"]
+albedo_color = Color(0.15, 0.3, 0.75, 1)
+roughness = 0.95
+metallic_specular = 0.2
+
+[sub_resource type="StandardMaterial3D" id="MatShirt3"]
+albedo_color = Color(0.8, 0.7, 0.2, 1)
+roughness = 0.95
+metallic_specular = 0.2
+
+[sub_resource type="StandardMaterial3D" id="Mat_clothes_rail"]
+albedo_color = Color(0.48, 0.31, 0.16, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_clothes_rail"]
+material = SubResource("Mat_clothes_rail")
+size = Vector3(1.3, 0.025, 0.025)
+
+[sub_resource type="BoxMesh" id="Mesh_clothes_brace"]
+material = SubResource("Mat_clothes_rail")
+size = Vector3(0.035, 0.035, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape_cloth"]
+size = Vector3(0.8, 0.65, 0.25)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fridge_door"]
+size = Vector3(0.069, 1.955, 0.92)
+
+[sub_resource type="BoxShape3D" id="BoxShape_fridge_door_collider"]
+size = Vector3(0.069, 1.955, 0.92)
+
+[node name="RoomDorm" type="Node3D" unique_id=387360132]
+script = ExtResource("10_room_state")
+
+[node name="Room" parent="." unique_id=1510933789 instance=ExtResource("1_06884")]
+
+[node name="AlarmClock" parent="." unique_id=331756429 instance=ExtResource("9_fa07w")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2.49875, 0.9025, 1.48)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=589175099]
+environment = SubResource("Environment_bhunq")
+
+[node name="RoomLight" type="OmniLight3D" parent="."]
+position = Vector3(0, 2.35, -0.3)
+light_color = Color(1, 0.96, 0.90, 1)
+light_energy = 0.38
+omni_range = 6.0
+
+[node name="Spawn_Default" type="Marker3D" parent="." unique_id=910000001]
+
+[node name="Wakeup" parent="." instance=ExtResource("11_wakeup")]
+
+[node name="BedRestScreen" parent="." instance=ExtResource("15_rest_screen")]
+
+[node name="WindowTime" parent="." instance=ExtResource("16_window")]
+
+[node name="WindowStreet" parent="." instance=ExtResource("17_street")]
+position = Vector3(0, 1.8, 0)
+
+[node name="BreakfastPizza" parent="." instance=ExtResource("12_pizza")]
+position = Vector3(-2.556, 1.5575, -2.19)
+
+[node name="Audio" parent="." instance=ExtResource("18_audio")]
+
+[node name="FridgeInteract" type="Area3D" parent="." unique_id=910000004]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.516, 0.9775, -2.19)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FridgeInteract" unique_id=910000005]
+shape = SubResource("BoxShape_frige")
+
+[node name="MicrowaveInteract" type="Area3D" parent="." unique_id=910000006]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.719166756, 1.2075, -1.332083225)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MicrowaveInteract" unique_id=910000007]
+shape = SubResource("BoxShape_micro")
+
+[node name="WindowInteract" type="Area3D" parent="." unique_id=910000008]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02, 1.43, -3)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WindowInteract" unique_id=910000009]
+shape = SubResource("BoxShape_windw")
+
+[node name="Bed1Interact" type="Area3D" parent="." unique_id=910000010]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.35171926, 0.392916679, 1.771250248)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bed1Interact" unique_id=910000011]
+shape = SubResource("BoxShape_bed01")
+
+[node name="Bed2Interact" type="Area3D" parent="." unique_id=910000012]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.77124989, 0.392916679, -2.351718903)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bed2Interact" unique_id=910000013]
+shape = SubResource("BoxShape_bed01")
+
+[node name="DoorInteract" type="Area3D" parent="." unique_id=910000014]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 3.0048883)
+collision_layer = 0
+collision_mask = 1
+monitorable = false
+script = ExtResource("19_exit")
+target_location = &"transport"
+target_spawn = &"Spawn_FromDorm"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DoorInteract" unique_id=910000015]
+shape = SubResource("BoxShape_doorw")
+
+[node name="ClothesRack" type="Node3D" parent="." unique_id=910000020]
+transform = Transform3D(0, 0, 1.15, 0, 1.15, 0, -1.15, 0, 0, -2.425041676, 0, 0.166023642)
+script = ExtResource("14_clothes")
+
+[node name="Shirt1" parent="ClothesRack" unique_id=910000021 instance=ExtResource("13_clothing")]
+position = Vector3(-0.54, 1.35, 0.5)
+item_id = &"shirt_red"
+display_name = "Красная футболка"
+
+[node name="Garment" parent="ClothesRack/Shirt1" index="0"]
+material_override = SubResource("MatShirt1")
+
+[node name="Shirt2" parent="ClothesRack" unique_id=910000022 instance=ExtResource("13_clothing")]
+position = Vector3(0, 1.35, 0.5)
+item_id = &"shirt_blue"
+display_name = "Синяя футболка"
+
+[node name="Garment" parent="ClothesRack/Shirt2" index="0"]
+material_override = SubResource("MatShirt2")
+
+[node name="Shirt3" parent="ClothesRack" unique_id=910000023 instance=ExtResource("13_clothing")]
+position = Vector3(0.54, 1.35, 0.5)
+item_id = &"shirt_yellow"
+display_name = "Жёлтая футболка"
+
+[node name="Garment" parent="ClothesRack/Shirt3" index="0"]
+material_override = SubResource("MatShirt3")
+
+[node name="Rail" type="MeshInstance3D" parent="ClothesRack"]
+position = Vector3(0, 1.725, 0.5)
+mesh = SubResource("Mesh_clothes_rail")
+
+[node name="RailBrace" type="MeshInstance3D" parent="ClothesRack"]
+position = Vector3(0, 1.725, 0.25)
+mesh = SubResource("Mesh_clothes_brace")
+
+[node name="SelectionLabel" type="Label3D" parent="ClothesRack"]
+position = Vector3(0, 1.88, 0.5)
+billboard = 1
+pixel_size = 0.0012
+modulate = Color(1, 0.96, 0.85, 1)
+text = "Выберите футболку"
+font_size = 28
+outline_size = 4
+
+[node name="InteractArea" type="Area3D" parent="ClothesRack" unique_id=910000024]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ClothesRack/InteractArea" unique_id=910000025]
+shape = SubResource("BoxShape_cloth")
+
+[node name="FridgeDoor" type="Node3D" parent="." unique_id=910000030]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.102, 0.9775, -2.19)
+visible = false
+
+[node name="FridgeDoorInteract" type="Area3D" parent="FridgeDoor" unique_id=910000033]
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="DoorMesh" type="MeshInstance3D" parent="FridgeDoor/FridgeDoorInteract" unique_id=910000031]
+mesh = SubResource("BoxMesh_fridge_door")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FridgeDoor/FridgeDoorInteract" unique_id=910000032]
+shape = SubResource("BoxShape_fridge_door_collider")
+
+[connection signal="body_entered" from="DoorInteract" to="DoorInteract" method="_on_body_entered"]
+
+[editable path="ClothesRack/Shirt1"]
+[editable path="ClothesRack/Shirt2"]
+[editable path="ClothesRack/Shirt3"]

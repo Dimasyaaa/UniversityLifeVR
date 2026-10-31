@@ -1,0 +1,35 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://resources/RoomDorm/shirt_mesh.tres" id="1_shirt"]
+[ext_resource type="ArrayMesh" path="res://resources/RoomDorm/hanger_mesh.tres" id="2_hanger"]
+[ext_resource type="Script" uid="uid://divfx4jyt6pq0" path="res://scripts/RoomDorm/clothing_item.gd" id="3_item"]
+
+[sub_resource type="StandardMaterial3D" id="Mat_cloth"]
+albedo_color = Color(0.65, 0.66, 0.64, 1)
+roughness = 0.95
+metallic_specular = 0.2
+
+[sub_resource type="StandardMaterial3D" id="Mat_hanger"]
+albedo_color = Color(0.34, 0.37, 0.38, 1)
+metallic = 0.55
+roughness = 0.5
+
+[sub_resource type="BoxShape3D" id="Shape_shirt"]
+size = Vector3(0.5, 0.485, 0.055)
+
+[node name="ClothingItem" type="StaticBody3D" groups=["interactable"]]
+collision_layer = 1
+collision_mask = 1
+script = ExtResource("3_item")
+
+[node name="Garment" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_shirt")
+material_override = SubResource("Mat_cloth")
+
+[node name="Hanger" type="MeshInstance3D" parent="."]
+mesh = ExtResource("2_hanger")
+material_override = SubResource("Mat_hanger")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.0025, 0)
+shape = SubResource("Shape_shirt")

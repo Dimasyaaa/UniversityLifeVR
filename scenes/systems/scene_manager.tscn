@@ -6,6 +6,7 @@
 [node name="SceneManager" type="Node"]
 script = ExtResource("1_scene_manager")
 initial_locations = Dictionary[StringName, String]({
+&"dorm_room": "res://scenes/locations/RoomDorm/RoomDorm.tscn",
 &"test_room": "res://scenes/locations/test_room.tscn",
 &"transport": "res://scenes/locations/transport/transport.tscn"
 })

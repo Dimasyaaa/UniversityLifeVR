@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://3laedcmacpmm"]
+
+[ext_resource type="ArrayMesh" uid="uid://ds8viw6uwtaml" path="res://models/RoomDorm/table/model/Table_01.obj" id="1_xjahe"]
+[ext_resource type="Texture2D" uid="uid://e6qmnhurriwt" path="res://models/RoomDorm/table/texture/Table_01.bmp" id="2_s6p20"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_30cp8"]
+albedo_texture = ExtResource("2_s6p20")
+roughness = 0.65
+metallic_specular = 0.35
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bhunq"]
+size = Vector3(1.725, 0.8625, 0.8625)
+
+[node name="CompTable" type="StaticBody3D" unique_id=2000988]
+
+[node name="Table" type="MeshInstance3D" parent="." unique_id=367699178]
+transform = Transform3D(0.232974231, 0.000000000, 0.000000000, 0.000000000, 0.293975979, 0.000000000, 0.000000000, 0.000000000, 0.208751321, 0.000000000, 0.831569016, 0.000000000)
+mesh = ExtResource("1_xjahe")
+surface_material_override/0 = SubResource("StandardMaterial3D_30cp8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1691530826]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.43125, 0)
+shape = SubResource("BoxShape3D_bhunq")

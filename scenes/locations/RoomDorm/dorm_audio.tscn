@@ -1,0 +1,142 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/RoomDorm/dorm_audio.gd" id="1_script"]
+[ext_resource type="AudioStream" path="res://assets/audio/RoomDorm/city_ambience.wav" id="2_sound"]
+[ext_resource type="AudioStream" path="res://assets/audio/RoomDorm/morning_birds.wav" id="3_sound"]
+[ext_resource type="AudioStream" path="res://assets/audio/RoomDorm/bed_rustle.wav" id="4_sound"]
+[ext_resource type="AudioStream" path="res://assets/audio/RoomDorm/footstep_1.wav" id="5_sound"]
+[ext_resource type="AudioStream" path="res://assets/audio/RoomDorm/fridge_open.wav" id="6_sound"]
+[ext_resource type="AudioStream" path="res://assets/audio/RoomDorm/fridge_close.wav" id="7_sound"]
+[ext_resource type="AudioStream" path="res://assets/audio/RoomDorm/plate_pickup.wav" id="8_sound"]
+[ext_resource type="AudioStream" path="res://assets/audio/RoomDorm/plate_place.wav" id="9_sound"]
+[ext_resource type="AudioStream" path="res://assets/audio/RoomDorm/pizza_bite.wav" id="10_sound"]
+[ext_resource type="AudioStream" path="res://assets/audio/RoomDorm/microwave_open.wav" id="11_sound"]
+[ext_resource type="AudioStream" path="res://assets/audio/RoomDorm/microwave_close.wav" id="12_sound"]
+[ext_resource type="AudioStream" path="res://assets/audio/RoomDorm/ui_tap.wav" id="13_sound"]
+[ext_resource type="AudioStream" path="res://assets/audio/RoomDorm/microwave_hum.wav" id="14_sound"]
+[ext_resource type="AudioStream" path="res://assets/audio/RoomDorm/cloth_rustle.wav" id="15_sound"]
+
+[node name="Audio" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="City" type="AudioStreamPlayer3D" parent="."]
+position = Vector3(0.05, 1.5, -2.96)
+stream = ExtResource("2_sound")
+volume_db = -28.0
+unit_size = 3
+max_distance = 10.0
+max_polyphony = 1
+panning_strength = 0.4
+
+[node name="Birds" type="AudioStreamPlayer3D" parent="."]
+position = Vector3(0.05, 1.6, -2.96)
+stream = ExtResource("3_sound")
+volume_db = -34.0
+unit_size = 3
+max_distance = 10.0
+max_polyphony = 1
+panning_strength = 0.4
+
+[node name="BedRustle" type="AudioStreamPlayer3D" parent="."]
+position = Vector3(2.35, 0.82, 2.55)
+stream = ExtResource("4_sound")
+volume_db = -19.0
+unit_size = 1
+max_distance = 5.0
+max_polyphony = 1
+
+[node name="Footsteps" type="AudioStreamPlayer3D" parent="."]
+position = Vector3(1.25, 0.1, 2.05)
+stream = ExtResource("5_sound")
+volume_db = -20.0
+unit_size = 1
+max_distance = 5.0
+max_polyphony = 1
+
+[node name="FridgeOpen" type="AudioStreamPlayer3D" parent="."]
+position = Vector3(-2.516, 1, -2.19)
+stream = ExtResource("6_sound")
+volume_db = -15.0
+unit_size = 1.2
+max_distance = 6.0
+max_polyphony = 1
+
+[node name="FridgeClose" type="AudioStreamPlayer3D" parent="."]
+position = Vector3(-2.516, 1, -2.19)
+stream = ExtResource("7_sound")
+volume_db = -16.0
+unit_size = 1.2
+max_distance = 6.0
+max_polyphony = 1
+
+[node name="PlatePickup" type="AudioStreamPlayer3D" parent="."]
+position = Vector3(-2.556, 1.5575, -2.19)
+stream = ExtResource("8_sound")
+volume_db = -21.0
+unit_size = 0.8
+max_distance = 4.0
+max_polyphony = 1
+
+[node name="PlatePlace" type="AudioStreamPlayer3D" parent="."]
+position = Vector3(-2.556, 1.5575, -2.19)
+stream = ExtResource("9_sound")
+volume_db = -19.0
+unit_size = 0.8
+max_distance = 4.0
+max_polyphony = 1
+
+[node name="Bite" type="AudioStreamPlayer3D" parent="."]
+position = Vector3(-2.556, 1.5575, -2.19)
+stream = ExtResource("10_sound")
+volume_db = -24.0
+unit_size = 0.8
+max_distance = 3.0
+max_polyphony = 1
+
+[node name="MicrowaveOpen" type="AudioStreamPlayer3D" parent="."]
+position = Vector3(-2.4, 1.2, -1.5)
+stream = ExtResource("11_sound")
+volume_db = -17.0
+unit_size = 1
+max_distance = 5.0
+max_polyphony = 1
+
+[node name="MicrowaveClose" type="AudioStreamPlayer3D" parent="."]
+position = Vector3(-2.4, 1.2, -1.5)
+stream = ExtResource("12_sound")
+volume_db = -17.0
+unit_size = 1
+max_distance = 5.0
+max_polyphony = 1
+
+[node name="MicrowaveButton" type="AudioStreamPlayer3D" parent="."]
+position = Vector3(-2.4, 1.2, -1.5)
+stream = ExtResource("13_sound")
+volume_db = -19.0
+unit_size = 0.8
+max_distance = 4.0
+max_polyphony = 1
+
+[node name="MicrowaveHum" type="AudioStreamPlayer3D" parent="."]
+position = Vector3(-2.4, 1.2, -1.5)
+stream = ExtResource("14_sound")
+volume_db = -23.0
+unit_size = 1.1
+max_distance = 5.0
+max_polyphony = 1
+
+[node name="Fabric" type="AudioStreamPlayer3D" parent="."]
+position = Vector3(-2.425, 1.5, 0.166)
+stream = ExtResource("15_sound")
+volume_db = -18.0
+unit_size = 1
+max_distance = 5.0
+max_polyphony = 1
+
+[node name="UiTap" type="AudioStreamPlayer3D" parent="."]
+position = Vector3(0.05, 1.1, -2.78)
+stream = ExtResource("13_sound")
+volume_db = -23.0
+unit_size = 1.5
+max_distance = 5.0
+max_polyphony = 1
