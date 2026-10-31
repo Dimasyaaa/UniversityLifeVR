@@ -1,0 +1,86 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/transport/student_pass.gd" id="pass_script"]
+
+[sub_resource type="StandardMaterial3D" id="Paper"]
+albedo_color = Color(0.95, 0.93, 0.85, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="Blue"]
+albedo_color = Color(0.12, 0.34, 0.42, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="Ink"]
+albedo_color = Color(0.30, 0.35, 0.34, 1)
+roughness = 1.0
+
+[sub_resource type="BoxMesh" id="Card"]
+size = Vector3(0.18, 0.11, 0.008)
+
+[sub_resource type="BoxMesh" id="UnitBox"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="BoxShape3D" id="CardShape"]
+size = Vector3(0.18, 0.11, 0.008)
+margin = 0.001
+
+[sub_resource type="PhysicsMaterial" id="CardPhysics"]
+friction = 0.9
+
+[node name="StudentPass" type="RigidBody3D" groups=["grabbable"]]
+mass = 0.02
+physics_material_override = SubResource("CardPhysics")
+freeze = true
+continuous_cd = true
+script = ExtResource("pass_script")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CardShape")
+
+[node name="Card" type="MeshInstance3D" parent="."]
+mesh = SubResource("Card")
+material_override = SubResource("Paper")
+
+[node name="Stripe" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.044, 0.0046)
+scale = Vector3(0.18, 0.022, 0.001)
+mesh = SubResource("UnitBox")
+material_override = SubResource("Blue")
+cast_shadow = 0
+
+[node name="Portrait" type="MeshInstance3D" parent="."]
+position = Vector3(-0.056, -0.008, 0.0046)
+scale = Vector3(0.037, 0.047, 0.001)
+mesh = SubResource("UnitBox")
+material_override = SubResource("Blue")
+cast_shadow = 0
+
+[node name="Line1" type="MeshInstance3D" parent="."]
+position = Vector3(0.023, -0.013, 0.0046)
+scale = Vector3(0.077, 0.004, 0.001)
+mesh = SubResource("UnitBox")
+material_override = SubResource("Ink")
+cast_shadow = 0
+
+[node name="Line2" type="MeshInstance3D" parent="."]
+position = Vector3(0.012, -0.026, 0.0046)
+scale = Vector3(0.055, 0.004, 0.001)
+mesh = SubResource("UnitBox")
+material_override = SubResource("Ink")
+cast_shadow = 0
+
+[node name="Title" type="Label3D" parent="."]
+position = Vector3(0, 0.043, 0.0055)
+pixel_size = 0.0006
+font_size = 24
+outline_size = 0
+modulate = Color(0.96, 0.95, 0.89, 1)
+text = "ПРОПУСК"
+
+[node name="Owner" type="Label3D" parent="."]
+position = Vector3(0.017, 0.008, 0.0055)
+pixel_size = 0.00048
+font_size = 18
+outline_size = 0
+modulate = Color(0.18, 0.23, 0.23, 1)
+text = "Студентка"

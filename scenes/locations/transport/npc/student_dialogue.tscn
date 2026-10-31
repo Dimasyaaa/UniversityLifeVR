@@ -120,6 +120,13 @@ focus_mode = 0
 text = "Можешь дать 40 рублей?"
 alignment = 0
 
+[node name="Quest" type="Button" parent="Panel/Margin/Content/Questions"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+focus_mode = 0
+text = "Нужна помощь?"
+alignment = 0
+
 [node name="Close" type="Button" parent="Panel/Margin/Content/Questions"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2

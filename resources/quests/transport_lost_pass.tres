@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="QuestDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/quests/quest_definition.gd" id="definition"]
+
+[resource]
+script = ExtResource("definition")
+quest_id = &"transport_lost_pass"
+title = "Потерянный пропуск"
+description = "Найди пропуск среди деревьев справа от дорожки, если выйти из общежития. Возьми его в руку и верни студентке на остановке."
+required_events = Dictionary[StringName, int]({
+&"transport_pass_returned": 1
+})
+stat_rewards = Dictionary[StringName, int]({
+&"mood": 5
+})

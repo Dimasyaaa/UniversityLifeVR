@@ -35,6 +35,9 @@ height = 2
 radial_segments = 8
 rings = 3
 
+[sub_resource type="SphereShape3D" id="PassBushShape"]
+radius = 0.45
+
 [sub_resource type="SphereMesh" id="RockMesh"]
 radius = 1
 height = 2
@@ -361,6 +364,31 @@ mesh = SubResource("UnitBox")
 material_override = ExtResource("paving")
 
 [node name="Trees" type="Node3D" parent="."]
+
+[node name="PassBush" type="StaticBody3D" parent="Trees"]
+position = Vector3(-22, 0, 14)
+
+[node name="Crown" type="MeshInstance3D" parent="Trees/PassBush"]
+position = Vector3(0, 0.45, 0)
+scale = Vector3(0.72, 0.45, 0.60)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage_sage")
+
+[node name="LeftLeaves" type="MeshInstance3D" parent="Trees/PassBush"]
+position = Vector3(-0.45, 0.32, 0.05)
+scale = Vector3(0.45, 0.32, 0.40)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+
+[node name="RightLeaves" type="MeshInstance3D" parent="Trees/PassBush"]
+position = Vector3(0.45, 0.32, -0.05)
+scale = Vector3(0.45, 0.32, 0.40)
+mesh = SubResource("ShrubMesh")
+material_override = ExtResource("foliage")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Trees/PassBush"]
+position = Vector3(0, 0.45, 0)
+shape = SubResource("PassBushShape")
 
 [node name="Tree01" parent="Trees" instance=ExtResource("tree")]
 position = Vector3(-5.7, 0.01, 5)

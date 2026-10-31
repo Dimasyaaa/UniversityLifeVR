@@ -1,26 +1,41 @@
-[gd_scene format=3]
-
-[ext_resource type="PackedScene" path="res://scenes/locations/transport/environment/transport_landscape.tscn" id="landscape"]
-
-[ext_resource type="PackedScene" path="res://scenes/locations/transport/environment/ride_landscape.tscn" id="ride_landscape"]
-
-[ext_resource type="PackedScene" path="res://scenes/objects/location_exit.tscn" id="exit"]
-
-[ext_resource type="PackedScene" path="res://scenes/locations/transport/buildings/dormitory_exterior.tscn" id="dormitory"]
-
-[ext_resource type="PackedScene" path="res://scenes/locations/transport/stop/bus_stop.tscn" id="bus_stop"]
-
-[ext_resource type="PackedScene" path="res://scenes/locations/transport/stop/destination_stop.tscn" id="destination_stop"]
-
-[ext_resource type="PackedScene" path="res://scenes/locations/transport/buildings/university_entrance.tscn" id="university"]
-
-[ext_resource type="PackedScene" path="res://scenes/locations/transport/bus/bus.tscn" id="bus"]
-
-[ext_resource type="Script" path="res://scripts/transport/transport_controller.gd" id="controller"]
+[gd_scene format=3 uid="uid://3i6o7yxch54i"]
 
 [ext_resource type="PackedScene" path="res://scenes/locations/transport/transport_audio.tscn" id="audio"]
-
+[ext_resource type="PackedScene" path="res://scenes/locations/transport/bus/bus.tscn" id="bus"]
+[ext_resource type="PackedScene" path="res://scenes/locations/transport/stop/bus_stop.tscn" id="bus_stop"]
+[ext_resource type="Script" uid="uid://bwr5g2fvc388h" path="res://scripts/transport/transport_controller.gd" id="controller"]
+[ext_resource type="PackedScene" path="res://scenes/locations/transport/stop/destination_stop.tscn" id="destination_stop"]
+[ext_resource type="PackedScene" path="res://scenes/locations/transport/buildings/dormitory_exterior.tscn" id="dormitory"]
+[ext_resource type="PackedScene" path="res://scenes/objects/location_exit.tscn" id="exit"]
+[ext_resource type="PackedScene" path="res://scenes/locations/transport/environment/transport_landscape.tscn" id="landscape"]
+[ext_resource type="PackedScene" path="res://scenes/locations/transport/environment/ride_landscape.tscn" id="ride_landscape"]
 [ext_resource type="PackedScene" path="res://scenes/locations/transport/npc/stop_student.tscn" id="stop_student"]
+[ext_resource type="PackedScene" path="res://scenes/locations/transport/objects/student_pass.tscn" id="student_pass"]
+[ext_resource type="PackedScene" path="res://scenes/locations/transport/buildings/university_entrance.tscn" id="university"]
+
+[sub_resource type="ProceduralSkyMaterial" id="MorningSky"]
+sky_top_color = Color(0.28, 0.51, 0.68, 1)
+sky_horizon_color = Color(0.78, 0.85, 0.84, 1)
+sky_curve = 0.13
+ground_bottom_color = Color(0.32, 0.39, 0.3, 1)
+ground_horizon_color = Color(0.78, 0.85, 0.84, 1)
+sun_angle_max = 18.0
+
+[sub_resource type="Sky" id="CourtyardSky"]
+sky_material = SubResource("MorningSky")
+
+[sub_resource type="Environment" id="MorningEnvironment"]
+background_mode = 2
+sky = SubResource("CourtyardSky")
+ambient_light_source = 2
+ambient_light_color = Color(0.75, 0.83, 0.94, 1)
+ambient_light_energy = 0.45
+reflected_light_source = 2
+fog_enabled = true
+fog_light_color = Color(0.77, 0.84, 0.83, 1)
+fog_light_energy = 0.8
+fog_density = 0.0018
+fog_sky_affect = 0.12
 
 [sub_resource type="Curve3D" id="BusApproachCurve"]
 bake_interval = 0.25
@@ -38,97 +53,64 @@ _data = {
 }
 point_count = 8
 
-[sub_resource type="ProceduralSkyMaterial" id="MorningSky"]
-sky_top_color = Color(0.28, 0.51, 0.68, 1)
-sky_horizon_color = Color(0.78, 0.85, 0.84, 1)
-ground_bottom_color = Color(0.32, 0.39, 0.30, 1)
-ground_horizon_color = Color(0.78, 0.85, 0.84, 1)
-sky_curve = 0.13
-sun_angle_max = 18
-
-[sub_resource type="Sky" id="CourtyardSky"]
-sky_material = SubResource("MorningSky")
-
-[sub_resource type="Environment" id="MorningEnvironment"]
-background_mode = 2
-sky = SubResource("CourtyardSky")
-ambient_light_source = 2
-ambient_light_color = Color(0.75, 0.83, 0.94, 1)
-ambient_light_energy = 0.45
-reflected_light_source = 2
-tonemap_mode = 0
-fog_enabled = true
-fog_light_color = Color(0.77, 0.84, 0.83, 1)
-fog_light_energy = 0.8
-fog_density = 0.0018
-fog_sky_affect = 0.12
-
-[node name="Transport" type="Node3D"]
+[node name="Transport" type="Node3D" unique_id=904456186]
 process_physics_priority = -10
 script = ExtResource("controller")
 
-[node name="TransportAudio" parent="." instance=ExtResource("audio")]
+[node name="TransportAudio" parent="." unique_id=1678530293 instance=ExtResource("audio")]
 
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1345456354]
 environment = SubResource("MorningEnvironment")
 
-[node name="MorningSun" type="DirectionalLight3D" parent="."]
-rotation_degrees = Vector3(-38, -32, 0)
+[node name="MorningSun" type="DirectionalLight3D" parent="." unique_id=1530579570]
+transform = Transform3D(0.8480481, 0.32625088, -0.4175821, 0, 0.7880108, 0.6156615, 0.52991927, -0.5221106, 0.668271, 0, 0, 0)
 light_color = Color(1, 0.93, 0.83, 1)
-light_energy = 1.0
 shadow_enabled = true
-directional_shadow_max_distance = 65
+directional_shadow_max_distance = 65.0
 
-[node name="Landscape" parent="." instance=ExtResource("landscape")]
+[node name="Landscape" parent="." unique_id=821853507 instance=ExtResource("landscape")]
 
-[node name="RideLandscape" parent="." instance=ExtResource("ride_landscape")]
+[node name="RideLandscape" parent="." unique_id=1428280506 instance=ExtResource("ride_landscape")]
 
+[node name="Spawn_Default" type="Marker3D" parent="." unique_id=324325717]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 15.7)
 
-[node name="Spawn_Default" type="Marker3D" parent="."]
-position = Vector3(0, 0.08, 15.7)
+[node name="Spawn_FromDorm" type="Marker3D" parent="." unique_id=2065220960]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 15.7)
 
-[node name="Spawn_FromDorm" type="Marker3D" parent="."]
-position = Vector3(0, 0.08, 15.7)
+[node name="DormitoryExterior" parent="." unique_id=76678902 instance=ExtResource("dormitory")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 24)
 
-[node name="DormitoryExterior" parent="." instance=ExtResource("dormitory")]
-position = Vector3(0, 0, 24)
+[node name="BusStop" parent="." unique_id=1622597101 instance=ExtResource("bus_stop")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, -18.2)
 
-[node name="BusStop" parent="." instance=ExtResource("bus_stop")]
-position = Vector3(9, 0, -18.2)
+[node name="StopStudent" parent="." unique_id=1330258353 instance=ExtResource("stop_student")]
+transform = Transform3D(0.90630776, 0, 0.42261827, 0, 1, 0, -0.42261827, 0, 0.90630776, 10.35, 0.03, -18.95)
 
-[node name="StopStudent" parent="." instance=ExtResource("stop_student")]
-position = Vector3(10.35, 0.03, -18.95)
-rotation_degrees = Vector3(0, 25, 0)
+[node name="StudentPass" parent="." unique_id=536564408 instance=ExtResource("student_pass")]
+transform = Transform3D(0.9781476, 0.2079117, 0, 9.088109e-09, -4.275619e-08, 1, 0.2079117, -0.9781476, -4.371139e-08, 8.023685, 0.016382046, -2.7114716)
 
-[node name="DestinationStop" parent="." instance=ExtResource("destination_stop")]
-position = Vector3(112.3, 0, -220)
+[node name="DestinationStop" parent="." unique_id=145331153 instance=ExtResource("destination_stop")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 112.3, 0, -220)
 
-[node name="UniversityEntrance" parent="." instance=ExtResource("university")]
-position = Vector3(122.3, 0, -214.5)
-rotation_degrees = Vector3(0, -90, 0)
+[node name="UniversityEntrance" parent="." unique_id=1892449338 instance=ExtResource("university")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 122.3, 0, -214.5)
 
-[node name="Bus" parent="." instance=ExtResource("bus")]
-position = Vector3(-75.05, 0.01, -108)
-rotation_degrees = Vector3(0, 180, 0)
+[node name="Bus" parent="." unique_id=534577880 instance=ExtResource("bus")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -75.05, 0.01, -108)
 
-[node name="BusApproachStart" type="Marker3D" parent="."]
-position = Vector3(-75.05, 0.01, -108)
-rotation_degrees = Vector3(0, 180, 0)
+[node name="BusApproachStart" type="Marker3D" parent="." unique_id=1968300160]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -75.05, 0.01, -108)
 
-[node name="BusApproachPath" type="Path3D" parent="."]
+[node name="BusApproachPath" type="Path3D" parent="." unique_id=1494119114]
 curve = SubResource("BusApproachCurve")
 
-[node name="BusRidePath" type="Path3D" parent="."]
+[node name="BusRidePath" type="Path3D" parent="." unique_id=1504866165]
 curve = SubResource("BusRideCurve")
 
-[node name="BusRideEnd" type="Marker3D" parent="."]
-position = Vector3(105.65, 0.01, -220)
+[node name="BusRideEnd" type="Marker3D" parent="." unique_id=291227470]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 105.65, 0.01, -220)
 
-[node name="TransitionTo_TestRoom" parent="." instance=ExtResource("exit")]
-position = Vector3(-5, 0.04, 11)
+[node name="TransitionTo_TestRoom" parent="." unique_id=560034327 instance=ExtResource("exit")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.04, 11)
 target_location = &"test_room"
-target_spawn = &"Spawn_Default"
-
-[node name="Label" parent="TransitionTo_TestRoom" index="5"]
-text = "Тестовая комната"

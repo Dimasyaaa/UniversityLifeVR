@@ -44,11 +44,11 @@ text = "Поговорить"
 [node name="Dialogue" parent="." instance=ExtResource("screen")]
 position = Vector3(0.8, 1.6, -0.6)
 visible = false
-screen_size = Vector2(0.94, 0.752)
+screen_size = Vector2(0.94, 0.8272)
 enabled = false
 collision_layer = 4194304
 scene = ExtResource("dialogue")
-viewport_size = Vector2(800, 640)
+viewport_size = Vector2(800, 704)
 input_keyboard = false
 unshaded = true
 material = SubResource("ScreenMaterial")

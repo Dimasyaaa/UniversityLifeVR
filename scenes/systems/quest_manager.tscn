@@ -13,8 +13,9 @@
 [ext_resource type="Resource" path="res://resources/quests/medical_check.tres" id="11_medical"]
 [ext_resource type="Resource" path="res://resources/quests/dean_certificate.tres" id="12_certificate"]
 [ext_resource type="Resource" path="res://resources/quests/feed_ducks.tres" id="13_ducks"]
+[ext_resource type="Resource" path="res://resources/quests/transport_lost_pass.tres" id="14_transport_pass"]
 
 [node name="QuestManager" type="Node"]
 script = ExtResource("1_manager")
-quest_definitions = Array[ExtResource("2_definition")]([ExtResource("3_main_exam"), ExtResource("4_breakfast"), ExtResource("5_library"), ExtResource("6_cafeteria"), ExtResource("7_workout"), ExtResource("8_party"), ExtResource("9_courier"), ExtResource("10_robot"), ExtResource("11_medical"), ExtResource("12_certificate"), ExtResource("13_ducks")])
+quest_definitions = Array[ExtResource("2_definition")]([ExtResource("3_main_exam"), ExtResource("4_breakfast"), ExtResource("5_library"), ExtResource("6_cafeteria"), ExtResource("7_workout"), ExtResource("8_party"), ExtResource("9_courier"), ExtResource("10_robot"), ExtResource("11_medical"), ExtResource("12_certificate"), ExtResource("13_ducks"), ExtResource("14_transport_pass")])
 initial_quests = Array[StringName]([&"main_exam"])
