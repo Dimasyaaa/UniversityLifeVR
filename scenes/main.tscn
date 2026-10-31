@@ -1,21 +1,22 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://bguvf3cx2rcgp"]
 
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="1_player"]
 [ext_resource type="PackedScene" path="res://scenes/locations/test_room.tscn" id="2_room"]
-[ext_resource type="Script" path="res://scripts/main.gd" id="3_main"]
+[ext_resource type="Script" uid="uid://p7o1ce1gjqms" path="res://scripts/main.gd" id="3_main"]
 [ext_resource type="PackedScene" path="res://scenes/ui/main_menu_panel.tscn" id="4_menu"]
 [ext_resource type="PackedScene" path="res://scenes/ui/notifications.tscn" id="5_notifications"]
 
-[node name="Main" type="Node3D"]
+[node name="Main" type="Node3D" unique_id=1548995242]
 script = ExtResource("3_main")
 
-[node name="Locations" type="Node3D" parent="."]
+[node name="Locations" type="Node3D" parent="." unique_id=2012514687]
 
-[node name="TestRoom" parent="Locations" instance=ExtResource("2_room")]
+[node name="TestRoom" parent="Locations" unique_id=1577214242 instance=ExtResource("2_room")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.002073288, 0.007917166, -0.0037961006)
 
-[node name="VRPlayer" parent="." instance=ExtResource("1_player")]
+[node name="VRPlayer" parent="." unique_id=700483196 instance=ExtResource("1_player")]
 
-[node name="MainMenuPanel" parent="." instance=ExtResource("4_menu")]
-position = Vector3(0, 1.6, -1.05)
+[node name="MainMenuPanel" parent="." unique_id=734075511 instance=ExtResource("4_menu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, -1.05)
 
-[node name="Notifications" parent="." instance=ExtResource("5_notifications")]
+[node name="Notifications" parent="." unique_id=547107608 instance=ExtResource("5_notifications")]
