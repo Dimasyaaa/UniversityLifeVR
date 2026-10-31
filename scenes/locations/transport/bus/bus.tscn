@@ -29,6 +29,10 @@
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="ui_screen"]
 [ext_resource type="PackedScene" path="res://scenes/locations/transport/bus/stand_prompt.tscn" id="stand_prompt"]
 
+[ext_resource type="PackedScene" path="res://scenes/locations/transport/npc/passenger_grandmother.tscn" id="grandmother"]
+[ext_resource type="PackedScene" path="res://scenes/locations/transport/npc/passenger_student.tscn" id="student_passenger"]
+[ext_resource type="PackedScene" path="res://scenes/locations/transport/npc/bus_driver.tscn" id="driver"]
+
 [ext_resource type="AudioStream" path="res://assets/audio/transport/engine_loop.wav" id="engine_sound"]
 [ext_resource type="AudioStream" path="res://assets/audio/transport/road_loop.wav" id="road_sound"]
 [ext_resource type="AudioStream" path="res://assets/audio/transport/door_open.wav" id="open_sound"]
@@ -758,9 +762,15 @@ position = Vector3(-0.82, 0.45, 0)
 
 [node name="RightRow2" parent="Interior/Seats" instance=ExtResource("seat")]
 position = Vector3(0.82, 0.45, 0)
+selectable = false
+
+[node name="Grandmother" parent="Interior/Seats/RightRow2" instance=ExtResource("grandmother")]
 
 [node name="LeftRow3" parent="Interior/Seats" instance=ExtResource("seat")]
 position = Vector3(-0.82, 0.45, 1.4)
+selectable = false
+
+[node name="StudentPassenger" parent="Interior/Seats/LeftRow3" instance=ExtResource("student_passenger")]
 
 [node name="RightRow3" parent="Interior/Seats" instance=ExtResource("seat")]
 position = Vector3(0.82, 0.45, 1.4)
@@ -781,6 +791,8 @@ position = Vector3(0.82, 0.45, 4.1)
 position = Vector3(-0.65, 0.45, -3.8)
 scale = Vector3(0.92, 0.92, 0.92)
 selectable = false
+
+[node name="Driver" parent="Interior/DriverSeat" instance=ExtResource("driver")]
 
 [node name="Dashboard" type="MeshInstance3D" parent="Body/Exterior"]
 position = Vector3(0, 1.12, -4.33)

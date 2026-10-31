@@ -1,0 +1,10 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://scenes/locations/transport/npc/meshes/driver_seated.tres" id="mesh"]
+[ext_resource type="Material" path="res://scenes/locations/transport/npc/meshes/cabin_npc_colours.tres" id="colours"]
+
+[node name="Driver" type="Node3D"]
+
+[node name="Model" type="MeshInstance3D" parent="."]
+mesh = ExtResource("mesh")
+material_override = ExtResource("colours")
