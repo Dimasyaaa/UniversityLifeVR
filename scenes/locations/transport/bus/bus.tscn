@@ -32,6 +32,7 @@
 [ext_resource type="PackedScene" path="res://scenes/locations/transport/npc/passenger_grandmother.tscn" id="grandmother"]
 [ext_resource type="PackedScene" path="res://scenes/locations/transport/npc/passenger_student.tscn" id="student_passenger"]
 [ext_resource type="PackedScene" path="res://scenes/locations/transport/npc/bus_driver.tscn" id="driver"]
+[ext_resource type="PackedScene" path="res://scenes/locations/transport/bus/fare_validator.tscn" id="fare_validator"]
 
 [ext_resource type="AudioStream" path="res://assets/audio/transport/engine_loop.wav" id="engine_sound"]
 [ext_resource type="AudioStream" path="res://assets/audio/transport/road_loop.wav" id="road_sound"]
@@ -793,6 +794,10 @@ scale = Vector3(0.92, 0.92, 0.92)
 selectable = false
 
 [node name="Driver" parent="Interior/DriverSeat" instance=ExtResource("driver")]
+
+[node name="FareValidator" parent="Interior" instance=ExtResource("fare_validator")]
+position = Vector3(1.06, 1.65, -2.25)
+rotation_degrees = Vector3(0, -90, 0)
 
 [node name="Dashboard" type="MeshInstance3D" parent="Body/Exterior"]
 position = Vector3(0, 1.12, -4.33)

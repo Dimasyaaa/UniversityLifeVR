@@ -12,6 +12,7 @@ signal ride_finished
 signal destination_doors_opened
 signal player_stood_up
 signal player_alighted
+signal fare_paid
 
 const Player = preload("res://scripts/player/player.gd")
 const PassengerSeat = preload("res://scripts/transport/passenger_seat.gd")
@@ -40,6 +41,9 @@ const SAVED_PHASES: Array[String] = ["before_waiting", "approaching", "opening_d
 @export_group("Bus Alighting")
 @export_range(0.45, 0.8, 0.05) var stand_prompt_distance: float = 0.65
 
+@export_group("Bus Fare")
+@export_range(1, 200, 1) var fare_price: int = 40
+
 @onready var _waiting_area: Area3D = $BusStop/WaitingArea
 @onready var _arrival_value: Label3D = $BusStop/Information/ArrivalValue
 @onready var _bus: Node3D = $Bus
@@ -57,6 +61,7 @@ const SAVED_PHASES: Array[String] = ["before_waiting", "approaching", "opening_d
 @onready var _destination_exit: Area3D = $DestinationStop/TransitionTo_TestRoom
 @onready var _stand_screen: XRToolsViewport2DIn3D = $Bus/Interior/StandPrompt
 @onready var _stop_student: StaticBody3D = $StopStudent
+@onready var _fare_validator: Node3D = $Bus/Interior/FareValidator
 
 var state: State = State.BEFORE_WAITING
 var _approach_elapsed: float = 0.0
@@ -76,6 +81,7 @@ var _ride_elapsed: float = 0.0
 var _ride_distance: float = 0.0
 var _stand_action: Button
 var _stand_prompt_requested: bool = false
+var _fare_paid: bool = false
 
 
 func _ready() -> void:
@@ -123,6 +129,8 @@ func _physics_process(delta: float) -> void:
 					_record_boarding(body)
 					break
 		State.SEATED:
+			if not _fare_paid:
+				return
 			_departure_elapsed = minf(departure_delay_seconds, _departure_elapsed + delta)
 			if _departure_elapsed >= departure_delay_seconds:
 				state = State.CLOSING_DOORS
@@ -156,6 +164,42 @@ func get_door_open_progress() -> float:
 	return clampf(_door_elapsed / door_open_duration_seconds, 0.0, 1.0)
 
 
+func get_fare_price() -> int:
+	return fare_price
+
+
+func is_fare_paid() -> bool:
+	return _fare_paid
+
+
+func can_pay_fare(player: Player) -> bool:
+	return (
+		_can_update_transport()
+		and state == State.IN_BUS
+		and _placement == Placement.NONE
+		and not _fare_paid
+		and is_instance_valid(player)
+		and player == _passenger
+		and player.is_movement_enabled()
+		and not player.is_passenger_mode()
+		and _is_player_inside_cabin(player)
+	)
+
+
+func try_pay_fare(player: Player) -> bool:
+	if not can_pay_fare(player) or not bool(_fare_validator.call("is_phone_present", player)):
+		return false
+	if GameStateManager.get_stat(&"money") < fare_price:
+		return false
+	# Флаг выставляется до сигнала об изменении баланса: повторного списания нет.
+	_fare_paid = true
+	GameStateManager.change_stat(&"money", -fare_price)
+	_set_seat_selection(true)
+	fare_paid.emit()
+	_save_transport_checkpoint.call_deferred()
+	return true
+
+
 ## SaveManager хранит этот словарь в общем разделе состояний локаций.
 func get_save_data() -> Dictionary:
 	if _return_game_seconds >= 0.0:
@@ -172,10 +216,13 @@ func get_save_data() -> Dictionary:
 		"game_seconds": TimeManager.get_total_seconds(),
 		"clock_speed": maxf(0.0, TimeManager.game_seconds_per_real_second),
 		"stop_student": _stop_student.call("get_save_data"),
+		# Завершённая поездка оплачена; восстановленный у общежития автобус — уже следующая.
+		"fare_paid": _fare_paid and state < State.RIDE_FINISHED,
 	}
 
 
 func restore_save_data(data: Dictionary) -> void:
+	_fare_paid = false
 	# Старые сохранения ещё не содержат NPC: для них просьб пока не было.
 	# Прогресс помощи независим от корректности фазы автобуса.
 	_stop_student.call("restore_save_data", data.get("stop_student", {"money_requests": 0}))
@@ -187,6 +234,8 @@ func restore_save_data(data: Dictionary) -> void:
 		_return_game_seconds = -1.0
 		_apply_restored_pose()
 		return
+	# Старые сохранения созданы до появления оплаты.
+	_fare_paid = data.get("fare_paid", false)
 	match data["phase"]:
 		"before_waiting":
 			state = State.BEFORE_WAITING
@@ -209,6 +258,10 @@ func _is_transport_save_valid(data: Dictionary) -> bool:
 	if not data.get("version") is int or data.get("version") != SAVE_VERSION or not data.get("phase") is String:
 		return false
 	if data["phase"] not in SAVED_PHASES:
+		return false
+	if data.has("fare_paid") and not data["fare_paid"] is bool:
+		return false
+	if data.get("fare_paid", false) and data["phase"] != "boarding_ready":
 		return false
 	for field: String in ["approach_progress", "door_progress", "game_seconds", "clock_speed"]:
 		var value: Variant = data.get(field)
@@ -319,11 +372,13 @@ func _is_player_inside_cabin(player: Player) -> bool:
 
 
 func _on_seat_requested(seat: Node3D) -> void:
-	if state != State.IN_BUS or _placement != Placement.NONE or not _can_update_transport():
+	if state != State.IN_BUS or _placement != Placement.NONE or not _can_update_transport() or not _fare_paid:
 		return
 	if seat not in _seats or not is_instance_valid(_passenger) or not _cabin_area.overlaps_body(_passenger):
 		return
 	var selected: PassengerSeat = seat as PassengerSeat
+	if not selected.selectable:
+		return
 	if _passenger.camera.global_position.distance_to(selected.passenger_eye_target.global_position) > 2.0:
 		return
 	_selected_seat = selected
@@ -417,7 +472,7 @@ func _update_walk_ramp() -> void:
 
 func _set_seat_selection(enabled: bool) -> void:
 	for seat: PassengerSeat in _seats:
-		seat.set_selection_enabled(enabled)
+		seat.set_selection_enabled(enabled and _fare_paid)
 
 
 func _set_stand_prompt(enabled: bool) -> void:

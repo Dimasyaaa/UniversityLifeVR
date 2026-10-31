@@ -1,0 +1,105 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/transport/fare_validator.gd" id="script"]
+[ext_resource type="AudioStream" path="res://assets/audio/transport/payment_ok.wav" id="ok"]
+[ext_resource type="AudioStream" path="res://assets/audio/transport/payment_error.wav" id="error"]
+
+[sub_resource type="StandardMaterial3D" id="CaseMaterial"]
+albedo_color = Color(0.16, 0.20, 0.20, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="FaceMaterial"]
+albedo_color = Color(0.89, 0.87, 0.81, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="PadMaterial"]
+albedo_color = Color(0.12, 0.30, 0.36, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="IndicatorMaterial"]
+resource_local_to_scene = true
+shading_mode = 0
+albedo_color = Color(0.90, 0.60, 0.16, 1)
+
+[sub_resource type="BoxMesh" id="UnitBox"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="BoxShape3D" id="CaseShape"]
+size = Vector3(0.25, 0.36, 0.10)
+
+[node name="FareValidator" type="Node3D"]
+process_physics_priority = 10
+script = ExtResource("script")
+
+[node name="Body" type="AnimatableBody3D" parent="."]
+sync_to_physics = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Body"]
+shape = SubResource("CaseShape")
+
+[node name="Case" type="MeshInstance3D" parent="."]
+scale = Vector3(0.25, 0.36, 0.10)
+mesh = SubResource("UnitBox")
+material_override = SubResource("CaseMaterial")
+
+[node name="Face" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0, 0.052)
+scale = Vector3(0.226, 0.335, 0.004)
+mesh = SubResource("UnitBox")
+material_override = SubResource("FaceMaterial")
+
+[node name="Indicator" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.153, 0.056)
+scale = Vector3(0.18, 0.012, 0.004)
+mesh = SubResource("UnitBox")
+material_override = SubResource("IndicatorMaterial")
+cast_shadow = 0
+
+[node name="ReaderPad" type="MeshInstance3D" parent="."]
+position = Vector3(0, -0.086, 0.056)
+scale = Vector3(0.14, 0.123, 0.004)
+mesh = SubResource("UnitBox")
+material_override = SubResource("PadMaterial")
+cast_shadow = 0
+
+[node name="PhoneIcon" type="MeshInstance3D" parent="."]
+position = Vector3(0, -0.084, 0.060)
+scale = Vector3(0.039, 0.071, 0.002)
+mesh = SubResource("UnitBox")
+material_override = SubResource("FaceMaterial")
+cast_shadow = 0
+
+[node name="Price" type="Label3D" parent="."]
+position = Vector3(0, 0.110, 0.058)
+pixel_size = 0.0016
+font_size = 24
+outline_size = 0
+modulate = Color(0.16, 0.23, 0.23, 1)
+text = "40 ₽"
+
+[node name="Status" type="Label3D" parent="."]
+position = Vector3(0, 0.035, 0.059)
+pixel_size = 0.0011
+font_size = 18
+outline_size = 0
+modulate = Color(0.16, 0.23, 0.23, 1)
+text = "ПРИЛОЖИТЕ\nТЕЛЕФОН"
+
+[node name="TapPoint" type="Marker3D" parent="."]
+position = Vector3(0, -0.086, 0.09)
+
+[node name="PaymentSuccess" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("ok")
+volume_db = -14.0
+unit_size = 1.0
+max_db = -10.0
+max_distance = 8.0
+panning_strength = 0.5
+
+[node name="PaymentFailure" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("error")
+volume_db = -14.0
+unit_size = 1.0
+max_db = -10.0
+max_distance = 8.0
+panning_strength = 0.5
