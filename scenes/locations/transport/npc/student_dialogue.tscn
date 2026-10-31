@@ -1,0 +1,128 @@
+[gd_scene format=3]
+
+[sub_resource type="StyleBoxFlat" id="PanelStyle"]
+bg_color = Color(0.89, 0.87, 0.83, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_left = 5
+corner_radius_bottom_right = 5
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 5
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="ButtonStyle"]
+content_margin_left = 18.0
+content_margin_right = 18.0
+bg_color = Color(0, 0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="HoverStyle"]
+content_margin_left = 18.0
+content_margin_right = 18.0
+bg_color = Color(0.8, 0.77, 0.72, 1)
+border_width_left = 3
+border_color = Color(0.5, 0.38, 0.31, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_left = 3
+corner_radius_bottom_right = 3
+
+[sub_resource type="StyleBoxFlat" id="PressedStyle"]
+content_margin_left = 18.0
+content_margin_right = 18.0
+bg_color = Color(0.72, 0.68, 0.62, 1)
+border_width_left = 3
+border_color = Color(0.42, 0.29, 0.24, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_left = 3
+corner_radius_bottom_right = 3
+
+[sub_resource type="Theme" id="DialogueTheme"]
+default_font_size = 28
+Button/colors/font_color = Color(0.22, 0.23, 0.22, 1)
+Button/colors/font_hover_color = Color(0.17, 0.16, 0.14, 1)
+Button/colors/font_pressed_color = Color(0.17, 0.16, 0.14, 1)
+Button/styles/normal = SubResource("ButtonStyle")
+Button/styles/hover = SubResource("HoverStyle")
+Button/styles/pressed = SubResource("PressedStyle")
+Button/styles/focus = SubResource("ButtonStyle")
+Label/colors/font_color = Color(0.22, 0.23, 0.22, 1)
+
+[node name="StudentDialogue" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("DialogueTheme")
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("PanelStyle")
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 24
+
+[node name="Content" type="VBoxContainer" parent="Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Speaker" type="Label" parent="Panel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.24, 0.22, 0.2, 1)
+theme_override_font_sizes/font_size = 36
+text = "Студентка"
+
+[node name="Message" type="Label" parent="Panel/Margin/Content"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_vertical = 3
+text = "Привет! Тоже едешь на занятия?"
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Questions" type="VBoxContainer" parent="Panel/Margin/Content"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Route" type="Button" parent="Panel/Margin/Content/Questions"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+focus_mode = 0
+text = "Этот автобус до университета?"
+alignment = 0
+
+[node name="Duration" type="Button" parent="Panel/Margin/Content/Questions"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+focus_mode = 0
+text = "Долго ехать?"
+alignment = 0
+
+[node name="Money" type="Button" parent="Panel/Margin/Content/Questions"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+focus_mode = 0
+text = "Можешь дать 40 рублей?"
+alignment = 0
+
+[node name="Close" type="Button" parent="Panel/Margin/Content/Questions"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+focus_mode = 0
+text = "До встречи"
+alignment = 0

@@ -56,6 +56,7 @@ const SAVED_PHASES: Array[String] = ["before_waiting", "approaching", "opening_d
 @onready var _alighting_threshold: Marker3D = $DestinationStop/AlightingThreshold
 @onready var _destination_exit: Area3D = $DestinationStop/TransitionTo_TestRoom
 @onready var _stand_screen: XRToolsViewport2DIn3D = $Bus/Interior/StandPrompt
+@onready var _stop_student: StaticBody3D = $StopStudent
 
 var state: State = State.BEFORE_WAITING
 var _approach_elapsed: float = 0.0
@@ -78,6 +79,7 @@ var _stand_prompt_requested: bool = false
 
 
 func _ready() -> void:
+	_stop_student.connect("conversation_progress_changed", _on_conversation_progress_changed)
 	_stand_action = _stand_screen.get_scene_instance().get_node("Panel/Margin/Stand") as Button
 	_stand_action.pressed.connect(_on_stand_button_pressed)
 	for node: Node in $Bus/Interior/Seats.get_children():
@@ -169,10 +171,14 @@ func get_save_data() -> Dictionary:
 		"door_progress": 1.0 if saved_state == State.BOARDING_READY else _door_elapsed / door_open_duration_seconds,
 		"game_seconds": TimeManager.get_total_seconds(),
 		"clock_speed": maxf(0.0, TimeManager.game_seconds_per_real_second),
+		"stop_student": _stop_student.call("get_save_data"),
 	}
 
 
 func restore_save_data(data: Dictionary) -> void:
+	# Старые сохранения ещё не содержат NPC: для них просьб пока не было.
+	# Прогресс помощи независим от корректности фазы автобуса.
+	_stop_student.call("restore_save_data", data.get("stop_student", {"money_requests": 0}))
 	if not _is_transport_save_valid(data):
 		push_warning("Транспорт: состояние сохранения несовместимо или повреждено; восстановлено начало ожидания.")
 		state = State.BEFORE_WAITING
@@ -566,6 +572,11 @@ func _ride_progress(progress: float) -> float:
 		var ramp_distance: float = RIDE_RAMP_PART * (ramp * ramp * ramp - 0.5 * ramp * ramp * ramp * ramp) / normalizer
 		return ramp_distance if progress < RIDE_RAMP_PART else 1.0 - ramp_distance
 	return (progress - RIDE_RAMP_PART * 0.5) / normalizer
+
+
+func _on_conversation_progress_changed() -> void:
+	# Общий файл получает баланс и локальный прогресс после завершения обработчика.
+	_save_transport_checkpoint.call_deferred()
 
 
 func _save_transport_checkpoint() -> void:

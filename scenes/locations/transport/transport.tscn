@@ -20,6 +20,8 @@
 
 [ext_resource type="PackedScene" path="res://scenes/locations/transport/transport_audio.tscn" id="audio"]
 
+[ext_resource type="PackedScene" path="res://scenes/locations/transport/npc/stop_student.tscn" id="stop_student"]
+
 [sub_resource type="Curve3D" id="BusApproachCurve"]
 bake_interval = 0.25
 _data = {
@@ -94,6 +96,10 @@ position = Vector3(0, 0, 24)
 
 [node name="BusStop" parent="." instance=ExtResource("bus_stop")]
 position = Vector3(9, 0, -18.2)
+
+[node name="StopStudent" parent="." instance=ExtResource("stop_student")]
+position = Vector3(10.35, 0.03, -18.95)
+rotation_degrees = Vector3(0, 25, 0)
 
 [node name="DestinationStop" parent="." instance=ExtResource("destination_stop")]
 position = Vector3(112.3, 0, -220)
