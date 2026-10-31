@@ -6,7 +6,6 @@
 [ext_resource type="Script" uid="uid://bwr5g2fvc388h" path="res://scripts/transport/transport_controller.gd" id="controller"]
 [ext_resource type="PackedScene" path="res://scenes/locations/transport/stop/destination_stop.tscn" id="destination_stop"]
 [ext_resource type="PackedScene" path="res://scenes/locations/transport/buildings/dormitory_exterior.tscn" id="dormitory"]
-[ext_resource type="PackedScene" path="res://scenes/objects/location_exit.tscn" id="exit"]
 [ext_resource type="PackedScene" path="res://scenes/locations/transport/environment/transport_landscape.tscn" id="landscape"]
 [ext_resource type="PackedScene" path="res://scenes/locations/transport/environment/ride_landscape.tscn" id="ride_landscape"]
 [ext_resource type="PackedScene" path="res://scenes/locations/transport/npc/stop_student.tscn" id="stop_student"]
@@ -110,7 +109,3 @@ curve = SubResource("BusRideCurve")
 
 [node name="BusRideEnd" type="Marker3D" parent="." unique_id=291227470]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 105.65, 0.01, -220)
-
-[node name="TransitionTo_TestRoom" parent="." unique_id=560034327 instance=ExtResource("exit")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.04, 11)
-target_location = &"test_room"
