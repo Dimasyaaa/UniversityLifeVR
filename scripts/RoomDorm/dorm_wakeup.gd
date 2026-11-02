@@ -97,8 +97,7 @@ func _apply_lying_pose() -> void:
 	_player.reset_physics_interpolation()
 	_button.disabled = false
 	_button.text = "Встать"
-	_screen.global_position = _player.camera.global_position - _player.camera.global_basis.z * 0.95
-	_screen.global_basis = _player.camera.global_basis
+	# Панель закреплена над кроватью в сцене и не зависит от позы головы в XR.
 	_sync_screen()
 
 

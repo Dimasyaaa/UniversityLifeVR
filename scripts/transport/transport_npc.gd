@@ -10,7 +10,7 @@ signal conversation_progress_changed
 
 @export_group("Conversation")
 @export_range(1.0, 3.0, 0.1) var conversation_distance: float = 2.4
-@export_range(0.7, 1.3, 0.05) var dialogue_distance: float = 0.9
+@export_range(0.4, 1.3, 0.05) var dialogue_distance: float = 0.65
 @export var speaker_name: String = "Студентка"
 @export_multiline var greeting: String = "Привет! Тоже едешь на занятия?"
 @export_multiline var route_answer: String = "Да, маршрут №1 идёт от общежития к университету. Выходи на конечной — вход на территорию рядом с остановкой."
@@ -92,9 +92,14 @@ func _open_dialogue() -> void:
 		forward = -player.global_basis.z
 		forward.y = 0.0
 	forward = forward.normalized()
+	var to_speaker: Vector3 = _talk_point.global_position - player.camera.global_position
+	to_speaker.y = 0.0
+	# При близком подходе окно должно быть перед девушкой, а не за ней.
+	var distance: float = minf(dialogue_distance, maxf(0.2, to_speaker.length() * 0.5))
+	var panel_scale: float = distance / dialogue_distance
 	# Панель остаётся в мире: поворот головы не тащит за собой текст.
-	_screen.global_position = player.camera.global_position + forward * dialogue_distance - Vector3.UP * 0.08
-	_screen.global_basis = Basis.looking_at(forward, Vector3.UP)
+	_screen.global_position = player.camera.global_position + forward * distance - Vector3.UP * 0.08 * panel_scale
+	_screen.global_basis = Basis.looking_at(forward, Vector3.UP).scaled(Vector3.ONE * panel_scale)
 	_message.text = greeting
 	_refresh_quest_button()
 	_screen.show()

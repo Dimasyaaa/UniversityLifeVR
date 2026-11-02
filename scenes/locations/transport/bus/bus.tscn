@@ -969,3 +969,9 @@ position = Vector3(-0.82, 0.01, -0.16)
 
 [node name="StandingPoint" parent="Interior/Seats/RightRow5" index="5"]
 position = Vector3(-0.82, 0.01, -0.16)
+
+[editable path="Interior/Seats/RightRow1"]
+[editable path="Interior/Seats/RightRow2"]
+[editable path="Interior/Seats/RightRow3"]
+[editable path="Interior/Seats/RightRow4"]
+[editable path="Interior/Seats/RightRow5"]
